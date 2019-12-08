@@ -1,0 +1,170 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="~/Content/images/apple-touch-icon.png">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #5a4091;
+            padding-top: 30px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 16px;
+            width: 400px;
+            margin: auto;
+            background-color: white;
+        }
+
+        /* Full-width input fields */
+        .exo-textbox {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+            .exo-textbox:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit button */
+        .registerbtn {
+            background-color: #684caf;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+            .registerbtn:hover {
+                opacity: 1;
+            }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="register_form">
+        <div class="container">
+            <div style="width:76px; float:left"><img src="~/Content/images/favicon.ico" /></div>
+            <div style="width:300px"><h1>Register</h1></div>
+            <hr>
+            <label for="display_name"><b>Full Name</b></label>
+            <input type="text" class="exo-textbox" placeholder="Enter Your Full Name" name="display_name" >
+            <label for="user_name"><b>User Name</b></label>
+            <input type="text" class="exo-textbox" placeholder="Enter Your User Name" name="user_name" >
+            <label for="password"><b>Password</b></label>
+            <input type="password" class="exo-textbox" placeholder="Enter Password" name="password" >
+            <label for="re_password"><b>Repeat Password</b></label>
+            <input type="password" class="exo-textbox" placeholder="Repeat Password" name="re_password" >
+            <label for="phone_number"><b>Phone Number</b></label>
+            <input type="text" class="exo-textbox" placeholder="Enter Your Phone Number" name="phone_number" >
+            <hr>
+            <button type="submit" class="registerbtn">Register</button>
+        </div>
+
+        <div class="container signin">
+            <p>Already have an account? <a href="#">Sign in</a>.</p>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
+    <script src="~/Scripts/pages/page.js"></script>
+    <script>
+        class RegisterForm {
+            constructor() {
+                this.$form = $("#register_form");
+                this.$form.find(".registerbtn").on('click', (e) => {
+                    e.preventDefault();
+                    this.submit();
+                });
+            };
+            validate() {
+                var frm = this;
+                frm.data = {};
+                $.each( this.$form.find("input"),(index,item)=>{
+                    if ($(item).val()=="") {
+                        EXO.alert("Please enter all infomation on this form!");
+                        return false;
+                    }
+                    else {
+                        frm.data[$(item).attr("name")] = $(item).val();
+                    }
+                });
+                if (!EXO.isValidUserName(frm.data.user_name)){
+                        EXO.alert("Username is 2-20 characters and digits, no _ or . at the beginning and the end!");
+                        return false;
+                }
+                else
+                if (!EXO.isValidPassword(frm.data.password)){
+                        EXO.alert("Password must has digits, characters and at least 6 characters!");
+                        return false;
+                }
+                else
+                if (frm.data.password!==frm.data.re_password){
+                        EXO.alert("Password and repeat password not match!");
+                        return false;
+                }
+                else
+                if (!EXO.isValidPhoneNumber(frm.data.phone_number)){
+                        EXO.alert("Please enter a valid phone number!");
+                        return false;
+                } else
+                    return true;
+            }
+            submit() {
+                var frm = this;
+                if (frm.validate()) {
+                    $.post("/Admin/Register",frm.data).done(xhr => {
+                        EXO.alert(xhr.message, (ok) => {
+                            if (ok && xhr.success) {
+                                $(location).attr("href", "/Home/Index");
+                            }
+                        });
+                    });
+                }
+            }
+        };
+        $(document).ready(() => {
+          var f=  new RegisterForm();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+﻿
+@model PagedList.IPagedList<ExcellOn.Models.Product>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.Scripts/pages/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/Scripts/pages/bootstrap.min.js"></script>
+    <title>Index</title>
+</head>
+<body class="container">
+    <div class="row">
+        OK
+    </div>
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <nav class="col-lg-12 col-md-12 col-xs-12">
+                <a href="/Product/Create" class="btn btn-info" style="margin-top:10px;">Thêm mới</a>
+                <table class="table table-bordered table-striped table-hover" id="dev-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID Sản Phẩm</th>
+                            <th>Nhà Cung Cấp</th>
+                            <th> Danh Mục</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Khối Lượng</th>
+                            <th>Giá</th>
+                            <th>Số Lượng</th>
+                            <th>Khuyến Mại</th>
+
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                    </tbody>
+                </table>
+            </nav>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        function confirmationMessage() {
+            if (confirm('Bạn có chắc chắn muốn xóa bản ghi      ?')) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+
+</body>
+</html>

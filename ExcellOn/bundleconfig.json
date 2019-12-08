@@ -1,0 +1,20 @@
+[
+  {
+    "outputFileName": "Scripts/pages/all.min.js",
+    "inputFiles": [
+      "Scripts/pages/all.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/jquery-3.4.1.min.min.js",
+    "inputFiles": [
+      "Scripts/jquery-3.4.1.min.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/pages/bootbox.min.js",
+    "inputFiles": [
+      "Scripts/pages/bootbox.js"
+    ]
+  }
+]

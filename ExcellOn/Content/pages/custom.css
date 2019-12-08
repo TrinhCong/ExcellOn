@@ -1,0 +1,20 @@
+
+#login-control {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    height: 30px;
+    background: #3a3a3a;
+    z-index: 100;
+    padding: 3px 10px 0 10px;
+    color: white;
+}
+
+#login-control a {
+    color: white;
+}
+
+    #login-control a:hover {
+        color: #ffc048;
+    }
