@@ -21,6 +21,7 @@ namespace ExcellOn.Repositories
         User GetUserByName(string userName);
         User Login(User entity);
         User Register(User entity);
+        bool IsExist(User entity);
     }
     public class UserRepository : Repository<User, int>, IUserRepository
     {
@@ -29,11 +30,11 @@ namespace ExcellOn.Repositories
         }
         public User GetUserById(int key)
         {
-            return GetUsers($"{nameof(User.id)}={key}").FirstOrDefault();
+            return GetUsers($"{Sql.Table<User>()}.{nameof(User.id)}={key}").FirstOrDefault();
         }
         public User GetUserByName(string userName)
         {
-            return GetUsers($"{nameof(User.user_name)}={userName}").FirstOrDefault();
+            return GetUsers($"{nameof(User.user_name)}='{userName}'").FirstOrDefault();
         }
         public IEnumerable<User> GetUsers(string condition="(1=1)")
         {
@@ -42,10 +43,15 @@ namespace ExcellOn.Repositories
                 return session.Find<User>(stm => stm.Where($"{condition}").Include<UserRole>());
             }
         }
+        public bool IsExist(User entity)
+        {
+            var existItem = GetUserByName(entity.user_name.Trim().ToLower());
+            return existItem != null;
+        }
         public User Login(User entity)
         {
-            var user = GetUserByName(entity.user_name);
-            if(user!=null&& checkPass(entity.password, user.hash_password))
+            var user = GetUserByName(entity.user_name.ToLower());
+            if (user != null && checkPass(entity.password, user.hash_password))
             {
                 return user;
             }
@@ -59,6 +65,7 @@ namespace ExcellOn.Repositories
                 {
                     entity.hash_password = encryptPassword(entity.password);
                     entity.role_id = EnumRole.CLIENT;
+                    entity.user_name = entity.user_name.ToLower();
                     session.Insert(entity);
                     if (entity.id > 0)
                         return entity;

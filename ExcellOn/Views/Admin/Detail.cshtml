@@ -1,0 +1,122 @@
+﻿@model ExcellOn.Models.User
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detail</title>
+</head>
+<body>
+    <div>
+        <h4>User</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.user_name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.user_name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.hash_password)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.hash_password)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.role_id)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.role_id)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.display_name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.display_name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.phone_number)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.phone_number)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.email)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.address)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.address)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.gender)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.gender)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.avatar_path)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.avatar_path)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.date_of_birth)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.date_of_birth)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.password)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.password)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.re_password)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.re_password)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

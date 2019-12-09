@@ -11,19 +11,19 @@ using PagedList;
 
 namespace ExcellOn.Controllers
 {
-    public class ProductController : BaseController
+    public class ServiceController : BaseController
     {
-        private readonly ProductRepository _productRepository;
+        private readonly ServiceRepository _serviceRepository;
 
-        public ProductController(
+        public ServiceController(
                                 IDbFactory dbFactory, 
-                                ProductRepository productRepository
+                                ServiceRepository serviceRepository
                                 ) : base(dbFactory)
         {
-            _productRepository = productRepository;
+            _serviceRepository = serviceRepository;
 
         }
-        // GET: Product
+        // GET: Service
 
         public ActionResult Index()
         {
@@ -34,7 +34,7 @@ namespace ExcellOn.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Service service)
         {
             using (var session = _dbFactory.Create<IAppSession>())
             {
@@ -56,7 +56,7 @@ namespace ExcellOn.Controllers
             using (var session = _dbFactory.Create<IAppSession>())
 
             {
-                var editItem = this._productRepository.GetKey(id, session);
+                var editItem = this._serviceRepository.GetKey(id, session);
 
                 if (editItem != null)
                 {
@@ -69,7 +69,7 @@ namespace ExcellOn.Controllers
 
         }
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(Service service)
         {
             using (var session = _dbFactory.Create<IAppSession>())
             {

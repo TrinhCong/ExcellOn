@@ -50,5 +50,22 @@ namespace ExcellOn.Controllers
                 return Json(new { xhr = ""}, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult Blog()
+        {
+            return View();
+        }
+        public ActionResult ContactUs()
+        {
+            return View();
+        }
+        public ActionResult Pricing()
+        {
+            return View();
+        }
+        public ActionResult Team()
+        {
+            return View();
+        }
     }
 }

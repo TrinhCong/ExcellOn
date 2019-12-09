@@ -24,6 +24,10 @@ namespace ExcellOn.Controllers
         {
             _userRepository = userRepository;
         }
+        public ActionResult Index()
+        {
+            return View();
+        }
         public ActionResult Login()
         {
             return View();
@@ -31,8 +35,19 @@ namespace ExcellOn.Controllers
         [HttpPost]
         public ActionResult Login(User entity)
         {
-
-            return View();
+           var user= _userRepository.Login(entity); 
+            if (user != null)
+            {
+                setUserSession(user);
+                return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+            }
+            return Json(new ResponseInfo(false, "Sai tài khoản hoặc mật khẩu!"), JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult Detail(int userId)
+        {
+           var user= _userRepository.GetUserById(userId);
+            return View(user);
         }
         public ActionResult Register()
         {
@@ -43,6 +58,10 @@ namespace ExcellOn.Controllers
         {
             using(var session = GetSession())
             {
+                if (_userRepository.IsExist(entity))
+                {
+                    return Json(new ResponseInfo(false, "Tên đăng nhập này đã tồn tại! Vui lòng thử một tên khác!"), JsonRequestBehavior.AllowGet);
+                }
                 var user = _userRepository.Register(entity);
                 if (user!= null)
                 {
