@@ -6,12 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin - Excell-On Services</title>
+    <title>Administration - Excell-On Services</title>
     <!-- Bootstrap -->
-    <link href="~/Content/pages/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Plugins -->
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
     <!-- Our Custom CSS -->
@@ -31,19 +30,44 @@
             </div>
             <ul class="list-unstyled components">
                 @*<p>Dummy Heading</p>*@
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Quản lý dịch vụ</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                <li>
+                    <a href="/Admin/User"><i class="fa fa-users"></i> Users</a>
+                </li>
+                <li>
+                    <a href="#departmentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Departments Management</a>
+                    <ul class="collapse list-unstyled" id="departmentSubmenu">
                         <li>
-                            <a href="#"><i class="fa fa-book"></i> Danh mục dịch vụ</a>
+                            <a href="/Admin/DepartmentCategory"><i class="fa fa-book"></i> Department Categories</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-file"></i> Dịch vụ</a>
+                            <a href="/Admin/Department"><i class="fa fa-file"></i> Departments</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="/Admin/Employee"><i class="fa fa-users"></i> Employees</a>
+                </li>
+                <li class="active">
+                    <a href="#serviceSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Services Management</a>
+                    <ul class="collapse list-unstyled" id="serviceSubmenu">
+                        <li>
+                            <a href="/Admin/ServiceCategory"><i class="fa fa-book"></i> Service Categories</a>
+                        </li>
+                        <li>
+                            <a href="/Admin/Service"><i class="fa fa-file"></i> Services</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#productSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Products Management</a>
+                    <ul class="collapse list-unstyled" id="productSubmenu">
+                        <li>
+                            <a href="/Admin/ProductCategory"><i class="fa fa-book"></i> Product Categories</a>
+                        </li>
+                        <li>
+                            <a href="/Admin/Product"><i class="fa fa-file"></i> Products</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

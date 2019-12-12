@@ -23,7 +23,10 @@ namespace ExcellOn.Models
         public string address { get; set; }
         public int gender { get; set; }
         public string avatar_path { get; set; }
-        public string date_of_birth { get; set; }
+        public DateTime? date_of_birth { get; set; }
+
+        [NotMapped]
+        public string dob => date_of_birth != null ? ((DateTime)date_of_birth).ToString("dd/MM/yyyy") : string.Empty;
 
         [NotMapped]
         public string password { get; set; }

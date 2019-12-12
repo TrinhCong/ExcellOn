@@ -87,5 +87,39 @@ namespace ExcellOn.Controllers
             Session["User"] = null;
         }
 
+
+        public ActionResult User()
+        {
+            return View();
+        }
+        public ActionResult DepartmentCategory()
+        {
+            return View();
+        }
+        public ActionResult Department()
+        {
+            return View();
+        }
+        public ActionResult ServiceCategory()
+        {
+            return View();
+        }
+        public ActionResult Service()
+        {
+            return View();
+        }
+        public ActionResult ProductCategory()
+        {
+            return View();
+        }
+        public ActionResult Product()
+        {
+            return View();
+        }
+        public ActionResult Employee()
+        {
+            return View();
+        }
+
     }
 }

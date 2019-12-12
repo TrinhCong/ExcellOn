@@ -204,6 +204,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -231,6 +234,7 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
     <Compile Include="Repositories\ServiceRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
@@ -553,8 +557,15 @@
     <Content Include="Views\Home\Pricing.cshtml" />
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\Blog.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Product.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\ProductCategory.cshtml" />
+    <Content Include="Views\Admin\User.cshtml" />
+    <Content Include="Views\Admin\DepartmentCategory.cshtml" />
+    <Content Include="Views\Admin\Department.cshtml" />
+    <Content Include="Views\Admin\Employee.cshtml" />
+    <Content Include="Views\Admin\ServiceCategory.cshtml" />
+    <Content Include="Views\Admin\Service.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

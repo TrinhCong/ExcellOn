@@ -1,4 +1,9 @@
 
+body {
+    font-family: "Open Sans", sans-serif;
+    background: #fafafa;
+    font-size: 14px;
+}
 #login-control {
     position: absolute;
     top: 0;
@@ -34,4 +39,60 @@
     padding-left: 10px;
     height: 70px;
     line-height: 40px;
+}
+.modal {
+    z-index: 1072 !important;
+    background: #00000078;
+}
+.modal-backdrop {
+    z-index: 1041 !important;
+}
+
+.content-title {
+    padding: 0;
+    min-height: 48px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    display: block;
+}
+
+    .content-title .caption span {
+        font-size: 16px;
+        color: #2ab4c0 !important;
+        text-transform: uppercase !important;
+        font-weight: 700 !important;
+        box-sizing: border-box;
+        line-height: 18px;
+        font-family: "Open Sans", sans-serif;
+    }
+.table-toolbar {
+    margin-bottom: 20px;
+    display: block;
+}
+    .table-toolbar:after {
+        clear: both;
+    }
+.table-toolbar a {
+    text-transform:uppercase;
+    color:white
+}
+.btn {
+    color: white !important
+}
+.required{
+    color:red
+}
+
+.modal-title {
+    font-size: 16px;
+    color: #2ab4c0 !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    box-sizing: border-box;
+    line-height: 18px;
+    font-family: "Open Sans", sans-serif;
+}
+.modal-header {
+    text-align: center
 }

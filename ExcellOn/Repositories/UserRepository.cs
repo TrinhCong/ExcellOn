@@ -22,11 +22,24 @@ namespace ExcellOn.Repositories
         User Login(User entity);
         User Register(User entity);
         bool IsExist(User entity);
+        IEnumerable<User> GetItems(string condition = "(1=1)");
+        User GetItem(int key);
     }
     public class UserRepository : Repository<User, int>, IUserRepository
     {
         public UserRepository(IDbFactory factory) : base(factory)
         {
+        }
+        public User GetItem(int key)
+        {
+            return GetItems($"{Sql.Table<User>()}.{nameof(User.id)}={key}").FirstOrDefault();
+        }
+        public IEnumerable<User>  GetItems(string condition="(1=1)")
+        {
+            using(var session = Factory.Create<IAppSession>())
+            {
+                return session.Find<User>(stm => stm.Where($"{condition}").Include<UserRole>().OrderBy($"{Sql.Table<User>()}.{nameof(User.display_name)}"));
+            }
         }
         public User GetUserById(int key)
         {
