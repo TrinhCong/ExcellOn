@@ -18,3 +18,20 @@
     #login-control a:hover {
         color: #ffc048;
     }
+
+.content-wrapper {
+    width: 100%;
+}
+#top_bar {
+    width: 100%;
+    background: #6d7fcc;
+    padding: 10px;
+    height: 65px;
+}
+
+#admin_box {
+    float: right;
+    padding-left: 10px;
+    height: 70px;
+    line-height: 40px;
+}

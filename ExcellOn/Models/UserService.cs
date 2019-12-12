@@ -7,18 +7,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExcellOn.Models
 {
-    [Table("services", Schema = "dbo")]
-    public class Service
+    [Table("user_services", Schema = "dbo")]
+    public class UserService
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
-        public string name { get; set; }
-        [ForeignKey(nameof(category))]
-        public int cat_id { get; set; }
-        public int price { get; set; }
-        public float hours { get; set; }
-        public int description { get; set; }
+        public string user_id { get; set; }
+        public int service_id { get; set; }
+        public DateTime? registered_date { get; set; }
+        public DateTime? expired_date { get; set; }
+        public DateTime? finish_pay_date { get; set; }
+        public bool is_paid { get; set; }
+        public bool confirmed { get; set; }
 
         [NotMapped]
         public virtual CategoryService category { get; set; }

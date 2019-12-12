@@ -13,16 +13,16 @@ using Dapper.FastCrud;
 
 namespace ExcellOn.Repositories
 {
-    public interface IProductRepository : IRepository<Product, int>
+    public interface IDepartmentRepository : IRepository<Department, int>
     {
 
     }
 
 
 
-    public class ProductRepository : Repository<Product, int>, IProductRepository
+    public class DepartmentRepository : Repository<Department, int>, IDepartmentRepository
     {
-        public ProductRepository(IDbFactory factory) : base(factory)
+        public DepartmentRepository(IDbFactory factory) : base(factory)
         {
         }
 

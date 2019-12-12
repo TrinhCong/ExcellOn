@@ -34,6 +34,7 @@
 <link href="~/Content/pages/custom.css" rel="stylesheet" />
 <link href="~/Content/pages/bootstrap-modal-bs3patch.css" rel="stylesheet" />
 <link href="~/Content/pages/bootstrap-modal.css" rel="stylesheet" />
+@RenderSection("AdditionStyles", false)
 </head>
 <body id="page-top" class="politics_version">
 
@@ -155,6 +156,7 @@
     <!-- ALL PLUGINS -->
     <script src="~/Scripts/pages/page.js"></script>
     <script src="~/Scripts/pages/custom.js"></script>
+    @RenderSection("AdditionScripts", false)
 
 </body>
 </html>

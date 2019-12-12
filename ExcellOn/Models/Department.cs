@@ -7,8 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExcellOn.Models
 {
-    [Table("services", Schema = "dbo")]
-    public class Service
+    [Table("departments", Schema = "dbo")]
+    public class Department
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,12 +16,10 @@ namespace ExcellOn.Models
         public string name { get; set; }
         [ForeignKey(nameof(category))]
         public int cat_id { get; set; }
-        public int price { get; set; }
-        public float hours { get; set; }
         public int description { get; set; }
 
         [NotMapped]
-        public virtual CategoryService category { get; set; }
+        public virtual CategoryDepartment category { get; set; }
     }
 
      

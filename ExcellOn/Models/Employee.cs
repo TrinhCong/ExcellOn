@@ -7,21 +7,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExcellOn.Models
 {
-    [Table("services", Schema = "dbo")]
-    public class Service
+    [Table("employees", Schema = "dbo")]
+    public class Employee
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public string name { get; set; }
-        [ForeignKey(nameof(category))]
-        public int cat_id { get; set; }
-        public int price { get; set; }
-        public float hours { get; set; }
+        [ForeignKey(nameof(department))]
+        public int department_id { get; set; }
+        [ForeignKey(nameof(service))]
+        public int service_id { get; set; }
         public int description { get; set; }
 
         [NotMapped]
-        public virtual CategoryService category { get; set; }
+        public virtual Department department { get; set; }
+        [NotMapped]
+        public virtual Service service { get; set; }
     }
 
      

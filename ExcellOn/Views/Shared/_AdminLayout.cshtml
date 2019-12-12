@@ -1,0 +1,112 @@
+﻿
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin - Excell-On Services</title>
+    <!-- Bootstrap -->
+    <link href="~/Content/pages/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Plugins -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+    <!-- Our Custom CSS -->
+    <link href="~/Content/pages/admin.css" rel="stylesheet" />
+    <link href="~/Content/pages/custom.css" rel="stylesheet" />
+    @RenderSection("AdditionStyles", false)
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <img class="img-fluid" src="~/Content/images/simple_logo.png" width="42" height="42" alt="" />
+                &nbsp;Administration
+            </div>
+            <ul class="list-unstyled components">
+                @*<p>Dummy Heading</p>*@
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Quản lý dịch vụ</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#"><i class="fa fa-book"></i> Danh mục dịch vụ</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-file"></i> Dịch vụ</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div class="content-wrapper">
+            <div id="top_bar">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+                    <div id="admin_box">
+                        <img src="~/Content/images/no_avatar.png" width="30" height="30" />
+                        Admin
+                    </div>
+                </div>
+            </div>
+            <div id="content">
+                @RenderBody()
+            </div>
+            <div></div>
+        </div>
+
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+
+    <!-- Popper.JS -->
+    <script src="~/Scripts/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/pages/bootstrap.min.js"></script>
+
+
+    <!-- Font Awesome JS -->
+    <script src="~/Scripts/pages/fontawesome.js"></script>
+    <script src="~/Scripts/pages/solid.js"></script>
+
+
+    <!-- Global Plugin -->
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+            setTimeout(() => {
+                $("#content").height($(window).height() - 120);
+            }, 100);
+            $(window).on('resize', ()=>{
+                $("#content").height($(window).height() - 120);
+            });
+        });
+    </script>
+    @RenderSection("AdditionScripts", false)
+</body>
+
+</html>

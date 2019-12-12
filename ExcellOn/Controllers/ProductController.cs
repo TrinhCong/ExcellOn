@@ -54,9 +54,8 @@ namespace ExcellOn.Controllers
         public ActionResult Edit(int id)
         {
             using (var session = _dbFactory.Create<IAppSession>())
-
             {
-                var editItem = this._productRepository.GetKey(id, session);
+                var editItem = _productRepository.GetKey(id, session);
 
                 if (editItem != null)
                 {
