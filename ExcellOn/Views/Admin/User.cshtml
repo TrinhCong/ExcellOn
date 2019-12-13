@@ -576,8 +576,8 @@
             }
             delete(data) {
                 var instance = this;
-                EXO.confirm("Bạn có chắc muốn xóa tài khoản người dùng này?", ok => {
-                    if (ok)
+                EXO.confirm("Bạn có chắc muốn xóa tài khoản người dùng này?", response => {
+                    if (response.value)
                         $.ajax({
                             url: "/User/Delete",
                             data: { id: data.id },

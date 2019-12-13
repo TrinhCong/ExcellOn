@@ -40,10 +40,13 @@ namespace ExcellOn.Controllers
                 {
                     try
                     {
-                        string fileName = Path.GetFileName(string.Format("{0}{1}", DateTime.Now.Ticks.GetHashCode().ToString("x"), Path.GetExtension(entity.avatar.FileName)));
-                        entity.avatar_path = Path.Combine(Server.MapPath("~/Content/uploads/avatars"), fileName);
-                        entity.avatar.SaveAs(entity.avatar_path);
-                        entity.avatar_path = fileName;
+                        if (entity.avatar != null)
+                        {
+                            string fileName = Path.GetFileName(string.Format("{0}{1}", DateTime.Now.Ticks.GetHashCode().ToString("x"), Path.GetExtension(entity.avatar.FileName)));
+                            entity.avatar_path = Path.Combine(Server.MapPath("~/Content/uploads/avatars"), fileName);
+                            entity.avatar.SaveAs(entity.avatar_path);
+                            entity.avatar_path = fileName;
+                        }
                         entity.hash_password = _userRepository.EncryptPassword(entity.password);
                         if (!_userRepository.IsExist(entity))
                         {
