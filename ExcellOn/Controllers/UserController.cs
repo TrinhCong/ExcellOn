@@ -28,7 +28,8 @@ namespace ExcellOn.Controllers
 
         public ActionResult GetAll()
         {
-            return Json(new ResponseInfo(success: true, data: _userRepository.GetItems()), JsonRequestBehavior.AllowGet);
+            var items = _userRepository.GetItems();
+            return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -51,15 +52,15 @@ namespace ExcellOn.Controllers
                         if (!_userRepository.IsExist(entity))
                         {
                             _userRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update user successfully!"));
+                            return Json(new ResponseInfo(true, "Update user successfully!"),JsonRequestBehavior.AllowGet);
                         }
                         else
-                            return Json(new ResponseInfo(false, "Dupplicate user name!"));
+                            return Json(new ResponseInfo(false, "Dupplicate user name!"), JsonRequestBehavior.AllowGet);
 
                     }
                     catch (Exception e)
                     {
-                        return Json(new ResponseInfo(false, "Update user fail!"));
+                        return Json(new ResponseInfo(false, "Update user fail!"), JsonRequestBehavior.AllowGet);
                     }
                 }
             }
@@ -73,11 +74,11 @@ namespace ExcellOn.Controllers
                 try
                 {
                     _userRepository.DeleteKey(id, session);
-                    return Json(new ResponseInfo(true));
+                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
-                    return Json(new ResponseInfo(false, "Delete user fail!"));
+                    return Json(new ResponseInfo(false, "Delete user fail!"), JsonRequestBehavior.AllowGet);
                 }
             }
 
