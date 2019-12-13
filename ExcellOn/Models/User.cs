@@ -34,6 +34,8 @@ namespace ExcellOn.Models
         public string re_password { get; set; }
         [NotMapped]
         public virtual UserRole role { get; set; }
+        [NotMapped]
+        public HttpPostedFileBase avatar { get; set; }
     }
 
 

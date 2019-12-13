@@ -24,6 +24,7 @@ namespace ExcellOn.Repositories
         bool IsExist(User entity);
         IEnumerable<User> GetItems(string condition = "(1=1)");
         User GetItem(int key);
+        string EncryptPassword(string password);
     }
     public class UserRepository : Repository<User, int>, IUserRepository
     {
@@ -76,7 +77,7 @@ namespace ExcellOn.Repositories
             {
                 try
                 {
-                    entity.hash_password = encryptPassword(entity.password);
+                    entity.hash_password = EncryptPassword(entity.password);
                     entity.role_id = EnumRole.CLIENT;
                     entity.user_name = entity.user_name.ToLower();
                     session.Insert(entity);
@@ -90,7 +91,7 @@ namespace ExcellOn.Repositories
             }
         }
 
-        private string encryptPassword(string password)
+        public string EncryptPassword(string password)
         {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);

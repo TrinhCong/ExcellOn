@@ -114,7 +114,9 @@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
-
+    <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
+    <!--Custom js-->
+    <script src="~/Scripts/pages/page.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -125,7 +127,7 @@
             setTimeout(() => {
                 $("#content").height($(window).height() - 120);
             }, 100);
-            $(window).on('resize', ()=>{
+            $(window).on('resize', () => {
                 $("#content").height($(window).height() - 120);
             });
         });
