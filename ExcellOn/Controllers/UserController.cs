@@ -48,7 +48,7 @@ namespace ExcellOn.Controllers
                             entity.avatar.SaveAs(entity.avatar_path);
                             entity.avatar_path = fileName;
                         }
-                        entity.hash_password = _userRepository.EncryptPassword(entity.password);
+                        entity.hash_password = _userRepository.EncryptPassword(entity.password); 
                         if (!_userRepository.IsExist(entity))
                         {
                             _userRepository.SaveOrUpdate(entity, uow);
