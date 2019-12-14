@@ -27,8 +27,7 @@
                 </div>
             </div>
         </div>
-        <table id="product" class="display table table-striped" style="width:100%">
-        </table>
+        <table id="product" class="display table table-striped" style="width:100%"></table>
     </div>
 </div>
 
@@ -265,7 +264,6 @@
 </div>
 
 @section AdditionScripts{
-
     <script>
         class PageHandler {
             constructor() {
@@ -319,7 +317,7 @@
                             title: 'Avatar',
                             data: 'avatar_path',
                             render: function (data, type, row, meta) {
-                                var avatarSrc =  data&& data != "null" ? "/Content/uploads/avatars/" + data:"/Content/images/no_avatar.png";
+                                var avatarSrc = data && data != "null" ? "/Content/uploads/avatars/" + data : "/Content/images/no_avatar.png";
                                 return '<img src="' + avatarSrc + '" width="30" height="30" />';
                             },
 
@@ -359,17 +357,17 @@
                             title: 'Actions',
                             render: function (data, type, row, meta) {
                                 return `<a class="btn btn-sm btn-primary view-item" role="button" data-toggle="modal" href="#view_modal" aria-expanded="false">
-                                                View
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
-                                                Edit
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
-                                                Delete
-                                                <i class="fa fa-trash"></i>
-                                            </a>`;
+                                                    View
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
+                                                    Edit
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
+                                                    Delete
+                                                    <i class="fa fa-trash"></i>
+                                                </a>`;
                             },
                             width: '220px',
                             className: 'text-center'
@@ -488,8 +486,8 @@
                         item.val(value);
                 });
 
-                var avatarSrc =  data.avatar_path&& data.avatar_path != "null" ? "/Content/uploads/avatars/" + data.avatar_path:"/Content/images/no_avatar.png";
-                $form.find('img').attr('src',avatarSrc)
+                var avatarSrc = data.avatar_path && data.avatar_path != "null" ? "/Content/uploads/avatars/" + data.avatar_path : "/Content/images/no_avatar.png";
+                $form.find('img').attr('src', avatarSrc)
             }
             bindEditData(data) {
                 var instance = this;
@@ -576,8 +574,8 @@
             }
             delete(data) {
                 var instance = this;
-                EXO.confirm("Bạn có chắc muốn xóa tài khoản người dùng này?", ok => {
-                    if (ok)
+                EXO.confirm("Bạn có chắc muốn xóa tài khoản người dùng này?", response => {
+                    if (response.value)
                         $.ajax({
                             url: "/User/Delete",
                             data: { id: data.id },
