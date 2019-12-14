@@ -38,7 +38,7 @@ namespace ExcellOn.Controllers
 
 
         public ActionResult DeleteCategory(int id)
-        {
+        { 
             using (var session = GetSession())
             {
                 try

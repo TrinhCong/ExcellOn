@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <table id="product" class="display table table-striped" style="width:100%"></table>
+        <table id="user_tbl" class="display table table-striped" style="width:100%"></table>
     </div>
 </div>
 
@@ -268,7 +268,7 @@
         class PageHandler {
             constructor() {
                 var instance = this;
-                instance.$table = $("#product");
+                instance.$table = $("#user_tbl");
                 instance.$createMd = $("#create_modal");
                 instance.$createMd.find(".create").on('click', (e) => {
                     e.preventDefault();
@@ -379,21 +379,20 @@
                             targets: [8]
                         }
                     ],
-
                     "initComplete": function (settings, json) {
-                        instance.$table.find('tbody').on('click', '.delete-item', (e) => {
+                        instance.$table.find('a.delete-item').on('click', (e) => {
                             e.preventDefault();
                             var selectedRow = $(this).parents('tr')[0];
                             var data = instance.dtTable.row(selectedRow).data();
                             instance.delete(data);
                         });
-                        instance.$table.find('tbody').on('click', '.edit-item', (e) => {
+                        instance.$table.find('a.edit-item').on('click', (e) => {
                             e.preventDefault();
                             var selectedRow = $(this).parents('tr')[0];
                             var data = instance.dtTable.row(selectedRow).data();
                             instance.bindEditData(data);
                         });
-                        instance.$table.find('tbody').on('click', '.view-item', (e) => {
+                        instance.$table.find('a.view-item').on('click', (e) => {
                             e.preventDefault();
                             var selectedRow = $(this).parents('tr')[0];
                             var data = instance.dtTable.row(selectedRow).data();
@@ -574,7 +573,7 @@
             }
             delete(data) {
                 var instance = this;
-                EXO.confirm("Bạn có chắc muốn xóa tài khoản người dùng này?", response => {
+                EXO.confirm("Are you sure to delete this user?", response => {
                     if (response.value)
                         $.ajax({
                             url: "/User/Delete",

@@ -281,17 +281,17 @@
                             title: 'Actions',
                             render: function (data, type, row, meta) {
                                 return `<a class="btn btn-sm btn-primary view-item" role="button" data-toggle="modal" href="#view_modal" aria-expanded="false">
-                                                    View
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                                <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
-                                                    Edit
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
-                                                    Delete
-                                                    <i class="fa fa-trash"></i>
-                                                </a>`;
+                                                            View
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                        <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
+                                                            Edit
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
+                                                            Delete
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>`;
                             },
                             width: '220px',
                             className: 'text-center'
@@ -305,21 +305,21 @@
                     ],
 
                     "initComplete": function (settings, json) {
-                        instance.$table.find('tbody').on('click', '.delete-item', (e) => {
+                        instance.$table.find(' a.delete-item').on('click', (e) => {
                             e.preventDefault();
-                            var selectedRow = $(this).parents('tr')[0];
+                            var selectedRow = $(e.target).parents('tr')[0];
                             var data = instance.dtTable.row(selectedRow).data();
                             instance.delete(data);
                         });
-                        instance.$table.find('tbody').on('click', '.edit-item', (e) => {
+                        instance.$table.find('a.edit-item').on('click', (e) => {
                             e.preventDefault();
-                            var selectedRow = $(this).parents('tr')[0];
+                            var selectedRow = $(e.target).parents('tr')[0];
                             var data = instance.dtTable.row(selectedRow).data();
                             instance.bindEditData(data);
                         });
-                        instance.$table.find('tbody').on('click', '.view-item', (e) => {
+                        instance.$table.find('a.view-item').on('click', (e) => {
                             e.preventDefault();
-                            var selectedRow = $(this).parents('tr')[0];
+                            var selectedRow = $(e.target).parents('tr')[0];
                             var data = instance.dtTable.row(selectedRow).data();
                             instance.bindViewData(data);
                         });
@@ -428,7 +428,7 @@
             }
             delete(data) {
                 var instance = this;
-                EXO.confirm("Bạn có chắc muốn xóa tài khoản người dùng này?", response => {
+                EXO.confirm("Are you sure to delete this category?", response => {
                     if (response.value)
                         $.ajax({
                             url: "/Product/DeleteCategory",
@@ -440,7 +440,7 @@
                                 instance.dtTable.ajax.reload();
                                 instance.$createMd.hide();
                             }
-                            if (response.message && response.message != "null")
+                            else
                                 EXO.alert("Cannot delete this category, Because It's used by another products!");
                         });
                 });
