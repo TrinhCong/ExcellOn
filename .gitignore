@@ -2,4 +2,10 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/ExcellOn
+/.vs
+/ExcellOn/bin
+/ExcellOn/obj
+/ExcellOn/Web.config
+/ExcellOn/Web.config
+/ExcellOn/Web.Debug.config
+/ExcellOn/Web.Release.config

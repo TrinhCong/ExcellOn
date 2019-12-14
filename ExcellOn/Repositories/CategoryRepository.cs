@@ -15,6 +15,7 @@ namespace ExcellOn.Repositories
     {
 
         List<CategoryProduct> GetAllProductCategories();
+        List<CategoryService> GetAllServiceCategories();
     }
 
     public class CategoryRepository<TEntity> : Repository<TEntity, int>, ICategoryRepository<TEntity> where TEntity : Category
@@ -24,6 +25,36 @@ namespace ExcellOn.Repositories
 
         }
 
+        /*===== CategoryService =====*/
+        public List<CategoryService> GetAllServiceCategories()
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                List<CategoryService> items = session.Query<CategoryService>("Select * from cat_services").ToList();
+                return items;
+            }
+        }
+        public bool IsCategoryServiceExist(CategoryService entity)
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                if (entity.id == 0)
+                {
+                    var existItems = session.Query<List<CategoryService>>("Select * from cat_services where name='" + entity.name + "'");
+                    return existItems.Count() > 0;
+                }
+                else
+                {
+                    var existItems = session.Query<List<CategoryService>>("Select * from cat_services where name='" + entity.name + "' AND id<>" + entity.id);
+                    return existItems.Count() > 0;
+                }
+            }
+        }
+
+
+
+
+        /*===== CategoryProduct =====*/
 
         public List<CategoryProduct> GetAllProductCategories()
         {

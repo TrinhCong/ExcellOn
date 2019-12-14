@@ -380,7 +380,14 @@
                         }
                     ],
                     "initComplete": function (settings, json) {
-                        instance.$table.find('a.delete-item').on('click', (e) => {
+                       instance.bindEvents();
+                    }
+                });
+
+            }
+            bindEvents() {
+                var instance = this;
+                instance.$table.find('a.delete-item').on('click', (e) => {
                             e.preventDefault();
                             var selectedRow = $(this).parents('tr')[0];
                             var data = instance.dtTable.row(selectedRow).data();
@@ -398,9 +405,13 @@
                             var data = instance.dtTable.row(selectedRow).data();
                             instance.bindViewData(data);
                         });
-                    }
-                });
-
+            }
+            reloadTable() {
+                var instance = this;
+                instance.dtTable.ajax.reload();
+                setTimeout(() => {
+                    instance.bindEvents();
+                }, 1000);
             }
             createValidation() {
                 var instance = this;
@@ -464,7 +475,7 @@
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
                                 instance.$createMd.find("form")[0].reset();
-                                instance.dtTable.ajax.reload();
+                                instance.reloadTable();
                                 instance.$createMd.hide();
                             }
                             EXO.alert(response.message);
@@ -559,7 +570,7 @@
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
                                 instance.$editMd.find("form")[0].reset();
-                                instance.dtTable.ajax.reload();
+                                instance.reloadTable();
                                 instance.$editMd.hide();
                             }
                             EXO.alert(response.message);
@@ -582,7 +593,7 @@
                         }).done(function (response) {
                             if (response.success) {
                                 instance.$createMd.find("form")[0].reset();
-                                instance.dtTable.ajax.reload();
+                                instance.reloadTable();
                                 instance.$createMd.hide();
                             }
                             if (response.message && response.message != "null")
