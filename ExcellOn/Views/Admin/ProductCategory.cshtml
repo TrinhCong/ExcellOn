@@ -281,17 +281,17 @@
                             title: 'Actions',
                             render: function (data, type, row, meta) {
                                 return `<a class="btn btn-sm btn-primary view-item" role="button" data-toggle="modal" href="#view_modal" aria-expanded="false">
-                                                            View
-                                                            <i class="fa fa-eye"></i>
-                                                        </a>
-                                                        <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
-                                                            Edit
-                                                            <i class="fa fa-edit"></i>
-                                                        </a>
-                                                        <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
-                                                            Delete
-                                                            <i class="fa fa-trash"></i>
-                                                        </a>`;
+                                                                View
+                                                                <i class="fa fa-eye"></i>
+                                                            </a>
+                                                            <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
+                                                                Edit
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
+                                                                Delete
+                                                                <i class="fa fa-trash"></i>
+                                                            </a>`;
                             },
                             width: '220px',
                             className: 'text-center'
@@ -305,27 +305,39 @@
                     ],
 
                     "initComplete": function (settings, json) {
-                        instance.$table.find(' a.delete-item').on('click', (e) => {
-                            e.preventDefault();
-                            var selectedRow = $(e.target).parents('tr')[0];
-                            var data = instance.dtTable.row(selectedRow).data();
-                            instance.delete(data);
-                        });
-                        instance.$table.find('a.edit-item').on('click', (e) => {
-                            e.preventDefault();
-                            var selectedRow = $(e.target).parents('tr')[0];
-                            var data = instance.dtTable.row(selectedRow).data();
-                            instance.bindEditData(data);
-                        });
-                        instance.$table.find('a.view-item').on('click', (e) => {
-                            e.preventDefault();
-                            var selectedRow = $(e.target).parents('tr')[0];
-                            var data = instance.dtTable.row(selectedRow).data();
-                            instance.bindViewData(data);
-                        });
+                    instance.bindEvents();
                     }
                 });
 
+            }
+            reloadTable() {
+                var instance = this;
+                instance.dtTable.ajax.reload();
+                setTimeout(() => {
+                    instance.bindEvents();
+                }, 1000);
+
+            }
+            bindEvents() {
+                let instance = this;
+                instance.$table.find(' a.delete-item').on('click', (e) => {
+                    e.preventDefault();
+                    var selectedRow = $(e.target).parents('tr')[0];
+                    var data = instance.dtTable.row(selectedRow).data();
+                    instance.delete(data);
+                });
+                instance.$table.find('a.edit-item').on('click', (e) => {
+                    e.preventDefault();
+                    var selectedRow = $(e.target).parents('tr')[0];
+                    var data = instance.dtTable.row(selectedRow).data();
+                    instance.bindEditData(data);
+                });
+                instance.$table.find('a.view-item').on('click', (e) => {
+                    e.preventDefault();
+                    var selectedRow = $(e.target).parents('tr')[0];
+                    var data = instance.dtTable.row(selectedRow).data();
+                    instance.bindViewData(data);
+                });
             }
             createValidation() {
                 var instance = this;
@@ -354,7 +366,7 @@
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
                                 instance.$createMd.find("form")[0].reset();
-                                instance.dtTable.ajax.reload();
+                                instance.reloadTable();
                                 instance.$createMd.hide();
                             }
                             EXO.alert(response.message);
@@ -414,7 +426,7 @@
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
                                 instance.$editMd.find("form")[0].reset();
-                                instance.dtTable.ajax.reload();
+                                instance.reloadTable();
                                 instance.$editMd.hide();
                             }
                             EXO.alert(response.message);
@@ -437,7 +449,7 @@
                         }).done(function (response) {
                             if (response.success) {
                                 instance.$createMd.find("form")[0].reset();
-                                instance.dtTable.ajax.reload();
+                                instance.reloadTable();
                                 instance.$createMd.hide();
                             }
                             else
