@@ -204,6 +204,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="Attributes\CustomAuthorizeAttribute.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -566,6 +567,7 @@
     <Content Include="Views\Admin\Employee.cshtml" />
     <Content Include="Views\Admin\ServiceCategory.cshtml" />
     <Content Include="Views\Admin\Service.cshtml" />
+    <Content Include="Views\Admin\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

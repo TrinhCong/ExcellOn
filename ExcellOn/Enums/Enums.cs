@@ -11,4 +11,10 @@ namespace ExcellOn.Enums
         public const int ADMIN = 2;
         public const int CLIENT = 3;
     }
+    public static class EnumRoleName
+    {
+        public const string SA = "sa";
+        public const string ADMIN = "admin";
+        public const string CLIENT = "client";
+    }
 }
