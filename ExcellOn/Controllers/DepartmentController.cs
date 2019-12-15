@@ -29,15 +29,21 @@ namespace ExcellOn.Controllers
         }
 
 
-        public ActionResult GetAllCategories()
+        public ActionResult GetAll()
         {
-            var items = _categoryRepository.GetAllDepartmentCategories();
+            var items = _departmentRepository.GetAll();
+            return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetAllView()
+        {
+            var items = _departmentRepository.GetAllView();
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
 
 
         [HttpPost]
-        public ActionResult CreateOrUpdateCategory(CategoryDepartment entity)
+        public ActionResult CreateOrUpdate(Department entity)
         {
             using (var session = GetSession())
             {
@@ -45,10 +51,10 @@ namespace ExcellOn.Controllers
                 {
                     try
                     {
-                        if (!_categoryRepository.IsCategoryDepartmentExist(entity))
+                        if (!_departmentRepository.IsDepartmentExist(entity))
                         {
-                            _categoryRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update category successfully!"), JsonRequestBehavior.AllowGet);
+                            _departmentRepository.SaveOrUpdate(entity, uow);
+                            return Json(new ResponseInfo(true, "Update Department successfully!"), JsonRequestBehavior.AllowGet);
                         }
                         else
                             return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
@@ -60,6 +66,23 @@ namespace ExcellOn.Controllers
                     }
                 }
             }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            using (var session = GetSession())
+            {
+                try
+                {
+                    _departmentRepository.DeleteKey(id, session);
+                    return Json(new ResponseInfo(true, "Delete successfully!"), JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return Json(new ResponseInfo(false, "Delete user fail!"), JsonRequestBehavior.AllowGet);
+                }
+            }
+
         }
 
     }

@@ -4,6 +4,7 @@ using ExcellOn.Repositories.Sessions;
 using Smooth.IoC.UnitOfWork.Interfaces;
 using System.Web.Mvc;
 using PagedList;
+using ExcellOn.ViewModels;
 
 namespace ExcellOn.Controllers
 {
@@ -30,6 +31,11 @@ namespace ExcellOn.Controllers
             }
         }
 
+        public ActionResult GetAllDepartmentCategories()
+        {
+            var items = _categoryServiceRepository.GetAllDepartmentCategories();
+            return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult Create()
         {
