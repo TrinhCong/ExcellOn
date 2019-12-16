@@ -166,7 +166,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Department/GetAllCategories",
+                        url: "/Category/GetAllDepartmentCategories",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -272,7 +272,7 @@
                 if (instance.createValidation()) {
                     var data = new FormData();
                     $.ajax({
-                        url: '/Department/CreateOrUpdateCategory',
+                        url: '/Category/CreateOrUpdateDepartment',
                         type: 'POST',
                         data: instance.createData,
                         dataType: 'json',
@@ -332,7 +332,7 @@
                 if (instance.editValidation()) {
                     var data = new FormData();
                     $.ajax({
-                        url: '/Department/CreateOrUpdateCategory',
+                        url: '/Category/CreateOrUpdateCategory',
                         type: 'POST',
                         data: instance.editData,
                         dataType: 'json',
@@ -356,7 +356,7 @@
                 EXO.confirm("Are you sure to delete this category?", response => {
                     if (response.value)
                         $.ajax({
-                            url: "/Product/DeleteCategory",
+                            url: "/Category/DeleteDepartment",
                             data: { id: data.id },
                             type: 'get'
                         }).done(function (response) {
@@ -366,7 +366,7 @@
                                 instance.$createMd.hide();
                             }
                             else
-                                EXO.alert("Cannot delete this category, Because It's used by another products!");
+                                EXO.alert("Cannot delete this CategoryDepartment, Because It's used by another Department!");
                         });
                 });
             }
