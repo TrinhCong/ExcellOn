@@ -78,7 +78,56 @@ namespace ExcellOn.Controllers
                 }
             }
         }
+        //============== Service===================
+        public ActionResult GetAllService()
+        {
+            var items = _serviceRepository.GetAllService();
+            return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
 
+        }
+        public ActionResult DeleteService(int id)
+        {
+            using (var session = GetSession())
+            {
+                try
+                {
+                    session.Query("Delete from services where id=" + id);
+                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return Json(new ResponseInfo(false, "Delete Service fail!"), JsonRequestBehavior.AllowGet);
+                }
+            }
+
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateOrUpdateService(Service entity)
+        {
+            using (var session = GetSession())
+            {
+                using (var uow = session.UnitOfWork())
+                {
+                    try
+                    {
+                        if (!_serviceRepository.IsServiceExist(entity))
+                        {
+                            _serviceRepository.SaveOrUpdate(entity, uow);
+                            return Json(new ResponseInfo(true, "Update service category successfully!"), JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                            return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
+
+                    }
+                    catch (Exception e)
+                    {
+                        return Json(new ResponseInfo(false, "Update service category fail!"), JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+        }
 
         // GET: Service
 
