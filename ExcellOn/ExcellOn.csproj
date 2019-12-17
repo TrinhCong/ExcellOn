@@ -210,7 +210,6 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />

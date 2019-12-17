@@ -32,7 +32,7 @@ namespace ExcellOn.Repositories
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Product> items = session.Query<Product>("Select * from products").ToList();
+                List<Product> items = session.Find<Product>(stm => stm.Include<CategoryProduct>().OrderBy($"{Sql.Table<Product>()}.{nameof(Product.name)}")).ToList();
                 return items;
             }
         }

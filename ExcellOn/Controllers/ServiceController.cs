@@ -187,7 +187,15 @@ namespace ExcellOn.Controllers
         {
             using (var session = _dbFactory.Create<IAppSession>())
             {
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                try
+                {
+                    _serviceRepository.DeleteKey(id, session);
+                    return Json(new ResponseInfo(true,"Deleted complete!"), JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return Json(new ResponseInfo(false,"Deleted fail!"), JsonRequestBehavior.AllowGet);
+                }
             }
 
         }

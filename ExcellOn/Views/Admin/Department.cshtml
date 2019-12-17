@@ -4,6 +4,13 @@
 
 
 }
+
+
+<style>
+    [readonly] {
+        background-color: #FFF !important;
+    }
+</style>
 <div class=" no-margin">
     <div class="content-title">
         <div class="caption">
@@ -43,8 +50,11 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label">Category</label>
-                        <select name="cat_id" class="form-control" required >
-                            <!-- load list cat --> 
+                        <select name="cat_id" class="form-control" required>
+                            @foreach (var item in ViewBag.Categories)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
                         </select>
                     </div>
                     <div class="form-group">
@@ -77,13 +87,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <input type="hidden" class="form-control" name="id" required />
                         <label for="" class="control-label">Department Name<span class="required">*</span></label>
                         <input type="text" class="form-control" name="name" required />
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label">Category</label>
                         <select name="cat_id" class="form-control" required>
-                            <!-- load list cat -->
+                            @foreach (var item in ViewBag.Categories)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
                         </select>
                     </div>
                     <div class="form-group">
@@ -123,7 +137,10 @@
                     <div class="form-group">
                         <label for="" class="control-label">Category</label>
                         <select name="cat_id" class="form-control" readonly>
-                            <!-- load list cat -->
+                            @foreach (var item in ViewBag.Categories)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
                         </select>
                     </div>
                     <div class="form-group">
@@ -155,15 +172,6 @@
                     e.preventDefault();
                     instance.create();
                 });
-                //load list cat_id
-                $.get('/Category/GetAllDepartmentCategories', function (data, textStatus, jqXHR) {
-                    $.each(data.data, function(key, value) {   
-                         $('select[name ="cat_id"]')
-                             .append($("<option></option>")
-                                 .attr("value", value.id)
-                                        .text(value.name)); 
-                    });
-                });
 
                 instance.$createMd.find("[data-dismiss]").on('click', (e) => {
                     instance.$createMd.find("form")[0].reset();
@@ -188,7 +196,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Department/GetAllView",
+                        url: "/Department/GetAllDepartment",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -210,7 +218,7 @@
                         },
                         {
                             title: 'Category',
-                            data: 'catName'
+                            data: 'category.name'
                         },
                         {
                             title: 'Description',
@@ -220,17 +228,17 @@
                             title: 'Actions',
                             render: function (data, type, row, meta) {
                                 return `<a class="btn btn-sm btn-primary view-item" role="button" data-toggle="modal" href="#view_modal" aria-expanded="false">
-                                                                            View
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                        <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
-                                                                            Edit
-                                                                            <i class="fa fa-edit"></i>
-                                                                        </a>
-                                                                        <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
-                                                                            Delete
-                                                                            <i class="fa fa-trash"></i>
-                                                                        </a>`;
+                                                                                View
+                                                                                <i class="fa fa-eye"></i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
+                                                                                Edit
+                                                                                <i class="fa fa-edit"></i>
+                                                                            </a>
+                                                                            <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
+                                                                                Delete
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </a>`;
                             },
                             width: '220px',
                             className: 'text-center'
