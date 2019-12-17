@@ -408,10 +408,7 @@
             }
             reloadTable() {
                 var instance = this;
-                instance.dtTable.ajax.reload();
-                setTimeout(() => {
-                    instance.bindEvents();
-                }, 1000);
+                instance.dtTable.ajax.reload(()=>{ instance.bindEvents(); },true);
             }
             createValidation() {
                 var instance = this;
@@ -601,9 +598,9 @@
                 });
             }
         }
-
+        var UserHandler = null;
         $(document).ready(function () {
-            new PageHandler();
+            UserHandler= new PageHandler();
         });
     </script>
 }
