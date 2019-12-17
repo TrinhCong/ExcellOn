@@ -4,8 +4,9 @@
 
 /.vs
 /ExcellOn/bin
+/ExcellOn/bin/*
 /ExcellOn/obj
-/ExcellOn/Web.config
+/ExcellOn/obj/*
 /ExcellOn/Web.config
 /ExcellOn/Web.Debug.config
 /ExcellOn/Web.Release.config

@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using Dapper.FastCrud;
+using ExcellOn.Attributes;
 using ExcellOn.Enums;
 using ExcellOn.Models;
 using ExcellOn.Repositories;
@@ -15,6 +16,7 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 
 namespace ExcellOn.Controllers
 {
+    [CustomAuthorize(Roles =EnumRoleName.ADMIN+","+EnumRoleName.SA)]
     public class UserController : BaseController
     {
         private readonly IUserRepository _userRepository;
@@ -25,10 +27,15 @@ namespace ExcellOn.Controllers
         {
             _userRepository = userRepository;
         }
-
         public ActionResult GetAll()
         {
-            var items = _userRepository.GetItems();
+            var user =(User)Session["User"];
+            string condition = null;
+            if (user != null)
+            {
+                condition = $"{Sql.Table<User>()}.{nameof(Models.User.id)}<>{user.id}";
+            }
+            var items = _userRepository.GetItems(condition);
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
 

@@ -17,7 +17,7 @@ namespace ExcellOn.Repositories
     public interface IServiceRepository : IRepository<Service, int>
     {
 
-
+        List<Service> GetAllService();
     }
     public class ServiceRepository : Repository<Service, int>, IServiceRepository
     {
@@ -25,7 +25,30 @@ namespace ExcellOn.Repositories
         {
         }
 
-
+        public List<Service> GetAllService()
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                List<Service> items = session.Query<Service>("Select * from services").ToList();
+                return items;
+            }
+        }
+        public bool IsServiceExist(Service entity)
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                if (entity.id == 0)
+                {
+                    var existItems = session.Query<List<Service>>("Select * from services where name='" + entity.name + "'");
+                    return existItems.Count() > 0;
+                }
+                else
+                {
+                    var existItems = session.Query<List<Service>>("Select * from services where name='" + entity.name + "' AND id<>" + entity.id);
+                    return existItems.Count() > 0;
+                }
+            }
+        }
     }
 
 }

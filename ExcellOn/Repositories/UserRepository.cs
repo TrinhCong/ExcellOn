@@ -39,6 +39,7 @@ namespace ExcellOn.Repositories
         {
             using(var session = Factory.Create<IAppSession>())
             {
+                condition = string.IsNullOrEmpty(condition) ? "(1=1)" : condition;
                 return session.Find<User>(stm => stm.Where($"{condition}").Include<UserRole>().OrderBy($"{Sql.Table<User>()}.{nameof(User.display_name)}"));
             }
         }

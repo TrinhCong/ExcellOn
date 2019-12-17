@@ -411,10 +411,7 @@
             }
             reloadTable() {
                 var instance = this;
-                instance.dtTable.ajax.reload();
-                setTimeout(() => {
-                    instance.bindEvents();
-                }, 1000);
+                instance.dtTable.ajax.reload(()=>{ instance.bindEvents(); },true);
             }
             createValidation() {
                 var instance = this;
@@ -498,7 +495,6 @@
                     if (item.length > 0)
                         item.val(value);
                 });
-
                 var avatarSrc = data.avatar_path && data.avatar_path != "null" ? "/Content/uploads/avatars/" + data.avatar_path : "/Content/images/no_avatar.png";
                 $form.find('img').attr('src', avatarSrc)
             }
@@ -605,9 +601,9 @@
                 });
             }
         }
-
+        var UserHandler = null;
         $(document).ready(function () {
-            new PageHandler();
+            UserHandler= new PageHandler();
         });
     </script>
 }
