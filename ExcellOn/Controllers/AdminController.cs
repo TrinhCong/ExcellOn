@@ -17,12 +17,15 @@ namespace ExcellOn.Controllers
     public class AdminController : BaseController
     {
         private readonly IUserRepository _userRepository;
+        private readonly CategoryRepository<CategoryProduct> _categoryRepository;
         public AdminController(
                                 IDbFactory dbFactory,
-                                UserRepository userRepository
+                                UserRepository userRepository,
+                                CategoryRepository<CategoryProduct> categoryRepository
                                 ) : base(dbFactory)
         {
             _userRepository = userRepository;
+            _categoryRepository = categoryRepository;
         }
         public ActionResult Index()
         {
@@ -114,6 +117,8 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Product()
         {
+
+            ViewBag.Categories = _categoryRepository.GetAllProductCategories();
             return View();
         }
         public ActionResult Employee()
