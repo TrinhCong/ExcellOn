@@ -127,6 +127,7 @@ D:\project3\ExcellOn\ExcellOn\bin\System.Web.WebPages.Deployment.xml
 D:\project3\ExcellOn\ExcellOn\bin\System.Web.WebPages.Razor.xml
 D:\project3\ExcellOn\ExcellOn\bin\System.Web.Optimization.xml
 D:\project3\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csproj.CopyComplete
+D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csproj.CoreCompileInputs.cache
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\bin\ApplicationInsights.config
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\bin\ExcellOn.dll.config
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\bin\ExcellOn.dll
@@ -251,7 +252,7 @@ D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\bin\System.Web.WebPages.xml
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\bin\System.Web.WebPages.Deployment.xml
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\bin\System.Web.WebPages.Razor.xml
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\bin\System.Web.Optimization.xml
-D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csproj.CoreCompileInputs.cache
+D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csprojAssemblyReference.cache
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csproj.CopyComplete
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\obj\Debug\ExcellOn.dll
 D:\ASP.NET\ExcellOn-master\ExcellOn\ExcellOn\obj\Debug\ExcellOn.pdb

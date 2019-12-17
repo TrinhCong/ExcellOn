@@ -16,10 +16,11 @@ namespace ExcellOn.Models
         public string name { get; set; }
         [ForeignKey(nameof(category))]
         public int cat_id { get; set; }
-        public int quantity_per_unit { get; set; }
+        public string quantity_per_unit { get; set; }
         public int unit_price { get; set; }
         public int units_in_stock { get; set; }
-        public int description { get; set; }
+        public string description { get; set; }
+        public List<Category> ListCategory { get; set; }
 
         [NotMapped]
         public virtual CategoryProduct category { get; set; }
