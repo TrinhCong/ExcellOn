@@ -16,7 +16,7 @@ namespace ExcellOn.Models
         public string name { get; set; }
         [ForeignKey(nameof(category))]
         public int cat_id { get; set; }
-        public int description { get; set; }
+        public string description { get; set; }
 
         [NotMapped]
         public virtual CategoryDepartment category { get; set; }

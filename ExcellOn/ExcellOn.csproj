@@ -241,6 +241,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\Sessions\IAppSession.cs" />
+    <Compile Include="ViewModels\DepartmentView.cs" />
     <Compile Include="ViewModels\ProductViewList.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\ResponseInfo.cs" />
