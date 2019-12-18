@@ -352,7 +352,7 @@
             }
             delete(data) {
                 var instance = this;
-                EXO.confirm("Are you sure to delete this category?", response => {
+                EXO.confirm("Are you sure to delete this service category?", response => {
                     if (response.value)
                         $.ajax({
                             url: "/Service/DeleteServiceCategory",
@@ -365,7 +365,7 @@
                                 instance.$createMd.hide();
                             }
                             else
-                                EXO.alert("Cannot delete this category, Because It's used by another products!");
+                                EXO.alert("Cannot delete this service category, Because It's used by another products!");
                         });
                 });
             }

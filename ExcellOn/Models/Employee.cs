@@ -18,7 +18,7 @@ namespace ExcellOn.Models
         public int department_id { get; set; }
         [ForeignKey(nameof(service))]
         public int service_id { get; set; }
-        public int description { get; set; }
+        public string description { get; set; }
 
         [NotMapped]
         public virtual Department department { get; set; }
