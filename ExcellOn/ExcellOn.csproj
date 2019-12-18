@@ -229,6 +229,7 @@
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\ServiceImage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\User.cs" />
