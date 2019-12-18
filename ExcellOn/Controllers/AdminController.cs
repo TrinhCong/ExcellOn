@@ -17,12 +17,21 @@ namespace ExcellOn.Controllers
     public class AdminController : BaseController
     {
         private readonly IUserRepository _userRepository;
+        private readonly CategoryRepository<CategoryProduct> _categoryProductRepository;
+        private readonly CategoryRepository<CategoryDepartment> _categoryDepartmentRepository;
+        private readonly CategoryRepository<CategoryService> _categoryServiceRepository;
         public AdminController(
                                 IDbFactory dbFactory,
-                                UserRepository userRepository
+                                UserRepository userRepository,
+                                CategoryRepository<CategoryProduct> categoryProductRepository,
+                                CategoryRepository<CategoryService> categoryServiceRepository,
+                                CategoryRepository<CategoryDepartment> categoryDepartmentRepository
                                 ) : base(dbFactory)
         {
             _userRepository = userRepository;
+            _categoryProductRepository = categoryProductRepository;
+            _categoryServiceRepository = categoryServiceRepository;
+            _categoryDepartmentRepository = categoryDepartmentRepository;
         }
         public ActionResult Index()
         {
@@ -98,6 +107,7 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Department()
         {
+            ViewBag.Categories = _categoryDepartmentRepository.GetAllDepartmentCategories();
             return View();
         }
         public ActionResult ServiceCategory()
@@ -106,6 +116,7 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Service()
         {
+            ViewBag.Categories = _categoryServiceRepository.GetAllServiceCategories();
             return View();
         }
         public ActionResult ProductCategory()
@@ -114,6 +125,8 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Product()
         {
+
+            ViewBag.Categories = _categoryProductRepository.GetAllProductCategories();
             return View();
         }
         public ActionResult Employee()

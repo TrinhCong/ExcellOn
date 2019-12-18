@@ -8,49 +8,44 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 using ExcellOn.Models;
 using Dapper;
 using Dapper.FastCrud;
-using ExcellOn.ViewModels;
+using Smooth.IoC.Repository.UnitOfWork.Extensions;
 
 namespace ExcellOn.Repositories
 {
+
     public interface IDepartmentRepository : IRepository<Department, int>
     {
-        List<Department> GetAll();
-        bool IsDepartmentExist(Department entity);
-        List<DepartmentView> GetAllView();
+
+        List<Department> GetAllDepartment();
     }
-
-
-
     public class DepartmentRepository : Repository<Department, int>, IDepartmentRepository
     {
         public DepartmentRepository(IDbFactory factory) : base(factory)
         {
         }
 
-        public List<Department> GetAll()
+        public List<Department> GetAllDepartment()
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Department> items = session.Query<Department>("Select * from departments").ToList();
+                List<Department> items = session.Find<Department>(stm => stm.Include<CategoryDepartment>().OrderBy($"{Sql.Table<Department>()}.{nameof(Department.name)}")).ToList();
                 return items;
             }
         }
-
-        public List<DepartmentView> GetAllView()
-        {
-            using (var session = Factory.Create<IAppSession>())
-            {
-                List<DepartmentView> items = session.Query<DepartmentView>("select id,name,cat_id,(select cd.name from cat_departments cd where cd.id = d.cat_id) as catName, description from departments d;").ToList();
-                return items;
-            }
-        }
-
         public bool IsDepartmentExist(Department entity)
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Department> items = session.Query<Department>("select * from departments where name = '"+ entity .name+ "'").ToList();
-                return items.Count > 0;
+                if (entity.id == 0)
+                {
+                    var existItems = session.Query<List<Department>>("Select * from departments where name='" + entity.name + "'");
+                    return existItems.Count() > 0;
+                }
+                else
+                {
+                    var existItems = session.Query<List<Department>>("Select * from departments where name='" + entity.name + "' AND id<>" + entity.id);
+                    return existItems.Count() > 0;
+                }
             }
         }
     }

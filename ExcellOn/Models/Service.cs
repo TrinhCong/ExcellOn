@@ -17,8 +17,8 @@ namespace ExcellOn.Models
         [ForeignKey(nameof(category))]
         public int cat_id { get; set; }
         public int price { get; set; }
-        public float hours { get; set; }
-        public int description { get; set; }
+        public double hours { get; set; }
+        public string description { get; set; }
 
         [NotMapped]
         public virtual CategoryService category { get; set; }

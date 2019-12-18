@@ -15,8 +15,9 @@ namespace ExcellOn.Controllers
 {
     public class ProductController : BaseController
     {
-        private readonly ProductRepository _productRepository;
+        private readonly ProductRepository  _productRepository;
         private readonly CategoryRepository<CategoryProduct> _categoryRepository;
+
 
         public ProductController(
                                 IDbFactory dbFactory, 
@@ -34,6 +35,12 @@ namespace ExcellOn.Controllers
         {
             var items = _categoryRepository.GetAllProductCategories();
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
+        }
+    
+        public ActionResult GetAllProducts()
+        {
+            var product = _productRepository.GetAllProducts();
+            return Json(new ResponseInfo(success: true, data: product), JsonRequestBehavior.AllowGet);
         }
 
 
@@ -91,15 +98,33 @@ namespace ExcellOn.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult Create(Product product)
-        {
-            using (var session = _dbFactory.Create<IAppSession>())
-            {
-                
-                return View();
-            }
 
+        //Creat or Update Product table
+        [HttpPost]
+        public ActionResult CreateOrUpdateProduct(Product entity)
+        {
+            using (var session = GetSession())
+            {
+                using (var uow = session.UnitOfWork())
+                {
+                    try
+                    {
+                        if (!_productRepository.IsProductExist(entity))
+                        {
+                     
+                            _productRepository.SaveOrUpdate(entity, uow);
+                            return Json(new ResponseInfo(true, "Update product successfully!"), JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                            return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
+
+                    }
+                    catch (Exception e)
+                    {
+                        return Json(new ResponseInfo(false, "Update product fail!"), JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
         }
         public ActionResult Details(int id)
         {
@@ -134,11 +159,20 @@ namespace ExcellOn.Controllers
             }
 
         }
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult DeleteProduct(int id)
         {
-            using (var session = _dbFactory.Create<IAppSession>())
+            using(var session = GetSession())
             {
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                try
+                {
+                    session.Query("Delete from products where id=" + id);
+                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return Json(new ResponseInfo(false, "Delete product fail!"), JsonRequestBehavior.AllowGet);
+                }
             }
 
         }

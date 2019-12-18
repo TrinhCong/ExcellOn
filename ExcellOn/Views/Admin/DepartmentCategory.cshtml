@@ -166,7 +166,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Category/GetAllDepartmentCategories",
+                        url: "/Department/GetAllDepartmentCategories",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -225,11 +225,9 @@
             }
             reloadTable() {
                 var instance = this;
-                instance.dtTable.ajax.reload();
-                setTimeout(() => {
+                instance.dtTable.ajax.reload(() => {
                     instance.bindEvents();
-                }, 1000);
-
+                },true);
             }
             bindEvents() {
                 let instance = this;
@@ -272,7 +270,7 @@
                 if (instance.createValidation()) {
                     var data = new FormData();
                     $.ajax({
-                        url: '/Category/CreateOrUpdateDepartment',
+                        url: '/Department/CreateOrUpdateDepartmentCategory',
                         type: 'POST',
                         data: instance.createData,
                         dataType: 'json',
@@ -332,7 +330,7 @@
                 if (instance.editValidation()) {
                     var data = new FormData();
                     $.ajax({
-                        url: '/Category/CreateOrUpdateCategory',
+                        url: '/Department/CreateOrUpdateDepartmentCategory',
                         type: 'POST',
                         data: instance.editData,
                         dataType: 'json',
@@ -356,7 +354,7 @@
                 EXO.confirm("Are you sure to delete this category?", response => {
                     if (response.value)
                         $.ajax({
-                            url: "/Category/DeleteDepartment",
+                            url: "/Department/DeleteDepartmentCategory",
                             data: { id: data.id },
                             type: 'get'
                         }).done(function (response) {

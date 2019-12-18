@@ -15,7 +15,7 @@ namespace ExcellOn.Repositories
 {
     public interface IProductRepository : IRepository<Product, int>
     {
-
+        List<Product> GetAllProducts();
     }
 
 
@@ -24,6 +24,34 @@ namespace ExcellOn.Repositories
     {
         public ProductRepository(IDbFactory factory) : base(factory)
         {
+
+        }
+        
+
+        public List<Product> GetAllProducts()
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                List<Product> items = session.Find<Product>(stm => stm.Include<CategoryProduct>().OrderBy($"{Sql.Table<Product>()}.{nameof(Product.name)}")).ToList();
+                return items;
+            }
+        }
+
+        public bool IsProductExist(Product entity)
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                if (entity.id == 0)
+                {
+                    var existItems = session.Query<List<Product>>("Select * from products where name='" + entity.name + "'");
+                    return existItems.Count() > 0;
+                }
+                else
+                {
+                    var existItems = session.Query<List<Product>>("Select * from products where name='" + entity.name + "' AND id<>" + entity.id);
+                    return existItems.Count() > 0;
+                }
+            }
         }
 
     }

@@ -8,8 +8,7 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 using ExcellOn.Models;
 using Dapper;
 using Dapper.FastCrud;
-
-
+using Smooth.IoC.Repository.UnitOfWork.Extensions;
 
 namespace ExcellOn.Repositories
 {
@@ -29,7 +28,7 @@ namespace ExcellOn.Repositories
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Service> items = session.Query<Service>("Select * from services").ToList();
+                List<Service> items = session.Find<Service>(stm=>stm.Include<CategoryService>().OrderBy($"{Sql.Table<Service>()}.{nameof(Service.name)}")).ToList();
                 return items;
             }
         }
