@@ -92,7 +92,9 @@ namespace ExcellOn.Controllers
 
         public ActionResult Index()
         {
-                return View("Index");
+            ViewBag.ProductCategories = _categoryRepository.GetAllProductCategories();
+            ViewBag.Product = _productRepository.GetAllProducts();
+            return View("Index");
         }
         public ActionResult Create()
         {
