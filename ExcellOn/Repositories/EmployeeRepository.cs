@@ -15,7 +15,7 @@ namespace ExcellOn.Repositories
 {
     public interface IEmployeeRepository : IRepository<Employee, int>
     {
-
+        List<Employee> GetAllEmployee();
     }
 
 
@@ -25,7 +25,30 @@ namespace ExcellOn.Repositories
         public EmployeeRepository(IDbFactory factory) : base(factory)
         {
         }
-
+        public List<Employee> GetAllEmployee()
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                List<Employee> items = session.Query<Employee>("Select * from employees").ToList();
+                return items;
+            }
+        }
+        public bool IsEmployeeExist(Employee entity)
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                if (entity.id == 0)
+                {
+                    var existItems = session.Query<List<Employee>>("Select * from employees where name='" + entity.name + "'");
+                    return existItems.Count() > 0;
+                }
+                else
+                {
+                    var existItems = session.Query<List<Employee>>("Select * from employees where name='" + entity.name + "' AND id<>" + entity.id);
+                    return existItems.Count() > 0;
+                }
+            }
+        }
     }
 
 }
