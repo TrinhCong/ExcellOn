@@ -32,7 +32,13 @@ namespace ExcellOn.Repositories
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Product> items = session.Find<Product>(stm => stm.Include<CategoryProduct>().OrderBy($"{Sql.Table<Product>()}.{nameof(Product.name)}")).ToList();
+                List<Product> items = session.Find<Product>(stm => stm
+                                                                    .Include<CategoryProduct>(j=>j.LeftOuterJoin())
+                                                                    .OrderBy($"{Sql.Table<Product>()}.{nameof(Product.name)}")).ToList();
+                foreach (var item in items)
+                {
+                    item.images = session.Find<ProductImage>(stm => stm.Where($"{nameof(ProductImage.product_id)}={item.id}"));
+                }
                 return items;
             }
         }

@@ -12,10 +12,12 @@
 
     <!-- Plugins -->
     <link href="~/Content/plugins/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fancy-box/jquery.fancybox.min.css" rel="stylesheet" />
 
     <!-- Our Custom CSS -->
     <link href="~/Content/pages/admin.css" rel="stylesheet" />
     <link href="~/Content/pages/custom.css" rel="stylesheet" />
+
     @RenderSection("AdditionStyles", false)
 </head>
 
@@ -47,10 +49,10 @@
                 <li>
                     <a href="/Admin/Employee"><i class="fa fa-users"></i> Employees</a>
                 </li>
-                <li class="active">
+                <li >
                     <a href="#serviceSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Services Management</a>
                     <ul class="collapse list-unstyled" id="serviceSubmenu">
-                        <li>
+                        <li >
                             <a href="/Admin/ServiceCategory"><i class="fa fa-book"></i> Service Categories</a>
                         </li>
                         <li>
@@ -115,6 +117,8 @@
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
+    <script src="~/Content/plugins/fancy-box/jquery.fancybox.min.js"></script>
+
     <!--Custom js-->
     <script src="~/Scripts/pages/page.js"></script>
 
@@ -129,6 +133,13 @@
             }, 100);
             $(window).on('resize', () => {
                 $("#content").height($(window).height() - 120);
+            });
+            var link = $(location).attr('href');
+            $.each($('a'), (index, ele) => {
+                if (link.indexOf($(ele).attr('href')) > -1) {
+                    $(ele).parents('li').attr('class', 'active');
+                    $(ele).closest('ul').addClass("show");
+                }
             });
         });
     </script>
