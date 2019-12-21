@@ -139,7 +139,7 @@ namespace ExcellOn.Controllers
         public ActionResult Employee()
         {
             ViewBag.Department = _departmentRepository.GetAllDepartment(); ;
-            ViewBag.Service = _serviceRepository.GetAllService();
+            ViewBag.Service = _serviceRepository.GetAllServices();
             return View();
         }
         public ActionResult UnAuthorized()
