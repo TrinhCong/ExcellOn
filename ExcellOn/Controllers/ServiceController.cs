@@ -8,34 +8,45 @@ using ExcellOn.Repositories.Sessions;
 using Smooth.IoC.UnitOfWork.Interfaces;
 using ExcellOn.Models;
 using PagedList;
-using Dapper;
 using ExcellOn.ViewModels;
+using Dapper;
+using System.IO;
+using Dapper.FastCrud;
 
 namespace ExcellOn.Controllers
 {
     public class ServiceController : BaseController
     {
         private readonly ServiceRepository _serviceRepository;
-        private readonly CategoryRepository<CategoryService> _categoryServiceRepository;
+        private readonly CategoryRepository<CategoryService> _categoryRepository;
+
+
         public ServiceController(
-                                IDbFactory dbFactory, 
+                                IDbFactory dbFactory,
                                 ServiceRepository serviceRepository,
-                                CategoryRepository<CategoryService> categoryServiceRepository
+                                CategoryRepository<CategoryService> categoryRepository
                                 ) : base(dbFactory)
         {
             _serviceRepository = serviceRepository;
-            _categoryServiceRepository = categoryServiceRepository;
+            _categoryRepository = categoryRepository;
         }
 
 
-        public ActionResult GetAllServiceCategories()
+
+        public ActionResult GetAllCategories()
         {
-            var items = _categoryServiceRepository.GetAllServiceCategories();
+            var items = _categoryRepository.GetAllServiceCategories();
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetAllServices()
+        {
+            var service = _serviceRepository.GetAllServices();
+            return Json(new ResponseInfo(success: true, data: service), JsonRequestBehavior.AllowGet);
+        }
 
-        public ActionResult DeleteServiceCategory(int id)
+
+        public ActionResult DeleteCategory(int id)
         {
             using (var session = GetSession())
             {
@@ -46,7 +57,7 @@ namespace ExcellOn.Controllers
                 }
                 catch (Exception e)
                 {
-                    return Json(new ResponseInfo(false, "Delete Service Categories fail!"), JsonRequestBehavior.AllowGet);
+                    return Json(new ResponseInfo(false, "Delete category fail!"), JsonRequestBehavior.AllowGet);
                 }
             }
 
@@ -54,7 +65,7 @@ namespace ExcellOn.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateOrUpdateServiceCategory(CategoryService entity)
+        public ActionResult CreateOrUpdateCategory(CategoryService entity)
         {
             using (var session = GetSession())
             {
@@ -62,10 +73,10 @@ namespace ExcellOn.Controllers
                 {
                     try
                     {
-                        if (!_categoryServiceRepository.IsCategoryServiceExist(entity))
+                        if (!_categoryRepository.IsCategoryServiceExist(entity))
                         {
-                            _categoryServiceRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update service category successfully!"), JsonRequestBehavior.AllowGet);
+                            _categoryRepository.SaveOrUpdate(entity, uow);
+                            return Json(new ResponseInfo(true, "Update category successfully!"), JsonRequestBehavior.AllowGet);
                         }
                         else
                             return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
@@ -73,57 +84,7 @@ namespace ExcellOn.Controllers
                     }
                     catch (Exception e)
                     {
-                        return Json(new ResponseInfo(false, "Update service category fail!"), JsonRequestBehavior.AllowGet);
-                    }
-                }
-            }
-        }
-        //============== Service===================
-        public ActionResult GetAllService()
-        {
-            var items = _serviceRepository.GetAllService();
-            return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
-
-        }
-        public ActionResult DeleteService(int id)
-        {
-            using (var session = GetSession())
-            {
-                try
-                {
-                    session.Query("Delete from services where id=" + id);
-                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    return Json(new ResponseInfo(false, "Delete Service fail!"), JsonRequestBehavior.AllowGet);
-                }
-            }
-
-        }
-
-
-        [HttpPost]
-        public ActionResult CreateOrUpdateService(Service entity)
-        {
-            using (var session = GetSession())
-            {
-                using (var uow = session.UnitOfWork())
-                {
-                    try
-                    {
-                        if (!_serviceRepository.IsServiceExist(entity))
-                        {
-                            _serviceRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update service category successfully!"), JsonRequestBehavior.AllowGet);
-                        }
-                        else
-                            return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
-
-                    }
-                    catch (Exception e)
-                    {
-                        return Json(new ResponseInfo(false, "Update service category fail!"), JsonRequestBehavior.AllowGet);
+                        return Json(new ResponseInfo(false, "Update category fail!"), JsonRequestBehavior.AllowGet);
                     }
                 }
             }
@@ -133,21 +94,58 @@ namespace ExcellOn.Controllers
 
         public ActionResult Index()
         {
-                return View("Index");
+            return View("Index");
         }
         public ActionResult Create()
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult Create(Service service)
-        {
-            using (var session = _dbFactory.Create<IAppSession>())
-            {
-                
-                return View();
-            }
 
+        //Creat or Update Service table
+        [HttpPost]
+        public ActionResult CreateOrUpdateService(Service entity, IEnumerable<HttpPostedFileBase> files)
+        {
+            using (var session = GetSession())
+            {
+
+                try
+                {
+                    if (!_serviceRepository.IsServiceExist(entity))
+                    {
+                        using (var uow = session.UnitOfWork())
+                        { _serviceRepository.SaveOrUpdate(entity, uow); }
+
+
+                        if (files != null && files.Count() > 0)
+                        {
+                            DeleteFiles(entity.id);
+                            var directory = Server.MapPath("~/Content/uploads/services");
+                            if (!Directory.Exists(directory))
+                                Directory.CreateDirectory(directory);
+                            foreach (var file in files)
+                            {
+                                string fileName = Path.GetFileName(string.Format("{0}{1}", DateTime.Now.Ticks.GetHashCode().ToString("x"), Path.GetExtension(file.FileName)));
+                                file.SaveAs(directory + "/" + fileName);
+                                session.Insert(new ServiceImage
+                                {
+                                    original_name = file.FileName,
+                                    path = "/Content/uploads/services/" + fileName,
+                                    service_id = entity.id
+                                });
+                            }
+
+                        }
+                        return Json(new ResponseInfo(true, "Update service successfully!"), JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                        return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
+
+                }
+                catch (Exception e)
+                {
+                    return Json(new ResponseInfo(false, "Update service fail!"), JsonRequestBehavior.AllowGet);
+                }
+            }
         }
         public ActionResult Details(int id)
         {
@@ -160,13 +158,12 @@ namespace ExcellOn.Controllers
         public ActionResult Edit(int id)
         {
             using (var session = _dbFactory.Create<IAppSession>())
-
             {
-                var editItem = this._serviceRepository.GetKey(id, session);
+                var editItem = _serviceRepository.GetKey(id, session);
 
                 if (editItem != null)
                 {
-                   return View(editItem);
+                    return View(editItem);
                 }
                 else
                     return HttpNotFound();
@@ -183,21 +180,42 @@ namespace ExcellOn.Controllers
             }
 
         }
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult DeleteService(int id)
         {
-            using (var session = _dbFactory.Create<IAppSession>())
+            using (var session = GetSession())
             {
                 try
                 {
-                    _serviceRepository.DeleteKey(id, session);
-                    return Json(new ResponseInfo(true,"Deleted complete!"), JsonRequestBehavior.AllowGet);
+                    session.Query("Delete from services where id=" + id);
+                    DeleteFiles(id);
+                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
-                    return Json(new ResponseInfo(false,"Deleted fail!"), JsonRequestBehavior.AllowGet);
+                    return Json(new ResponseInfo(false, "Delete service fail!"), JsonRequestBehavior.AllowGet);
                 }
             }
 
+        }
+        private void DeleteFiles(int serviceId)
+        {
+            using (var session = GetSession())
+            {
+                var existImages = session.Find<ServiceImage>(stm => stm.Where($"{nameof(ServiceImage.service_id)}={serviceId}"));
+                if (existImages.Count() > 0)
+                {
+                    foreach (var image in existImages)
+                    {
+                        var file = Server.MapPath(image.path);
+                        if (System.IO.File.Exists(file))
+                        {
+                            System.IO.File.Delete(file);
+                        }
+                    }
+                }
+                session.Query("Delete from service_images where service_id=" + serviceId);
+            }
         }
 
     }

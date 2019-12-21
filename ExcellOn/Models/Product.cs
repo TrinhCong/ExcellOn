@@ -20,10 +20,11 @@ namespace ExcellOn.Models
         public int unit_price { get; set; }
         public int units_in_stock { get; set; }
         public string description { get; set; }
-        public List<Category> ListCategory { get; set; }
 
         [NotMapped]
         public virtual CategoryProduct category { get; set; }
+        [NotMapped]
+        public virtual IEnumerable<ProductImage> images { get; set; }
     }
 
 

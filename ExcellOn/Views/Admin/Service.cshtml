@@ -8,6 +8,10 @@
     [readonly] {
         background-color: #FFF !important;
     }
+    
+    [data-fancybox] img {
+        width: 110px;
+    }
 </style>
 
 <div class=" no-margin">
@@ -57,16 +61,20 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Description<span class="required">*</span></label>
-                        <textarea rows="3" class="form-control" name="description" required></textarea>
-                    </div>
-                    <div class="form-group">
                         <label for="" class="control-label">Price<span class="required">*</span></label>
                         <input type="number" min="0" step="0.01" class="form-control" name="price" required />
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label">Hours<span class="required">*</span></label>
                         <input type="number" min="1" step="1.0" class="form-control" name="hours" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Images<span class="required">*</span></label>
+                        <input type="file" min="1" step="1" class="form-control" name="files" multiple accept="image/*" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Description<span class="required">*</span></label>
+                        <textarea rows="3" class="form-control" name="description" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -107,17 +115,22 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Description<span class="required">*</span></label>
-                        <textarea rows="3" class="form-control" name="description" required></textarea>
-                    </div>
-                    <div class="form-group">
                         <label for="" class="control-label">Price<span class="required">*</span></label>
-                        <input type="text" class="form-control" name="price" required />
+                        <input type="number" min="0" step="0.01" class="form-control" name="price" required />
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label">Hours<span class="required">*</span></label>
-                        <input type="text" class="form-control" name="hours" required />
+                        <input type="number" min="1" step="1.0" class="form-control" name="hours" required />
                     </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Images<span class="required">*</span></label>
+                        <input type="file" min="1" step="1" class="form-control" name="files" multiple accept="image/*" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Description<span class="required">*</span></label>
+                        <textarea rows="3" class="form-control" name="description" required></textarea>
+                    </div>
+                </div>
                 </div>
                 <div class="modal-footer">
                     <div style="margin:auto">
@@ -149,16 +162,12 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label">Categories</label>
-                        <select type="text" class="form-control" name="cat_id" readonly >
+                        <select type="text" class="form-control" name="cat_id" readonly>
                             @foreach (var item in ViewBag.Categories)
                             {
                                 <option value="@item.id">@item.name</option>
                             }
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="control-label">Description</label>
-                        <textarea class="form-control" name="description" rows="3" readonly></textarea>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label">Price</label>
@@ -168,7 +177,12 @@
                         <label for="" class="control-label">Hours</label>
                         <input type="text" class="form-control" name="hours" readonly />
                     </div>
-
+                    <div class="form-group">
+                        <label for="" class="control-label">Description</label>
+                        <textarea class="form-control" name="description" rows="3" readonly></textarea>
+                    </div>
+                    <div class="images">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div style="margin:auto">
@@ -215,7 +229,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Service/GetAllService",
+                        url: "/Service/GetAllServices",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -286,12 +300,14 @@
             }
             reloadTable() {
                 var instance = this;
-                instance.dtTable.ajax.reload(() => {
+                instance.dtTable.ajax.reload();
+                setTimeout(() => {
                     instance.bindEvents();
-                },true);
+                }, 1000);
+
             }
             bindEvents() {
-                var instance = this;
+                let instance = this;
                 instance.$table.find(' a.delete-item').on('click', (e) => {
                     e.preventDefault();
                     var selectedRow = $(e.target).parents('tr')[0];
@@ -330,11 +346,25 @@
                 var instance = this;
                 if (instance.createValidation()) {
                     var data = new FormData();
+                    $.each(instance.createData, (key, value) => {
+                        if (key != "files") {
+                            data.append(key, value);
+                        }
+                    });
+                    var files = instance.$createMd.find("[name=files]")[0].files;
+                    if (files != null) {
+                        $.each(files, (index, file) => {
+                            data.append("files[" + index + "]", file);
+                        });
+                    }
                     $.ajax({
                         url: '/Service/CreateOrUpdateService',
                         type: 'POST',
-                        data: instance.createData,
+                        data: data,
+                        cache: false,
                         dataType: 'json',
+                        processData: false,
+                        contentType: false,
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
                                 instance.$createMd.find("form")[0].reset();
@@ -347,7 +377,6 @@
                             EXO.alert('Tạo mới thất bại!');
                         }
                     });
-
                 }
             }
             bindViewData(data) {
@@ -359,8 +388,15 @@
                         item.val(value);
                 });
 
-                var avatarSrc = data.avatar_path && data.avatar_path != "null" ? "/Content/uploads/avatars/" + data.avatar_path : "/Content/images/no_avatar.png";
-                $form.find('img').attr('src', avatarSrc)
+                var $imgWrapper = $form.find('.images').html(`<span style="display:block;">Chưa có ảnh sản phẩm</span>`);
+                if (data.images!=null&&data.images.length > 0) {
+                    data.images.forEach(img => {
+                        $imgWrapper.append(`
+                            <a data-fancybox="fancybox-thumb" rel="fancybox-thumb" href="${img.path}" title="Golden Manarola (Sanjeev Deo)">
+                                <img src="${img.path}" alt="${img.original_name}" />
+                            </a>`);
+                    });
+                }
             }
             bindEditData(data) {
                 var instance = this;
@@ -390,21 +426,35 @@
                 var instance = this;
                 if (instance.editValidation()) {
                     var data = new FormData();
+                    $.each(instance.editData, (key, value) => {
+                        if (key != "files") {
+                            data.append(key, value);
+                        }
+                    });
+                    var files = instance.$editMd.find("[name=files]")[0].files;
+                    if (files != null) {
+                        $.each(files, (index, file) => {
+                            data.append("files[" + index + "]", file);
+                        });
+                    }
                     $.ajax({
                         url: '/Service/CreateOrUpdateService',
                         type: 'POST',
-                        data: instance.editData,
+                        data: data,
+                        cache: false,
                         dataType: 'json',
+                        processData: false,
+                        contentType: false,
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
-                                instance.$editMd.find("form")[0].reset();
+                                instance.$createMd.find("form")[0].reset();
                                 instance.reloadTable();
                                 instance.$editMd.hide();
                             }
                             EXO.alert(response.message);
                         },
                         error(jqXHR, textStatus, errorThrown) {
-                            EXO.alert('Cập nhật thất bại!');
+                            EXO.alert('Tạo mới thất bại!');
                         }
                     });
 
@@ -412,7 +462,7 @@
             }
             delete(data) {
                 var instance = this;
-                EXO.confirm("Are you sure to delete this category?", response => {
+                EXO.confirm("Are you sure to delete this service?", response => {
                     if (response.value)
                         $.ajax({
                             url: "/Service/DeleteService",
@@ -425,7 +475,7 @@
                                 instance.$createMd.hide();
                             }
                             else
-                                EXO.alert("Cannot delete this category, Because It's used by another products!");
+                                EXO.alert("Cannot delete this category, Because It's used by another services!");
                         });
                 });
             }

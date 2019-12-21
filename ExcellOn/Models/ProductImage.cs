@@ -7,18 +7,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExcellOn.Models
 {
-    [Table("service_images", Schema = "dbo")]
-    public class ServiceImage
+    [Table("product_images", Schema = "dbo")]
+    public class ProductImage
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public string path { get; set; }
         public string original_name { get; set; }
-        [ForeignKey(nameof(service))]
-        public int service_id { get; set; }
+        [ForeignKey(nameof(product))]
+        public int product_id { get; set; }
         [NotMapped]
-        public virtual Service service { get; set; }
+        public virtual Product product { get; set; }
     }
      
 }

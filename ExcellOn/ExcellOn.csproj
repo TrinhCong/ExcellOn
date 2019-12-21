@@ -229,6 +229,7 @@
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\ProductImage.cs" />
     <Compile Include="Models\ServiceImage.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="Models\Service.cs" />
@@ -329,6 +330,8 @@
     <Content Include="Content\plugins\datatables\datatables.js" />
     <Content Include="Content\plugins\datatables\datatables.min.css" />
     <Content Include="Content\plugins\datatables\datatables.min.js" />
+    <Content Include="Content\plugins\fancy-box\jquery.fancybox.min.css" />
+    <Content Include="Content\plugins\fancy-box\jquery.fancybox.min.js" />
     <Content Include="Content\uploads\about_04.jpg" />
     <Content Include="Content\uploads\blog-01.jpg" />
     <Content Include="Content\uploads\blog-02.jpg" />
@@ -574,6 +577,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\avatars\" />
+    <Folder Include="Content\uploads\products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
