@@ -17,8 +17,6 @@ namespace ExcellOn.Repositories
 
         List<CategoryProduct> GetAllProductCategories();
         List<CategoryService> GetAllServiceCategories();
-        bool IsCategoryDepartmentExist(CategoryDepartment entity);
-        List<CategoryDepartment> GetAllDepartmentCategories();
     }
 
     public class CategoryRepository<TEntity> : Repository<TEntity, int>, ICategoryRepository<TEntity> where TEntity : Category
@@ -43,12 +41,12 @@ namespace ExcellOn.Repositories
             {
                 if (entity.id == 0)
                 {
-                    var existItems = session.Query<List<CategoryService>>("Select * from cat_services where name='" + entity.name + "'");
+                    var existItems = session.Query<CategoryService>("Select * from cat_services where name='" + entity.name + "'");
                     return existItems.Count() > 0;
                 }
                 else
                 {
-                    var existItems = session.Query<List<CategoryService>>("Select * from cat_services where name='" + entity.name + "' AND id<>" + entity.id);
+                    var existItems = session.Query<CategoryService>("Select * from cat_services where name='" + entity.name + "' AND id<>" + entity.id);
                     return existItems.Count() > 0;
                 }
             }
@@ -74,64 +72,16 @@ namespace ExcellOn.Repositories
             {
                 if (entity.id == 0)
                 {
-                    var existItems = session.Query<List<CategoryProduct>>("Select * from cat_products where name='" + entity.name + "'");
+                    var existItems = session.Query<CategoryProduct>("Select * from cat_products where name='" + entity.name + "'");
                     return existItems.Count() > 0;
                 }
                 else
                 {
-                    var existItems = session.Query<List<CategoryProduct>>("Select * from cat_products where name='" + entity.name + "' AND id<>" + entity.id);
+                    var existItems = session.Query<CategoryProduct>("Select * from cat_products where name='" + entity.name + "' AND id<>" + entity.id);
                     return existItems.Count() > 0;
                 }
             }
         }
 
-        public bool IsDepartmentExist(CategoryDepartment entity)
-        {
-            using (var session = Factory.Create<IAppSession>())
-            {
-                if (entity.id == 0) 
-                {
-                    var existItems = session.Query<List<CategoryDepartment>>("Select * from cat_departments where name='" + entity.name + "'");
-                    return existItems.Count() > 0;
-                }
-                else
-                {
-                    var existItems = session.Query<List<CategoryDepartment>>("Select * from cat_departments where name='" + entity.name + "' AND id<>" + entity.id);
-                    return existItems.Count() > 0;
-                }
-            }
-        }
-
-       
-
-
-
-        /*===== CategoryDepartment =====*/
-
-        public List<CategoryDepartment> GetAllDepartmentCategories()
-        {
-            using (var session = Factory.Create<IAppSession>())
-            {
-                List<CategoryDepartment> items = session.Query<CategoryDepartment>("select * from cat_departments").ToList();
-                return items;
-            }
-        }
-
-        public bool IsCategoryDepartmentExist(CategoryDepartment entity)
-        {
-            using (var session = Factory.Create<IAppSession>())
-            {
-                if (entity.id == 0)
-                {
-                    var existItems = session.Query<List<CategoryDepartment>>("Select * from cat_departments where name='" + entity.name + "'");
-                    return existItems.Count() > 0;
-                }
-                else
-                {
-                    var existItems = session.Query<List<CategoryDepartment>>("Select * from cat_departments where name='" + entity.name + "' AND id<>" + entity.id);
-                    return existItems.Count() > 0;
-                }
-            }
-        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,9 +19,7 @@
 
     @RenderSection("AdditionStyles", false)
 </head>
-
 <body>
-
     <div class="wrapper">
         <!-- Sidebar Holder -->
         <nav id="sidebar">
@@ -33,26 +30,23 @@
             <ul class="list-unstyled components">
                 @*<p>Dummy Heading</p>*@
                 <li>
-                    <a href="/Admin/User"><i class="fa fa-users"></i> Users</a>
-                </li>
-                <li>
-                    <a href="#departmentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Departments Management</a>
-                    <ul class="collapse list-unstyled" id="departmentSubmenu">
+                    <a href="#accountSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Accounts Management</a>
+                    <ul class="collapse list-unstyled" id="accountSubmenu">
                         <li>
-                            <a href="/Admin/DepartmentCategory"><i class="fa fa-book"></i> Department Categories</a>
+                            <a href="/Admin/Customer"><i class="fa fa-file"></i> Customers</a>
                         </li>
                         <li>
-                            <a href="/Admin/Department"><i class="fa fa-file"></i> Departments</a>
+                            <a href="/Admin/Employee"><i class="fa fa-book"></i> Employees</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="/Admin/Employee"><i class="fa fa-users"></i> Employees</a>
+                    <a href="/Admin/Department"><i class="fa fa-file"></i> Departments Management</a>
                 </li>
-                <li >
+                <li>
                     <a href="#serviceSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Services Management</a>
                     <ul class="collapse list-unstyled" id="serviceSubmenu">
-                        <li >
+                        <li>
                             <a href="/Admin/ServiceCategory"><i class="fa fa-book"></i> Service Categories</a>
                         </li>
                         <li>
@@ -105,7 +99,6 @@
     <script src="~/Scripts/umd/popper.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="~/Scripts/pages/bootstrap.min.js"></script>
-
 
     <!-- Font Awesome JS -->
     <script src="~/Scripts/pages/fontawesome.js"></script>

@@ -166,7 +166,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Service/GetAllServiceCategories",
+                        url: "/Service/GetAllCategories",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -271,7 +271,7 @@
                 if (instance.createValidation()) {
                     var data = new FormData();
                     $.ajax({
-                        url: '/Service/CreateOrUpdateServiceCategory',
+                        url: '/Service/CreateOrUpdateCategory',
                         type: 'POST',
                         data: instance.createData,
                         dataType: 'json',
@@ -331,7 +331,7 @@
                 if (instance.editValidation()) {
                     var data = new FormData();
                     $.ajax({
-                        url: '/Service/CreateOrUpdateServiceCategory',
+                        url: '/Service/CreateOrUpdateCategory',
                         type: 'POST',
                         data: instance.editData,
                         dataType: 'json',
@@ -355,7 +355,7 @@
                 EXO.confirm("Are you sure to delete this service category?", response => {
                     if (response.value)
                         $.ajax({
-                            url: "/Service/DeleteServiceCategory",
+                            url: "/Service/DeleteCategory",
                             data: { id: data.id },
                             type: 'get'
                         }).done(function (response) {

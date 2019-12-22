@@ -12,11 +12,6 @@ namespace ExcellOn.Models
         public string name { get; set; }
         public string description { get; set; }
     }
-    [Table("cat_departments", Schema = "dbo")]
-    public class CategoryDepartment : Category
-    {
-
-    }
     [Table("cat_products", Schema = "dbo")]
     public class CategoryProduct : Category
     {

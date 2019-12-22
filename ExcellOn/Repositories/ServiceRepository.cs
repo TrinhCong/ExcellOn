@@ -49,12 +49,12 @@ namespace ExcellOn.Repositories
             {
                 if (entity.id == 0)
                 {
-                    var existItems = session.Query<List<Service>>("Select * from services where name='" + entity.name + "'");
+                    var existItems = session.Query<Service>("Select * from services where name='" + entity.name + "'");
                     return existItems.Count() > 0;
                 }
                 else
                 {
-                    var existItems = session.Query<List<Service>>("Select * from services where name='" + entity.name + "' AND id<>" + entity.id);
+                    var existItems = session.Query<Service>("Select * from services where name='" + entity.name + "' AND id<>" + entity.id);
                     return existItems.Count() > 0;
                 }
             }
