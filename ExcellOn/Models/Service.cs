@@ -22,6 +22,8 @@ namespace ExcellOn.Models
 
         [NotMapped]
         public virtual CategoryService category { get; set; }
+        [NotMapped]
+        public virtual IEnumerable<ServiceImage> images { get; set; }
     }
 
      

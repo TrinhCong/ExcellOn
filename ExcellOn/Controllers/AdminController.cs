@@ -16,28 +16,28 @@ namespace ExcellOn.Controllers
 {
     public class AdminController : BaseController
     {
-        private readonly IUserRepository _userRepository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly CategoryRepository<CategoryProduct> _categoryProductRepository;
-        private readonly CategoryRepository<CategoryDepartment> _categoryDepartmentRepository;
         private readonly CategoryRepository<CategoryService> _categoryServiceRepository;
         private readonly ServiceRepository _serviceRepository;
         private readonly DepartmentRepository _departmentRepository;
         public AdminController(
                                 IDbFactory dbFactory,
-                                UserRepository userRepository,
+                                CustomerRepository customerRepository,
                                 CategoryRepository<CategoryProduct> categoryProductRepository,
                                 CategoryRepository<CategoryService> categoryServiceRepository,
-                                CategoryRepository<CategoryDepartment> categoryDepartmentRepository,
                                 ServiceRepository serviceRepository,
-                                DepartmentRepository departmentRepository
+                                DepartmentRepository departmentRepository,
+                                EmployeeRepository employeeRepository
                                 ) : base(dbFactory)
         {
-            _userRepository = userRepository;
+            _customerRepository = customerRepository;
             _categoryProductRepository = categoryProductRepository;
             _categoryServiceRepository = categoryServiceRepository;
-            _categoryDepartmentRepository = categoryDepartmentRepository;
             _departmentRepository = departmentRepository;
             _serviceRepository = serviceRepository;
+            _employeeRepository = employeeRepository;
         }
         public ActionResult Index()
         {
@@ -50,70 +50,83 @@ namespace ExcellOn.Controllers
         [HttpPost]
         public ActionResult Login(User entity)
         {
-
-           var user= _userRepository.Login(entity); 
-            if (user != null)
+            var employee = _employeeRepository.Login(new Employee { user_name = entity.user_name, password = entity.password });
+            var customer = _customerRepository.Login(new Customer { user_name = entity.user_name, password = entity.password });
+            if (employee != null)
             {
-                setUserSession(user);
+                setEmployeeSession(employee);
                 return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
             }
-            return Json(new ResponseInfo(false, "Sai tài khoản hoặc mật khẩu!"), JsonRequestBehavior.AllowGet);
+            else if (customer != null)                     
+            {
+                setCustomerSession(customer);
+                return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+            }
+            return Json(new ResponseInfo(false, "Wrong user name or password!"), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult Detail(int userId)
+        public ActionResult Detail(int customerId)
         {
-           var user= _userRepository.GetUserById(userId);
-            return View(user);
+            var customer = _customerRepository.GetCustomerById(customerId);
+            return View(customer);
         }
         public ActionResult Register()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult Register(User entity)
+        public ActionResult Register(Customer entity)
         {
-            using(var session = GetSession())
+            using (var session = GetSession())
             {
-                if (_userRepository.IsExist(entity))
+                if (_customerRepository.IsExist(entity))
                 {
-                    return Json(new ResponseInfo(false, "Tên đăng nhập này đã tồn tại! Vui lòng thử một tên khác!"), JsonRequestBehavior.AllowGet);
+                    return Json(new ResponseInfo(false, "Dupplicated user name! Please try enter another!"), JsonRequestBehavior.AllowGet);
                 }
-                var user = _userRepository.Register(entity);
-                if (user!= null)
+                var customer = _customerRepository.Register(entity);
+                if (customer != null)
                 {
-                    setUserSession(user);
-                    return Json( new ResponseInfo(true,"Đăng kí thành công!"),JsonRequestBehavior.AllowGet);
+                    setCustomerSession(customer);
+                    return Json(new ResponseInfo(true, "Register successfully!"), JsonRequestBehavior.AllowGet);
                 }
-                return Json(new ResponseInfo(false, "Đăng kí thất bại!"), JsonRequestBehavior.AllowGet);
+                return Json(new ResponseInfo(false, "Register fail!"), JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult Logout()
         {
-            clearUserSession();
-            return RedirectToAction("Index","Home");
+            clearCustomerSession();
+            clearEmployeeSession();
+            return RedirectToAction("Index", "Home");
         }
-        
-        private void setUserSession(User entity)
+
+        private void setCustomerSession(Customer entity)
         {
-            Session["User"] = entity;
+            Session["Customer"] = entity;
         }
-        private void clearUserSession()
+        private void clearCustomerSession()
         {
-            Session["User"] = null;
+            Session["Customer"] = null;
+        }
+        private void setEmployeeSession(Employee entity)
+        {
+            Session["Employee"] = entity;
+        }
+        private void clearEmployeeSession()
+        {
+            Session["Employee"] = null;
         }
 
 
-        public ActionResult User()
+        public ActionResult Employee()
         {
             return View();
         }
-        public ActionResult DepartmentCategory()
+        public ActionResult Customer()
         {
             return View();
         }
         public ActionResult Department()
         {
-            ViewBag.Categories = _categoryDepartmentRepository.GetAllDepartmentCategories();
             return View();
         }
         public ActionResult ServiceCategory()
@@ -134,12 +147,6 @@ namespace ExcellOn.Controllers
         {
 
             ViewBag.Categories = _categoryProductRepository.GetAllProductCategories();
-            return View();
-        }
-        public ActionResult Employee()
-        {
-            ViewBag.Department = _departmentRepository.GetAllDepartment(); ;
-            ViewBag.Service = _serviceRepository.GetAllService();
             return View();
         }
         public ActionResult UnAuthorized()

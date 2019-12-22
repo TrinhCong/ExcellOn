@@ -1,7 +1,6 @@
 ﻿
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,15 +11,15 @@
 
     <!-- Plugins -->
     <link href="~/Content/plugins/datatables/DataTables-1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fancy-box/jquery.fancybox.min.css" rel="stylesheet" />
 
     <!-- Our Custom CSS -->
     <link href="~/Content/pages/admin.css" rel="stylesheet" />
     <link href="~/Content/pages/custom.css" rel="stylesheet" />
+
     @RenderSection("AdditionStyles", false)
 </head>
-
 <body>
-
     <div class="wrapper">
         <!-- Sidebar Holder -->
         <nav id="sidebar">
@@ -31,23 +30,20 @@
             <ul class="list-unstyled components">
                 @*<p>Dummy Heading</p>*@
                 <li>
-                    <a href="/Admin/User"><i class="fa fa-users"></i> Users</a>
-                </li>
-                <li>
-                    <a href="#departmentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Departments Management</a>
-                    <ul class="collapse list-unstyled" id="departmentSubmenu">
+                    <a href="#accountSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Accounts Management</a>
+                    <ul class="collapse list-unstyled" id="accountSubmenu">
                         <li>
-                            <a href="/Admin/DepartmentCategory"><i class="fa fa-book"></i> Department Categories</a>
+                            <a href="/Admin/Customer"><i class="fa fa-file"></i> Customers</a>
                         </li>
                         <li>
-                            <a href="/Admin/Department"><i class="fa fa-file"></i> Departments</a>
+                            <a href="/Admin/Employee"><i class="fa fa-book"></i> Employees</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="/Admin/Employee"><i class="fa fa-users"></i> Employees</a>
+                    <a href="/Admin/Department"><i class="fa fa-file"></i> Departments Management</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="#serviceSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Services Management</a>
                     <ul class="collapse list-unstyled" id="serviceSubmenu">
                         <li>
@@ -104,7 +100,6 @@
     <!-- Bootstrap JS -->
     <script src="~/Scripts/pages/bootstrap.min.js"></script>
 
-
     <!-- Font Awesome JS -->
     <script src="~/Scripts/pages/fontawesome.js"></script>
     <script src="~/Scripts/pages/solid.js"></script>
@@ -115,6 +110,8 @@
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
+    <script src="~/Content/plugins/fancy-box/jquery.fancybox.min.js"></script>
+
     <!--Custom js-->
     <script src="~/Scripts/pages/page.js"></script>
 
@@ -129,6 +126,13 @@
             }, 100);
             $(window).on('resize', () => {
                 $("#content").height($(window).height() - 120);
+            });
+            var link = $(location).attr('href');
+            $.each($('a'), (index, ele) => {
+                if (link.indexOf($(ele).attr('href')) > -1) {
+                    $(ele).parents('li').attr('class', 'active');
+                    $(ele).closest('ul').addClass("show");
+                }
             });
         });
     </script>

@@ -208,7 +208,7 @@
     <Compile Include="Attributes\CustomAuthorizeAttribute.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -224,12 +224,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AuthHelper.cs" />
     <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\ServiceOrder.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EmployeeService.cs" />
+    <Compile Include="Models\ProductImage.cs" />
     <Compile Include="Models\ServiceImage.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\UserService.cs" />
     <Compile Include="Models\Service.cs" />
     <Compile Include="Models\User.cs" />
@@ -239,7 +244,7 @@
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
     <Compile Include="Repositories\ServiceRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\Sessions\IAppSession.cs" />
     <Compile Include="ViewModels\DepartmentView.cs" />
@@ -329,6 +334,8 @@
     <Content Include="Content\plugins\datatables\datatables.js" />
     <Content Include="Content\plugins\datatables\datatables.min.css" />
     <Content Include="Content\plugins\datatables\datatables.min.js" />
+    <Content Include="Content\plugins\fancy-box\jquery.fancybox.min.css" />
+    <Content Include="Content\plugins\fancy-box\jquery.fancybox.min.js" />
     <Content Include="Content\uploads\about_04.jpg" />
     <Content Include="Content\uploads\blog-01.jpg" />
     <Content Include="Content\uploads\blog-02.jpg" />
@@ -557,23 +564,23 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Service\Index.cshtml" />
     <Content Include="Views\Home\Team.cshtml" />
-    <Content Include="Views\Home\Pricing.cshtml" />
+    <Content Include="Views\Home\Report.cshtml" />
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\Blog.cshtml" />
     <Content Include="Views\Admin\Product.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\ProductCategory.cshtml" />
-    <Content Include="Views\Admin\User.cshtml" />
-    <Content Include="Views\Admin\DepartmentCategory.cshtml" />
+    <Content Include="Views\Admin\Customer.cshtml" />
     <Content Include="Views\Admin\Department.cshtml" />
-    <Content Include="Views\Admin\Employee.cshtml" />
     <Content Include="Views\Admin\ServiceCategory.cshtml" />
     <Content Include="Views\Admin\Service.cshtml" />
     <Content Include="Views\Admin\UnAuthorized.cshtml" />
+    <Content Include="Views\Admin\Employee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\avatars\" />
+    <Folder Include="Content\uploads\products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

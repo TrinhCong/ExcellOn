@@ -14,12 +14,8 @@ namespace ExcellOn.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public string name { get; set; }
-        [ForeignKey(nameof(category))]
-        public int cat_id { get; set; }
+        public int parent_id { get; set; }
         public string description { get; set; }
-
-        [NotMapped]
-        public virtual CategoryDepartment category { get; set; }
     }
 
      
