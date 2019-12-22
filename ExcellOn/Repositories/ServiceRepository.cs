@@ -17,6 +17,7 @@ namespace ExcellOn.Repositories
     {
 
         List<Service> GetAllService();
+        List<Service> GetServiceByCategoryId(int CategoryId);
     }
     public class ServiceRepository : Repository<Service, int>, IServiceRepository
     {
@@ -32,6 +33,16 @@ namespace ExcellOn.Repositories
                 return items;
             }
         }
+
+        public List<Service> GetServiceByCategoryId(int CategoryId)
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                List<Service> list = session.Query<Service>("Select * from services where cat_id=" + CategoryId).ToList();
+                return list;
+            }
+        }
+
         public bool IsServiceExist(Service entity)
         {
             using (var session = Factory.Create<IAppSession>())

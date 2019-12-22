@@ -20,18 +20,24 @@ namespace ExcellOn.Controllers
         private readonly CategoryRepository<CategoryProduct> _categoryProductRepository;
         private readonly CategoryRepository<CategoryDepartment> _categoryDepartmentRepository;
         private readonly CategoryRepository<CategoryService> _categoryServiceRepository;
+        private readonly ServiceRepository _serviceRepository;
+        private readonly DepartmentRepository _departmentRepository;
         public AdminController(
                                 IDbFactory dbFactory,
                                 UserRepository userRepository,
                                 CategoryRepository<CategoryProduct> categoryProductRepository,
                                 CategoryRepository<CategoryService> categoryServiceRepository,
-                                CategoryRepository<CategoryDepartment> categoryDepartmentRepository
+                                CategoryRepository<CategoryDepartment> categoryDepartmentRepository,
+                                ServiceRepository serviceRepository,
+                                DepartmentRepository departmentRepository
                                 ) : base(dbFactory)
         {
             _userRepository = userRepository;
             _categoryProductRepository = categoryProductRepository;
             _categoryServiceRepository = categoryServiceRepository;
             _categoryDepartmentRepository = categoryDepartmentRepository;
+            _departmentRepository = departmentRepository;
+            _serviceRepository = serviceRepository;
         }
         public ActionResult Index()
         {
@@ -117,6 +123,7 @@ namespace ExcellOn.Controllers
         public ActionResult Service()
         {
             ViewBag.Categories = _categoryServiceRepository.GetAllServiceCategories();
+
             return View();
         }
         public ActionResult ProductCategory()
@@ -131,6 +138,8 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Employee()
         {
+            ViewBag.Department = _departmentRepository.GetAllDepartment(); ;
+            ViewBag.Service = _serviceRepository.GetAllService();
             return View();
         }
         public ActionResult UnAuthorized()

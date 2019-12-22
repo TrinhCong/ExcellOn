@@ -115,7 +115,7 @@ namespace ExcellOn.Controllers
                         if (!_serviceRepository.IsServiceExist(entity))
                         {
                             _serviceRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update service category successfully!"), JsonRequestBehavior.AllowGet);
+                            return Json(new ResponseInfo(true, "Update service successfully!"), JsonRequestBehavior.AllowGet);
                         }
                         else
                             return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
@@ -123,7 +123,7 @@ namespace ExcellOn.Controllers
                     }
                     catch (Exception e)
                     {
-                        return Json(new ResponseInfo(false, "Update service category fail!"), JsonRequestBehavior.AllowGet);
+                        return Json(new ResponseInfo(false, "Update service fail!"), JsonRequestBehavior.AllowGet);
                     }
                 }
             }
@@ -131,9 +131,14 @@ namespace ExcellOn.Controllers
 
         // GET: Service
 
-        public ActionResult Index()
+        public ActionResult Index(int catId = 0)
         {
-                return View("Index");
+            if (catId == 0)
+                ViewBag.Services = _serviceRepository.GetAllService();
+            else
+                ViewBag.Services = _serviceRepository.GetServiceByCategoryId(catId);
+            ViewBag.Categories = _categoryServiceRepository.GetAllServiceCategories();
+            return View("Index");
         }
         public ActionResult Create()
         {
