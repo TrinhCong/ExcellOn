@@ -1,4 +1,5 @@
-﻿using ExcellOn.Models;
+﻿using ExcellOn.Enums;
+using ExcellOn.Models;
 using ExcellOn.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,20 @@ namespace ExcellOn.Attributes
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            User user = (User)HttpContext.Current.Session["User"];
-            if (user != null)
+            Customer customer = (Customer)HttpContext.Current.Session["Customer"];
+            Employee employee = (Employee)HttpContext.Current.Session["Employee"];
+            if (customer != null)
             {
                 var roles = Roles.Split(',');
-                if (roles.Contains(user.role.name))
+                if (roles.Contains(EnumRoleName.CUSTOMER))
+                {
+                    return true;
+                }
+            }
+            else if(employee!=null)
+            {
+                var roles = Roles.Split(',');
+                if (roles.Contains(employee.role.name))
                 {
                     return true;
                 }

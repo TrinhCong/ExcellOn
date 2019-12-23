@@ -7,18 +7,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExcellOn.Models
 {
-    [Table("service_images", Schema = "dbo")]
-    public class ServiceImage
+    [Table("employee_services", Schema = "dbo")]
+    public class EmployeeService
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
-        public string path { get; set; }
-        public string original_name { get; set; }
         [ForeignKey(nameof(service))]
         public int service_id { get; set; }
+        public DateTime updated_date { get; set; }
         [NotMapped]
         public virtual Service service { get; set; }
     }
-     
 }

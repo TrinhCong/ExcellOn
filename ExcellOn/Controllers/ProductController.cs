@@ -10,17 +10,19 @@ using ExcellOn.Models;
 using PagedList;
 using ExcellOn.ViewModels;
 using Dapper;
+using System.IO;
+using Dapper.FastCrud;
 
 namespace ExcellOn.Controllers
 {
     public class ProductController : BaseController
     {
-        private readonly ProductRepository  _productRepository;
+        private readonly ProductRepository _productRepository;
         private readonly CategoryRepository<CategoryProduct> _categoryRepository;
 
 
         public ProductController(
-                                IDbFactory dbFactory, 
+                                IDbFactory dbFactory,
                                 ProductRepository productRepository,
                                 CategoryRepository<CategoryProduct> categoryRepository
                                 ) : base(dbFactory)
@@ -36,7 +38,7 @@ namespace ExcellOn.Controllers
             var items = _categoryRepository.GetAllProductCategories();
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
-    
+
         public ActionResult GetAllProducts()
         {
             var product = _productRepository.GetAllProducts();
@@ -45,17 +47,17 @@ namespace ExcellOn.Controllers
 
 
         public ActionResult DeleteCategory(int id)
-        { 
+        {
             using (var session = GetSession())
             {
                 try
                 {
-                    session.Query("Delete from cat_products where id="+id);
-                    return Json(new ResponseInfo(true),JsonRequestBehavior.AllowGet);
+                    session.Query("Delete from cat_products where id=" + id);
+                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
-                    return Json(new ResponseInfo(false, "Delete user fail!"), JsonRequestBehavior.AllowGet);
+                    return Json(new ResponseInfo(false, "Delete category fail!"), JsonRequestBehavior.AllowGet);
                 }
             }
 
@@ -92,7 +94,9 @@ namespace ExcellOn.Controllers
 
         public ActionResult Index()
         {
-                return View("Index");
+            ViewBag.ProductCategories = _categoryRepository.GetAllProductCategories();
+            ViewBag.Product = _productRepository.GetAllProducts();
+            return View("Index");
         }
         public ActionResult Create()
         {
@@ -101,28 +105,47 @@ namespace ExcellOn.Controllers
 
         //Creat or Update Product table
         [HttpPost]
-        public ActionResult CreateOrUpdateProduct(Product entity)
+        public ActionResult CreateOrUpdateProduct(Product entity, IEnumerable<HttpPostedFileBase> files)
         {
             using (var session = GetSession())
             {
-                using (var uow = session.UnitOfWork())
-                {
-                    try
-                    {
-                        if (!_productRepository.IsProductExist(entity))
-                        {
-                     
-                            _productRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update product successfully!"), JsonRequestBehavior.AllowGet);
-                        }
-                        else
-                            return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
 
-                    }
-                    catch (Exception e)
+                try
+                {
+                    if (!_productRepository.IsProductExist(entity))
                     {
-                        return Json(new ResponseInfo(false, "Update product fail!"), JsonRequestBehavior.AllowGet);
+                        using (var uow = session.UnitOfWork())
+                        { _productRepository.SaveOrUpdate(entity, uow); }
+
+
+                        if (files != null && files.Count() > 0)
+                        {
+                            DeleteFiles(entity.id);
+                            var directory = Server.MapPath("~/Content/uploads/products");
+                            if (!Directory.Exists(directory))
+                                Directory.CreateDirectory(directory);
+                            foreach (var file in files)
+                            {
+                                string fileName = Path.GetFileName(string.Format("{0}{1}", DateTime.Now.Ticks.GetHashCode().ToString("x"), Path.GetExtension(file.FileName)));
+                                file.SaveAs(directory +"/"+ fileName);
+                                session.Insert(new ProductImage
+                                {
+                                    original_name = file.FileName,
+                                    path = "/Content/uploads/products/" + fileName,
+                                    product_id = entity.id
+                                });
+                            }
+
+                        }
+                        return Json(new ResponseInfo(true, "Update product successfully!"), JsonRequestBehavior.AllowGet);
                     }
+                    else
+                        return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
+
+                }
+                catch (Exception e)
+                {
+                    return Json(new ResponseInfo(false, "Update product fail!"), JsonRequestBehavior.AllowGet);
                 }
             }
         }
@@ -142,7 +165,7 @@ namespace ExcellOn.Controllers
 
                 if (editItem != null)
                 {
-                   return View(editItem);
+                    return View(editItem);
                 }
                 else
                     return HttpNotFound();
@@ -162,11 +185,12 @@ namespace ExcellOn.Controllers
         [HttpGet]
         public ActionResult DeleteProduct(int id)
         {
-            using(var session = GetSession())
+            using (var session = GetSession())
             {
                 try
                 {
                     session.Query("Delete from products where id=" + id);
+                    DeleteFiles(id);
                     return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -175,6 +199,25 @@ namespace ExcellOn.Controllers
                 }
             }
 
+        }
+        private void DeleteFiles(int productId)
+        {
+            using (var session = GetSession())
+            {
+                var existImages = session.Find<ProductImage>(stm => stm.Where($"{nameof(ProductImage.product_id)}={productId}"));
+                if (existImages.Count() > 0)
+                {
+                    foreach (var image in existImages)
+                    {
+                        var file = Server.MapPath(image.path);
+                        if (System.IO.File.Exists(file))
+                        {
+                            System.IO.File.Delete(file);
+                        }
+                    }
+                }
+                session.Query("Delete from product_images where product_id=" + productId);
+            }
         }
 
     }

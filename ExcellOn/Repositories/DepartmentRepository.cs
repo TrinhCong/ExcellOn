@@ -28,7 +28,7 @@ namespace ExcellOn.Repositories
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Department> items = session.Find<Department>(stm => stm.Include<CategoryDepartment>().OrderBy($"{Sql.Table<Department>()}.{nameof(Department.name)}")).ToList();
+                List<Department> items = session.Find<Department>(stm => stm.OrderBy($"{Sql.Table<Department>()}.{nameof(Department.name)}")).ToList();
                 return items;
             }
         }
@@ -38,12 +38,12 @@ namespace ExcellOn.Repositories
             {
                 if (entity.id == 0)
                 {
-                    var existItems = session.Query<List<Department>>("Select * from departments where name='" + entity.name + "'");
+                    var existItems = session.Query<Department>("Select * from departments where name='" + entity.name + "'");
                     return existItems.Count() > 0;
                 }
                 else
                 {
-                    var existItems = session.Query<List<Department>>("Select * from departments where name='" + entity.name + "' AND id<>" + entity.id);
+                    var existItems = session.Query<Department>("Select * from departments where name='" + entity.name + "' AND id<>" + entity.id);
                     return existItems.Count() > 0;
                 }
             }
