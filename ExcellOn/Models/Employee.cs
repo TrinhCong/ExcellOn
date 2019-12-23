@@ -8,23 +8,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ExcellOn.Models
 {
     [Table("employees", Schema = "dbo")]
-    public class Employee
+    public class Employee:User
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
-        public string name { get; set; }
+        [ForeignKey(nameof(role))]
+        public int role_id { get; set; }
+
         [ForeignKey(nameof(department))]
         public int department_id { get; set; }
-        [ForeignKey(nameof(service))]
-        public int service_id { get; set; }
-        public string description { get; set; }
+
 
         [NotMapped]
         public virtual Department department { get; set; }
         [NotMapped]
-        public virtual Service service { get; set; }
+        public virtual UserRole role { get; set; }
     }
 
-     
+
 }

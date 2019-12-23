@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Dapper.FastCrud;
 using ExcellOn.Attributes;
 using ExcellOn.Enums;
+using ExcellOn.Helpers;
 using ExcellOn.Models;
 using ExcellOn.Repositories;
 using ExcellOn.Repositories.Sessions;
@@ -16,31 +17,31 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 
 namespace ExcellOn.Controllers
 {
-    [CustomAuthorize(Roles =EnumRoleName.ADMIN+","+EnumRoleName.SA)]
-    public class UserController : BaseController
+    //[CustomAuthorize(Roles =EnumRoleName.SA)]
+    public class CustomerController : BaseController
     {
-        private readonly IUserRepository _userRepository;
-        public UserController(
+        private readonly ICustomerRepository _customerRepository;
+        public CustomerController(
                                 IDbFactory dbFactory,
-                                UserRepository userRepository
+                                CustomerRepository customerRepository
                                 ) : base(dbFactory)
         {
-            _userRepository = userRepository;
+            _customerRepository = customerRepository;
         }
         public ActionResult GetAll()
         {
-            var user =(User)Session["User"];
+            var customer = (Customer)Session["Customer"];
             string condition = null;
-            if (user != null)
+            if (customer != null)
             {
-                condition = $"{Sql.Table<User>()}.{nameof(Models.User.id)}<>{user.id}";
+                condition = $"{Sql.Table<Customer>()}.{nameof(Models.Customer.id)}<>{customer.id}";
             }
-            var items = _userRepository.GetItems(condition);
+            var items = _customerRepository.GetItems(condition);
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult CreateOrUpdate(User entity)
+        public ActionResult CreateOrUpdate(Customer entity)
         {
             using (var session = GetSession())
             {
@@ -55,19 +56,19 @@ namespace ExcellOn.Controllers
                             entity.avatar.SaveAs(entity.avatar_path);
                             entity.avatar_path = fileName;
                         }
-                        entity.hash_password = _userRepository.EncryptPassword(entity.password);
-                        if (!_userRepository.IsExist(entity))
+                        entity.hash_password = AuthHelper.EncryptPassword(entity.password);
+                        if (!_customerRepository.IsExist(entity))
                         {
-                            _userRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update user successfully!"),JsonRequestBehavior.AllowGet);
+                            _customerRepository.SaveOrUpdate(entity, uow);
+                            return Json(new ResponseInfo(true, "Update customer successfully!"),JsonRequestBehavior.AllowGet);
                         }
                         else
-                            return Json(new ResponseInfo(false, "Dupplicate user name!"), JsonRequestBehavior.AllowGet);
+                            return Json(new ResponseInfo(false, "Dupplicate customer name!"), JsonRequestBehavior.AllowGet);
 
                     }
                     catch (Exception e)
                     {
-                        return Json(new ResponseInfo(false, "Update user fail!"), JsonRequestBehavior.AllowGet);
+                        return Json(new ResponseInfo(false, "Update customer fail!"), JsonRequestBehavior.AllowGet);
                     }
                 }
             }
@@ -80,12 +81,12 @@ namespace ExcellOn.Controllers
             {
                 try
                 {
-                    _userRepository.DeleteKey(id, session);
+                    _customerRepository.DeleteKey(id, session);
                     return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
-                    return Json(new ResponseInfo(false, "Delete user fail!"), JsonRequestBehavior.AllowGet);
+                    return Json(new ResponseInfo(false, "Delete customer fail!"), JsonRequestBehavior.AllowGet);
                 }
             }
 

@@ -16,24 +16,13 @@ namespace ExcellOn.Controllers
     public class DepartmentController : BaseController
     {
         private readonly DepartmentRepository _departmentRepository;
-        private readonly CategoryRepository<CategoryDepartment> _categoryDepartmentRepository;
         public DepartmentController(
                                 IDbFactory dbFactory,
-                                DepartmentRepository departmentRepository,
-                                CategoryRepository<CategoryDepartment> categoryDepartmentRepository
+                                DepartmentRepository departmentRepository
                                 ) : base(dbFactory)
         {
             _departmentRepository = departmentRepository;
-            _categoryDepartmentRepository = categoryDepartmentRepository;
         }
-
-
-        public ActionResult GetAllDepartmentCategories()
-        {
-            var items = _categoryDepartmentRepository.GetAllDepartmentCategories();
-            return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
-        }
-
 
         public ActionResult DeleteDepartmentCategory(int id)
         {
@@ -53,31 +42,6 @@ namespace ExcellOn.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult CreateOrUpdateDepartmentCategory(CategoryDepartment entity)
-        {
-            using (var session = GetSession())
-            {
-                using (var uow = session.UnitOfWork())
-                {
-                    try
-                    {
-                        if (!_categoryDepartmentRepository.IsCategoryDepartmentExist(entity))
-                        {
-                            _categoryDepartmentRepository.SaveOrUpdate(entity, uow);
-                            return Json(new ResponseInfo(true, "Update department category successfully!"), JsonRequestBehavior.AllowGet);
-                        }
-                        else
-                            return Json(new ResponseInfo(false, "Dupplicate name!"), JsonRequestBehavior.AllowGet);
-
-                    }
-                    catch (Exception e)
-                    {
-                        return Json(new ResponseInfo(false, "Update department category fail!"), JsonRequestBehavior.AllowGet);
-                    }
-                }
-            }
-        }
         //============== Department===================
         public ActionResult GetAllDepartment()
         {

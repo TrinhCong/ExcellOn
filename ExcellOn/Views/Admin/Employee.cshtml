@@ -13,7 +13,7 @@
 <div class=" no-margin">
     <div class="content-title">
         <div class="caption">
-            <span class="caption-subject font-green-sharp bold uppercase">Employee Management</span>
+            <span class="caption-subject font-green-sharp bold uppercase">User Management</span>
         </div>
     </div>
     <div class="content-body">
@@ -27,11 +27,13 @@
                 </div>
             </div>
         </div>
-        <table id="product_category" class="display table table-striped" style="width:100%"></table>
+        <table id="user_tbl" class="display table table-striped" style="width:100%"></table>
     </div>
 </div>
 
 <!-- Modal -->
+@* Click Add new show Them moi *@
+
 <div class="modal fade" id="create_modal" data-backdrop="false" tabindex="1" role="dialog" aria-labelledby="create_modal_title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form>
@@ -44,30 +46,54 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="" class="control-label">Employee Name<span class="required">*</span></label>
-                        <input type="text" class="form-control" name="name" required />
+                        <label for="" class="control-label">Full Name<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="display_name" required />
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Department Name</label>
-                        <select type="text" class="form-control" name="department_id" required>
-                            @foreach (var item in ViewBag.Department)
-                            {
-                                <option value="@item.id">@item.name</option>
-                            }
+                        <label for="" class="control-label">User Name<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="user_name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Password<span class="required">*</span></label>
+                        <input type="password" class="form-control" name="password" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Role<span class="required">*</span></label>
+                        <select name="role_id" class="form-control" required>
+                            <option value="1">
+                                Admin
+                            </option>
+                            <option value="2">
+                                Employee
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Service Name</label>
-                        <select type="text" class="form-control" name="service_id" required>
-                            @foreach (var item in ViewBag.Service)
-                            {
-                                <option value="@item.id">@item.name</option>
-                            }
+                        <label for="" class="control-label">phone_number<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="phone_number" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">email<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">address<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="address" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Gender<span class="required">*</span></label>
+                        <select name="gender" class="form-control" required>
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Description<span class="required">*</span></label>
-                        <textarea rows="3" class="form-control" name="description" required></textarea>
+                        <label for="" class="control-label">Date Of Birth<span class="required">*</span></label>
+                        <input type="date" class="form-control" name="date_of_birth" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Avatar </label>
+                        <input type="file" class="form-control" name="avatar" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -82,12 +108,13 @@
     </div>
 </div>
 
+@* Click Edit show Update *@
 <div class="modal fade" id="edit_modal" data-backdrop="false" tabindex="1" role="dialog" aria-labelledby="update_modal_title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="update_modal_title">Update Employee</h5>
+                    <h5 class="modal-title" id="update_modal_title">Update</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -95,34 +122,55 @@
                 <div class="modal-body">
                     <input type="hidden" class="form-control" name="id" required />
                     <div class="form-group">
-                        <label for="" class="control-label">Employee Name<span class="required">*</span></label>
-                        <input type="text" class="form-control" name="name" required />
+                        <label for="" class="control-label">Full Name<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="display_name" required />
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Department Name</label>
-                        <select type="text" class="form-control" name="department_id" required>
-                            @foreach (var item in ViewBag.Department)
-                            {
-                                <option value="@item.id">@item.name</option>
-                            }
+                        <label for="" class="control-label">User Name<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="user_name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Password<span class="required">*</span></label>
+                        <input type="password" class="form-control" name="password" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Role<span class="required">*</span></label>
+                        <select name="role_id" class="form-control" required>
+                            <option value="1">
+                                Admin
+                            </option>
+                            <option value="2">
+                                Employee
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Service Name</label>
-                        <select type="text" class="form-control" name="service_id" required>
-                            @foreach (var item in ViewBag.Service)
-                            {
-                                <option value="@item.id">@item.name</option>
-                            }
+                        <label for="" class="control-label">phone_number<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="phone_number" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">email<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">address<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="address" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Gender<span class="required">*</span></label>
+                        <select name="gender" class="form-control" required>
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
                         </select>
                     </div>
-
-
                     <div class="form-group">
-                        <label for="" class="control-label">Description<span class="required">*</span></label>
-                        <textarea rows="3" class="form-control" name="description" required></textarea>
+                        <label for="" class="control-label">Date Of Birth<span class="required">*</span></label>
+                        <input type="date" class="form-control" name="date_of_birth" required />
                     </div>
-
+                    <div class="form-group">
+                        <label for="" class="control-label">Avatar </label>
+                        <input type="file" class="form-control" name="avatar" />
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div style="margin:auto">
@@ -136,46 +184,67 @@
     </div>
 </div>
 
-
+@* Click View show Detail *@
 <div class="modal fade" id="view_modal" data-backdrop="false" tabindex="1" role="dialog" aria-labelledby="view_modal_title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="view_modal_title">Detail Employee</h5>
+                    <h5 class="modal-title" id="view_modal_title">Detail</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="" class="control-label">Employee Name</label>
-                        <input type="text" class="form-control" name="name" readonly />
+                        <label for="" class="control-label">Avatar </label>
+                        <div style="margin:auto; width:120px;">
+                            <img src="~/Content/images/no_avatar.png" width="120" />
+                        </div>
+
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Department Name</label>
-                        <select type="text" class="form-control" name="department_id" readonly>
-                            @foreach (var item in ViewBag.Department)
-                            {
-                                <option value="@item.id">@item.name</option>
-                            }
+                        <label for="" class="control-label">Full Name</label>
+                        <input type="text" class="form-control" name="display_name" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">User Name</label>
+                        <input type="text" class="form-control" name="user_name" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Role<span class="required">*</span></label>
+                        <select name="role_id" class="form-control" required>
+                            <option value="1">
+                                Admin
+                            </option>
+                            <option value="2">
+                                Employee
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Service Name</label>
-                        <select type="text" class="form-control" name="service_id" readonly>
-                            @foreach (var item in ViewBag.Service)
-                            {
-                                <option value="@item.id">@item.name</option>
-                            }
+                        <label for="" class="control-label">phone_number</label>
+                        <input type="text" class="form-control" name="phone_number" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">email</label>
+                        <input type="text" class="form-control" name="email" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">address</label>
+                        <input type="text" class="form-control" name="address" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Gender</label>
+                        <select name="gender" class="form-control">
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label">Description</label>
-                        <textarea class="form-control" name="description" rows="3" readonly></textarea>
+                        <label for="" class="control-label">Date Of Birth</label>
+                        <input type="date" class="form-control" name="date_of_birth" readonly />
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <div style="margin:auto">
@@ -193,7 +262,7 @@
         class PageHandler {
             constructor() {
                 var instance = this;
-                instance.$table = $("#product_category");
+                instance.$table = $("#user_tbl");
                 instance.$createMd = $("#create_modal");
                 instance.$createMd.find(".create").on('click', (e) => {
                     e.preventDefault();
@@ -222,7 +291,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Employee/GetAllEmployee",
+                        url: "/Employee/GetAll",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -239,37 +308,60 @@
 
                     columns: [
                         {
-                            title: 'Employee Name',
-                            data: 'name'
+                            title: 'Avatar',
+                            data: 'avatar_path',
+                            render: function (data, type, row, meta) {
+                                var avatarSrc = data && data != "null" ? "/Content/uploads/avatars/" + data : "/Content/images/no_avatar.png";
+                                return '<img src="' + avatarSrc + '" width="30" height="30" />';
+                            },
+
                         },
                         {
-                            title: 'Department Name',
-                            data: 'department_id'
+                            title: 'Full name',
+                            data: 'display_name'
                         },
                         {
-                            title: 'Service Name',
-                            data: 'service_id'
+                            title: 'User name',
+                            data: 'user_name'
                         },
                         {
-                            title: 'Description',
-                            data: 'description'
+                            title: 'Email',
+                            data: 'email'
                         },
-                        
+                        {
+                            title: 'Role',
+                            data: 'role.description'
+                        },
+                        {
+                            title: 'Date of birth',
+                            data: 'dob',
+                        },
+                        {
+                            title: 'Address',
+                            data: 'address',
+                        },
+                        {
+                            title: 'Gender',
+                            data: 'gender',
+                            render: function (data, type, row, meta) {
+                                return data == 1 ? "Male" : "Female";
+                            },
+                        },
                         {
                             title: 'Actions',
                             render: function (data, type, row, meta) {
                                 return `<a class="btn btn-sm btn-primary view-item" role="button" data-toggle="modal" href="#view_modal" aria-expanded="false">
-                                                                                View
-                                                                                <i class="fa fa-eye"></i>
-                                                                            </a>
-                                                                            <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
-                                                                                Edit
-                                                                                <i class="fa fa-edit"></i>
-                                                                            </a>
-                                                                            <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
-                                                                                Delete
-                                                                                <i class="fa fa-trash"></i>
-                                                                            </a>`;
+                                                    View
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
+                                                    Edit
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
+                                                    Delete
+                                                    <i class="fa fa-trash"></i>
+                                                </a>`;
                             },
                             width: '220px',
                             className: 'text-center'
@@ -278,42 +370,39 @@
                     columnDefs: [
                         {
                             orderable: false,
-                            targets: [4]
+                            targets: [8]
                         }
                     ],
-
                     "initComplete": function (settings, json) {
-                        instance.bindEvents();
+                       instance.bindEvents();
                     }
                 });
 
             }
-            reloadTable() {
-                var instance = this;
-                instance.dtTable.ajax.reload(() => {
-                    instance.bindEvents();
-                }, true);
-            }
             bindEvents() {
                 var instance = this;
-                instance.$table.find(' a.delete-item').on('click', (e) => {
-                    e.preventDefault();
-                    var selectedRow = $(e.target).parents('tr')[0];
-                    var data = instance.dtTable.row(selectedRow).data();
-                    instance.delete(data);
-                });
-                instance.$table.find('a.edit-item').on('click', (e) => {
-                    e.preventDefault();
-                    var selectedRow = $(e.target).parents('tr')[0];
-                    var data = instance.dtTable.row(selectedRow).data();
-                    instance.bindEditData(data);
-                });
-                instance.$table.find('a.view-item').on('click', (e) => {
-                    e.preventDefault();
-                    var selectedRow = $(e.target).parents('tr')[0];
-                    var data = instance.dtTable.row(selectedRow).data();
-                    instance.bindViewData(data);
-                });
+                instance.$table.find('a.delete-item').on('click', (e) => {
+                            e.preventDefault();
+                            var selectedRow = $(this).parents('tr')[0];
+                            var data = instance.dtTable.row(selectedRow).data();
+                            instance.delete(data);
+                        });
+                        instance.$table.find('a.edit-item').on('click', (e) => {
+                            e.preventDefault();
+                            var selectedRow = $(this).parents('tr')[0];
+                            var data = instance.dtTable.row(selectedRow).data();
+                            instance.bindEditData(data);
+                        });
+                        instance.$table.find('a.view-item').on('click', (e) => {
+                            e.preventDefault();
+                            var selectedRow = $(this).parents('tr')[0];
+                            var data = instance.dtTable.row(selectedRow).data();
+                            instance.bindViewData(data);
+                        });
+            }
+            reloadTable() {
+                var instance = this;
+                instance.dtTable.ajax.reload(()=>{ instance.bindEvents(); },true);
             }
             createValidation() {
                 var instance = this;
@@ -328,17 +417,52 @@
                         instance.createData[$(item).attr("name")] = $(item).val();
                     }
                 });
-                return isValid;
+                if (isValid) {
+                    if (!EXO.isValidUserName(instance.createData.user_name)) {
+                        EXO.alert("Username is 2-20 characters and digits, no _ or . at the beginning and the end!");
+                        return false;
+                    }
+                    else
+                        if (!EXO.isValidPassword(instance.createData.password)) {
+                            EXO.alert("Password must has digits, characters and at least 6 characters!");
+                            return false;
+                        }
+                        else
+                            if (!EXO.isValidPhoneNumber(instance.createData.phone_number)) {
+                                EXO.alert("Please enter a valid phone number!");
+                                return false;
+                            }
+                            else
+                                if (!EXO.isEmail(instance.createData.email)) {
+                                    EXO.alert("Please enter a valid email!");
+                                    return false;
+                                } else
+                                    return true;
+
+                }
+                return false;
             }
             create() {
                 var instance = this;
                 if (instance.createValidation()) {
                     var data = new FormData();
+                    $.each(instance.createData, (key, value) => {
+                        if (key != "avatar") {
+                            data.append(key, value);
+                        }
+                    });
+                    var file = instance.$createMd.find("[name=avatar]")[0].files[0];
+                    if (file != null) {
+                        data.append("avatar", file);
+                    }
                     $.ajax({
-                        url: '/Employee/CreateOrUpdateEmployee',
+                        url: '/Employee/CreateOrUpdate',
                         type: 'POST',
-                        data: instance.createData,
+                        data: data,
+                        cache: false,
                         dataType: 'json',
+                        processData: false,
+                        contentType: false,
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
                                 instance.$createMd.find("form")[0].reset();
@@ -362,7 +486,6 @@
                     if (item.length > 0)
                         item.val(value);
                 });
-
                 var avatarSrc = data.avatar_path && data.avatar_path != "null" ? "/Content/uploads/avatars/" + data.avatar_path : "/Content/images/no_avatar.png";
                 $form.find('img').attr('src', avatarSrc)
             }
@@ -388,17 +511,52 @@
                         instance.editData[$(item).attr("name")] = $(item).val();
                     }
                 });
-                return isValid;
+                if (isValid) {
+                    if (!EXO.isValidUserName(instance.editData.user_name)) {
+                        EXO.alert("Username is 2-20 characters and digits, no _ or . at the beginning and the end!");
+                        return false;
+                    }
+                    else
+                        if (!EXO.isValidPassword(instance.editData.password)) {
+                            EXO.alert("Password must has digits, characters and at least 6 characters!");
+                            return false;
+                        }
+                        else
+                            if (!EXO.isValidPhoneNumber(instance.editData.phone_number)) {
+                                EXO.alert("Please enter a valid phone number!");
+                                return false;
+                            }
+                            else
+                                if (!EXO.isEmail(instance.editData.email)) {
+                                    EXO.alert("Please enter a valid email!");
+                                    return false;
+                                } else
+                                    return true;
+
+                }
+                return false;
             }
             edit() {
                 var instance = this;
                 if (instance.editValidation()) {
                     var data = new FormData();
+                    $.each(instance.editData, (key, value) => {
+                        if (key != "avatar") {
+                            data.append(key, value);
+                        }
+                    });
+                    var file = instance.$editMd.find("[name=avatar]")[0].files[0];
+                    if (file != null) {
+                        data.append("avatar", file);
+                    }
                     $.ajax({
-                        url: '/Employee/CreateOrUpdateEmployee',
+                        url: '/Employee/CreateOrUpdate',
                         type: 'POST',
-                        data: instance.editData,
+                        data: data,
+                        cache: false,
                         dataType: 'json',
+                        processData: false,
+                        contentType: false,
                         success(response, textStatus, jqXHR) {
                             if (response.success) {
                                 instance.$editMd.find("form")[0].reset();
@@ -416,27 +574,27 @@
             }
             delete(data) {
                 var instance = this;
-                EXO.confirm("Are you sure to delete this Employee?", response => {
+                EXO.confirm("Are you sure to delete this user?", response => {
                     if (response.value)
                         $.ajax({
-                            url: "/Employee/DeleteEmployee",
+                            url: "/Employee/Delete",
                             data: { id: data.id },
-                            type: 'get'
+                            type: 'post'
                         }).done(function (response) {
                             if (response.success) {
                                 instance.$createMd.find("form")[0].reset();
                                 instance.reloadTable();
                                 instance.$createMd.hide();
                             }
-                            else
-                                EXO.alert("Cannot delete this Employee, Because It's used by another products!");
+                            if (response.message && response.message != "null")
+                                EXO.alert(response.message);
                         });
                 });
             }
         }
-
+        var UserHandler = null;
         $(document).ready(function () {
-            new PageHandler();
+            UserHandler= new PageHandler();
         });
     </script>
 }
