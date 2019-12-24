@@ -18,7 +18,7 @@ namespace ExcellOn.Controllers
     public class ServiceController : BaseController
     {
         private readonly ServiceRepository _serviceRepository;
-        private readonly CategoryRepository<CategoryService> _categoryRepository;
+        private readonly CategoryRepository<CategoryService> _categoryServiceRepository;
 
 
         public ServiceController(
@@ -28,14 +28,14 @@ namespace ExcellOn.Controllers
                                 ) : base(dbFactory)
         {
             _serviceRepository = serviceRepository;
-            _categoryRepository = categoryRepository;
+            _categoryServiceRepository = categoryRepository;
         }
 
 
 
-        public ActionResult GetAllCategories()
+        public ActionResult GetAllServiceCategories()
         {
-            var items = _categoryRepository.GetAllServiceCategories();
+            var items = _categoryServiceRepository.GetAllServiceCategories();
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
 
@@ -73,9 +73,9 @@ namespace ExcellOn.Controllers
                 {
                     try
                     {
-                        if (!_categoryRepository.IsCategoryServiceExist(entity))
+                        if (!_categoryServiceRepository.IsCategoryServiceExist(entity))
                         {
-                            _categoryRepository.SaveOrUpdate(entity, uow);
+                            _categoryServiceRepository.SaveOrUpdate(entity, uow);
                             return Json(new ResponseInfo(true, "Update category successfully!"), JsonRequestBehavior.AllowGet);
                         }
                         else
@@ -94,6 +94,10 @@ namespace ExcellOn.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Categories = _categoryServiceRepository.GetAllServiceCategories();
+
+            ViewBag.Services = _serviceRepository.GetAllServices();
+
             return View("Index");
         }
         public ActionResult Create()

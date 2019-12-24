@@ -136,7 +136,7 @@ namespace ExcellOn.Controllers
         public ActionResult Service()
         {
             ViewBag.Categories = _categoryServiceRepository.GetAllServiceCategories();
-
+            ViewBag.Services = _serviceRepository.GetAllServices();
             return View();
         }
         public ActionResult ProductCategory()
@@ -145,7 +145,7 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Product()
         {
-
+            
             ViewBag.Categories = _categoryProductRepository.GetAllProductCategories();
             return View();
         }
