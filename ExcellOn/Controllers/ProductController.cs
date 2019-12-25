@@ -96,7 +96,7 @@ namespace ExcellOn.Controllers
         {
             ViewBag.ProductCategories = _categoryRepository.GetAllProductCategories();
             ViewBag.Product = _productRepository.GetAllProducts();
-            return View("Index");
+            return View();
         }
         public ActionResult Create()
         {
