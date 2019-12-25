@@ -59,29 +59,30 @@
         <div class="gallery-menu row">
             <div class="col-md-12">
                 <div class="button-group filter-button-group text-center">
-                    <a href="/Service/Index"><button class="hvr-rectangle-out active">All</button></a>
+                    <button class="hvr-rectangle-out active" data-filter="*">All</button>
                     @foreach (var item in ViewBag.Categories)
                     {
-                        <a href="/Service/Index?catId=@item.id"><button class="hvr-rectangle-out">@item.name</button></a>
+                        <button class="hvr-rectangle-out " data-filter=".@item.id">@item.name</button>
                     }
                 </div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row gallery-list">
 
             @foreach (var item in ViewBag.Services)
             {
-                <div class="col-md-4">
+                <div class="col-md-3 col-sm-4 gallery-grid @item.cat_id" style="padding:10px;">
                     <div class="services-inner-box">
                         <div class="ser-icon">
                             <i class="flaticon-seo"></i>
                         </div>
                         <h2>@item.name</h2>
-                        <p>@item.description</p>
+                        <p style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">@item.description</p>
                     </div>
                 </div><!-- end col -->
             }
+
         </div><!-- end row -->
     </div><!-- end container -->
 </div><!-- end section -->

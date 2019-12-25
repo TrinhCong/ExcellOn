@@ -16,9 +16,8 @@ namespace ExcellOn.Repositories
     public interface IServiceRepository : IRepository<Service, int>
     {
         List<Service> GetAllServices();
+
     }
-
-
 
     public class ServiceRepository : Repository<Service, int>, IServiceRepository
     {

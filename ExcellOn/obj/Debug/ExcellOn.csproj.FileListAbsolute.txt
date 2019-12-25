@@ -1,4 +1,3 @@
-D:\project3\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csprojAssemblyReference.cache
 D:\project3\ExcellOn\ExcellOn\obj\Debug\ExcellOn.dll
 D:\project3\ExcellOn\ExcellOn\obj\Debug\ExcellOn.pdb
 D:\project3\ExcellOn\ExcellOn\bin\ApplicationInsights.config
