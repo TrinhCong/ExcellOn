@@ -79,6 +79,10 @@
                         </div>
                         <h2>@item.name</h2>
                         <p style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">@item.description</p>
+                        <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#create_modal">
+                            Register
+                            <i class="fa fa-plus"></i>
+                        </a>
                     </div>
                 </div><!-- end col -->
             }
@@ -86,3 +90,37 @@
         </div><!-- end row -->
     </div><!-- end container -->
 </div><!-- end section -->
+
+<!-- Modal -->
+<div class="modal fade" id="create_modal" data-backdrop="false" tabindex="1" role="dialog" aria-labelledby="create_modal_title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="create_modal_title">Add New</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="" class="control-label">Department Name<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Description<span class="required">*</span></label>
+                        <textarea class="form-control" name="description" rows="3" required></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div style="margin:auto">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary create">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
