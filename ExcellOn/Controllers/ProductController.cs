@@ -94,7 +94,9 @@ namespace ExcellOn.Controllers
 
         public ActionResult Index()
         {
-            return View("Index");
+            ViewBag.ProductCategories = _categoryRepository.GetAllProductCategories();
+            ViewBag.Product = _productRepository.GetAllProducts();
+            return View();
         }
         public ActionResult Create()
         {
@@ -187,8 +189,8 @@ namespace ExcellOn.Controllers
             {
                 try
                 {
-                    session.Query("Delete from products where id=" + id);
                     DeleteFiles(id);
+                    session.Query("Delete from products where id=" + id);
                     return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)

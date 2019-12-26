@@ -59,29 +59,68 @@
         <div class="gallery-menu row">
             <div class="col-md-12">
                 <div class="button-group filter-button-group text-center">
-                    <a href="/Service/Index"><button class="hvr-rectangle-out active">All</button></a>
+                    <button class="hvr-rectangle-out active" data-filter="*">All</button>
                     @foreach (var item in ViewBag.Categories)
                     {
-                        <a href="/Service/Index?catId=@item.id"><button class="hvr-rectangle-out">@item.name</button></a>
+                        <button class="hvr-rectangle-out " data-filter=".@item.id">@item.name</button>
                     }
                 </div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row gallery-list">
 
             @foreach (var item in ViewBag.Services)
             {
-                <div class="col-md-4">
+                <div class="col-md-3 col-sm-4 gallery-grid @item.cat_id" style="padding:10px;">
                     <div class="services-inner-box">
                         <div class="ser-icon">
                             <i class="flaticon-seo"></i>
                         </div>
                         <h2>@item.name</h2>
-                        <p>@item.description</p>
+                        <p style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">@item.description</p>
+                        <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#create_modal">
+                            Register
+                            <i class="fa fa-plus"></i>
+                        </a>
                     </div>
                 </div><!-- end col -->
             }
+
         </div><!-- end row -->
     </div><!-- end container -->
 </div><!-- end section -->
+
+<!-- Modal -->
+<div class="modal fade" id="create_modal" data-backdrop="false" tabindex="1" role="dialog" aria-labelledby="create_modal_title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="create_modal_title">Add New</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="" class="control-label">Department Name<span class="required">*</span></label>
+                        <input type="text" class="form-control" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Description<span class="required">*</span></label>
+                        <textarea class="form-control" name="description" rows="3" required></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div style="margin:auto">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary create">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
