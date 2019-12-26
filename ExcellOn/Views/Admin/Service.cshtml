@@ -388,8 +388,8 @@
                         item.val(value);
                 });
 
-                var $imgWrapper = $form.find('.images').html(`<span style="display:block;">Chưa có ảnh sản phẩm</span>`);
-                if (data.images!=null&&data.images.length > 0) {
+                var $imgWrapper = $form.find('.images').empty();
+                if (data.images != null && data.images.length > 0) {
                     data.images.forEach(img => {
                         $imgWrapper.append(`
                             <a data-fancybox="fancybox-thumb" rel="fancybox-thumb" href="${img.path}" title="Golden Manarola (Sanjeev Deo)">
@@ -397,6 +397,8 @@
                             </a>`);
                     });
                 }
+                else
+                    $imgWrapper.html(`<span style="display:block;">No images found</span>`);
             }
             bindEditData(data) {
                 var instance = this;
@@ -475,7 +477,7 @@
                                 instance.$createMd.hide();
                             }
                             else
-                                EXO.alert("Cannot delete this category, Because It's used by another services!");
+                                EXO.alert("Delete fail!");
                         });
                 });
             }

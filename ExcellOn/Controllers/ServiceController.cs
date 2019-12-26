@@ -191,8 +191,8 @@ namespace ExcellOn.Controllers
             {
                 try
                 {
-                    session.Query("Delete from services where id=" + id);
                     DeleteFiles(id);
+                    session.Query("Delete from services where id=" + id);
                     return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
