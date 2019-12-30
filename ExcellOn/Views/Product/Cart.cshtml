@@ -1,0 +1,293 @@
+﻿
+@section AdditionStyles{
+    <style>
+        .redeem-points-caption .user-point {
+            font-weight: 600;
+        }
+
+        input.use-point {
+            font-size: 1.5rem;
+        }
+
+        .col-main-inner {
+            margin-left: 0px !important;
+        }
+
+        .section-account-info:after {
+            left: 10%;
+            width: 80%;
+        }
+    </style>
+}
+
+<div class="main-content my-product-type my-product-cart">
+    <section class="section-account-info">
+        <div class="container">
+            <div class="wrap-main">
+                <!--end sidebar-left-->
+                <div class="col-main">
+                    <div class="col-main-inner">
+                        <div class="my-product-cnt">
+                            <div class="my-product-heading">
+                                <div class="product-heading-left">
+                                    <h2>Giỏ hàng</h2>
+                                </div>
+                            </div>
+                            <div class="my-product-main">
+                                <div class="my-product-detail">
+                                    <div class="my-cart">
+                                        <ul class="shopping-list">
+                                        </ul>
+                                        <!--end shopping-list-->
+                                    </div>
+                                    <!--end my-cart-->
+                                    <div class="shopping-footer text-right">
+                                        <div class="sum-price">
+                                            <p class="total-for-items">Final Total:</p>
+                                            <p class="total-for-price"></p>
+                                        </div>
+                                    </div>
+                                    <!--end shopping-footer-->
+                                    <div class="cart-control">
+                                        <a href="#" class="btn btn-continue-buy  btn-primary" style="background:#5a4091  !important">Tiếp tục mua hàng</a>
+                                        <a href="#" class="btn btn-buy">Mua hàng</a>
+                                    </div>
+                                    <!--end cart-control-->
+                                </div>
+                                <!--end my-product-detail-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end col-main-->
+            </div>
+            <!--end wrap-main-->
+        </div>
+    </section>
+    <!--end section-season-detail-->
+</div>
+<script type="text/html" id="item-shopping">
+    <li class="shopping-item">
+        <div class="shopping-yield">
+            <figure class="media-cart">
+                <div class="cart-image">
+                    <a href="#" class="product-link image-product">
+                        <img src="/app/images/photos/img-shipping-1.jpg" alt="" width="97" height="101">
+                    </a>
+                </div>
+                <figcaption class="cart-caption">
+                    <p class="cart-paragraph"></p>
+                    <h4 class="cart-title">
+                        <a href="#" class="product-link"></a>
+                    </h4>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="shopping-price">
+            <p class="shopping-ttl">Unit Price: </p>
+            <p class="shopping-coin shopping-coin-single"></p>
+        </div>
+        <div class="shopping-quantity">
+            <p class="shopping-ttl">Quantity: </p>
+            <div class="order-up-down">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-number bdr0 quantity-minus  btn-success" style="background:#0094ff !important">
+                            <i class="fa fa-minus">&nbsp;</i>
+                        </button>
+                    </div>
+                    <input type="text" class="form-control input-number" value="1" min="1" max="10">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-number bdl0 quantity-plus btn-success" style="background:#0094ff !important">
+                            <i class="fa fa-plus">&nbsp;</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shopping-total">
+            <p class="shopping-ttl">Price total: </p>
+            <p class="shopping-coin shopping-coin-total"></p>
+        </div>
+        <a href="#" class="remove-cart">
+            <i class="fa fa-close" style="color:white; font-weight:bold"></i>
+        </a>
+    </li>
+</script>
+@section AdditionScripts{
+    <script>
+        var that;
+        class CartAnonymous {
+            constructor() {
+                that = this;
+                this.define();
+                this.getShoppingList();
+            }
+
+            define() {
+                this.usePoint = $('[name=use-point]');
+                this.listCartProduct = $('.shopping-list');
+                this.tmpItem = $('#item-shopping');
+
+                this.listCartProduct.on('click', '.quantity-minus', (e) => {
+                    that.minusQuantity(e);
+                });
+                this.listCartProduct.on('click', '.quantity-plus', (e) => {
+                    that.plusQuantity(e);
+                });
+                this.listCartProduct.on('click', '.remove-cart', (e) => {
+                    e.preventDefault();
+                let $li = $(e.target).closest('li');
+                let itemData = $li[0].itemData;
+                $li.remove();
+                    this.removeProduct(itemData.id);
+                });
+            }
+            updateListProduct() {
+                let priceTotal = 0;
+                this.listCartProduct.find('li').each((idx, li) => {
+                    let itemBuyData = $(li)[0].itemData;
+                    if (itemBuyData) {
+                        priceTotal += itemBuyData.priceDiscount * itemBuyData.quantity;
+                        let priceDiscount = EnumMethod.formatMoney(itemBuyData.priceDiscount * itemBuyData.quantity);
+                        $(li).find('.shopping-coin-total').text(priceDiscount + "$");
+                    }
+                });
+                let priceTotalToString = EnumMethod.formatMoney(priceTotal);
+                $('.sum-price').find('.total-for-price').text(priceTotalToString + "$");
+            }
+
+            getShoppingList() {
+                $.post('/product/updateShoppingCart').done((res) => {
+                    if (res.success) {
+                        if (res.data && res.data.length > 0) {
+                            let priceTotal = 0;
+                            res.data.forEach((itemData, idx) => {
+                                if (itemData.product) {
+                                    let itemDom = $(that.tmpItem.html()).appendTo(that.listCartProduct);
+                                    //bind data
+                                    let dataProduct = itemData.product;
+                                    itemDom.find('.cart-paragraph').text(dataProduct.name);
+                                    let price = EnumMethod.formatMoney(dataProduct.unit_price, 0);
+                                    itemDom.find('.shopping-coin-single').text(price.money_string + "$");
+                                    let price_quantity = EnumMethod.formatMoney(price.money * itemData.quantity);
+                                    priceTotal += price.money * itemData.quantity;
+                                    itemDom.find('.shopping-coin-total').text(price_quantity + "$");
+                                    itemDom.find('.input-number').val(itemData.quantity);
+                                    // save data to DOM
+                                    itemData.priceDiscount = price.money;
+                                    itemDom[0].itemData = itemData;
+                                    itemDom.find('.input-number')[0].autoNumberic = new AutoNumeric(itemDom.find('.input-number')[0], {
+                                        digitalGroupSpacing: 4,
+                                        decimalPlaces: 0,
+                                        minimumValue: 0,
+                                        maximumValue: 9999,
+                                    });
+                                    let images = dataProduct.images ? dataProduct.images : null;
+                                    if (images && images.length > 0)
+                                        itemDom.find('.image-product').find('img').attr('src', images[0].path);
+                                    //bind event input change
+                                    itemDom.find('.input-number').on('blur', (e) => {
+                                        e.preventDefault();
+                                        that.onQuantityChanged(e);
+                                    });
+                                }
+                            });
+                            let priceTotalToString = EnumMethod.formatMoney(priceTotal);
+                            $('.sum-price').find('.total-for-price').text(priceTotalToString + "$");
+                        } else {
+                            $(".my-cart").html(`<h3 class="text-center">Giỏ hàng trống</h3>`);
+                        }
+                    }
+                });
+            }
+
+            plusQuantity(e) {
+                let $li = $(e.target).closest('li');
+                let itemData = $li[0].itemData;
+                let inputNumberic = $li.find('input')[0].autoNumberic;
+                let quantityCurrent = parseInt($li.find('input').val());
+                inputNumberic.set(quantityCurrent + 1);
+                itemData.quantity = quantityCurrent + 1;
+                this.updateListProduct();
+
+                $.post('/product/updateShoppingCart', {
+                    detail: {
+                        quantity: 1,
+                        product_id: itemData.product.id,
+                        selected: itemData.selected
+                    }
+                });
+            }
+
+            minusQuantity(e) {
+                let $li = $(e.target).closest('li');
+                let itemData = $li[0].itemData;
+                let inputNumberic = $li.find('input')[0].autoNumberic;
+                let quantityCurrent = parseInt($li.find('input').val());
+                if (quantityCurrent - 1 === 0) {
+                    EXO.confirm("Are you sure to delete this product from cart?", (response) => {
+                        if (response.value) {
+                                $li.find('.remove-cart').trigger('click');
+                        }
+                    });
+                } else {
+                    inputNumberic.set(quantityCurrent - 1);
+                    itemData.quantity = quantityCurrent - 1;
+                    this.updateListProduct();
+                    $.post('/product/updateShoppingCart', {
+                        detail: {
+                            quantity: -1,
+                            product_id: itemData.product.id,
+                            selected: itemData.selected
+                        }
+                    });
+                }
+            }
+            removeProduct(id) {
+                $.get('/product/removeProductFromCart', { id: id});
+                this.updateListProduct();
+            }
+
+            onQuantityChanged(e) {
+                let $li = $(e.target).closest('li');
+                let itemData = $li[0].itemData;
+                let inputNumberic = $li.find('input')[0].autoNumberic;
+                let quantityOld = parseInt(inputNumberic.savedCancellableValue);
+
+                if ($(e.target).val() && $(e.target).val() != 0) {
+                    let quantityNew = itemData.quantity = parseInt($(e.target).val());
+                    if (quantityNew !== quantityOld) {
+                        let value = quantityNew - quantityOld;
+                        this.updateListProduct();
+
+                        $.post('/product/updateShoppingCart', {
+                            detail: {
+                                quantity: value,
+                                product_id: itemData.product.id,
+                                selected: itemData.selected
+                            }
+                        });
+                    }
+
+                } else {
+                     EXO.confirm("Are you sure to delete this product from cart?", (response) => {
+                         if (response.value) {
+                             $li.find('.remove-cart').trigger('click');
+                         }
+                         else {
+                                $li[0].itemData.quantity = quantityOld;
+                                inputNumberic.set(quantityOld);
+                                this.updateListProduct();
+                         }
+                    });
+                }
+            }
+        }
+
+        jQuery(document).ready(() => {
+            new CartAnonymous();
+        });
+    </script>
+}
+

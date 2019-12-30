@@ -32,7 +32,19 @@ namespace ExcellOn.Controllers
         }
 
 
+        public ActionResult Info()
+        {
+            return View();
+        }
+        public ActionResult Cart()
+        {
+            return View();
+        }
 
+        public ActionResult Get(int id)
+        {
+            return Json(new ResponseInfo(success: true, data: _productRepository.GetItem(id)), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult GetAllCategories()
         {
             var items = _categoryRepository.GetAllProductCategories();
@@ -41,11 +53,24 @@ namespace ExcellOn.Controllers
 
         public ActionResult GetAllProducts()
         {
-            var product = _productRepository.GetAllProducts();
+            var product = _productRepository.GetItems();
             return Json(new ResponseInfo(success: true, data: product), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetProductsByCategoryId(int catId = 0)
+        {
+            var condtion = "(1=1)";
+            if (catId > 0)
+                condtion = $"{Sql.Table<Product>()}.{nameof(Product.cat_id)}={catId}";
+            return Json(new ResponseInfo(success: true, data: _productRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
+        }
 
-
+        public ActionResult GetRelatedProducts(int productId, int catId = 0)
+        {
+            var condtion = "(1=1)";
+            if (catId > 0)
+                condtion = $"{Sql.Table<Product>()}.{nameof(Product.cat_id)}={catId} AND {Sql.Table<Product>()}.{nameof(Product.id)}<>{productId}";
+            return Json(new ResponseInfo(success: true, data: _productRepository.GetItems(condtion).Take(3)), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult DeleteCategory(int id)
         {
             using (var session = GetSession())
@@ -95,14 +120,47 @@ namespace ExcellOn.Controllers
         public ActionResult Index()
         {
             ViewBag.ProductCategories = _categoryRepository.GetAllProductCategories();
-            ViewBag.Product = _productRepository.GetAllProducts();
+            ViewBag.Product = _productRepository.GetItems();
             return View();
         }
         public ActionResult Create()
         {
             return View();
         }
-
+        [HttpPost]
+        public ActionResult UpdateShoppingCart(OrderDetail detail)
+        {
+            if (Session["ShoppingCart"] == null)
+                Session["ShoppingCart"] = new List<OrderDetail> {detail};
+            else if (detail != null&&detail.product_id>0) 
+            {
+                var existItems = (List<OrderDetail>)Session["ShoppingCart"];
+                var isExist = false;
+                foreach (var item in existItems)
+                {
+                    if(item.product_id==detail.product_id)
+                    {
+                        item.quantity += detail.quantity;
+                        isExist = true;
+                        break;
+                    }
+                }
+                if (!isExist)
+                    existItems.Add(detail);
+                BindProductToOrderDetails(ref existItems);
+                Session["ShoppingCart"] = existItems;
+            }
+            return Json(new ResponseInfo(true, data: Session["ShoppingCart"]), JsonRequestBehavior.AllowGet) ;
+        }
+        public ActionResult RemoveProductFromCart(int id)
+        {
+            if (id > 0)
+            {
+                var items =(List<OrderDetail>) Session["ShoppingCart"];
+                Session["ShoppingCart"] = items.Where(x => x.product_id != id).ToList();
+            }
+            return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+        }
         //Creat or Update Product table
         [HttpPost]
         public ActionResult CreateOrUpdateProduct(Product entity, IEnumerable<HttpPostedFileBase> files)
@@ -127,7 +185,7 @@ namespace ExcellOn.Controllers
                             foreach (var file in files)
                             {
                                 string fileName = Path.GetFileName(string.Format("{0}{1}", DateTime.Now.Ticks.GetHashCode().ToString("x"), Path.GetExtension(file.FileName)));
-                                file.SaveAs(directory +"/"+ fileName);
+                                file.SaveAs(directory + "/" + fileName);
                                 session.Insert(new ProductImage
                                 {
                                     original_name = file.FileName,
@@ -220,5 +278,16 @@ namespace ExcellOn.Controllers
             }
         }
 
+
+        private void BindProductToOrderDetails(ref List<OrderDetail> details)
+        {
+            foreach (var item in details)
+                BindProductToOrderDetail( item);
+        }
+        private void BindProductToOrderDetail( OrderDetail detail)
+        {
+            if (detail.product == null)
+                detail.product = _productRepository.GetItem(detail.product_id);
+        }
     }
 }

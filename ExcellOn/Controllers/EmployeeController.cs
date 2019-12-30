@@ -34,7 +34,7 @@ namespace ExcellOn.Controllers
             string condition = null;
             if (employee != null)
             {
-                condition = $"{Sql.Table<Employee>()}.{nameof(Models.Employee.id)}<>{employee.id}";
+                condition = $"{Sql.Table<Employee>()}.{nameof(Employee.id)}<>{employee.id}";
             }
             var items = _employeeRepository.GetItems(condition);
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);

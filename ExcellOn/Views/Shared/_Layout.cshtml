@@ -2,7 +2,8 @@
 @using ExcellOn.Enums;
 @{
 
-    var user = (User)Session["User"];
+    var customer = (Customer)Session["Customer"];
+    var employee = (Employee)Session["Employee"];
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -26,12 +27,26 @@
 
 <!-- Bootstrap -->
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,700i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,500i,600,600i,700,700i,800,800i"
+      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,600i,700,700i&display=swap"
+      rel="stylesheet">
+<link href="~/Content/pages/common.css" rel="stylesheet" type="text/css" media="screen" />
+
 <!-- Site CSS -->
 <link href="~/Content/pages/page.css" rel="stylesheet" />
 <!-- Responsive CSS -->
 <link href="~/Content/pages/responsive.css" rel="stylesheet" />
+
+
 <!-- Custom CSS -->
 <link href="~/Content/pages/custom.css" rel="stylesheet" />
+
+
 @RenderSection("AdditionStyles", false)
 </head>
 <body id="page-top" class="politics_version">
@@ -58,8 +73,7 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger active" href="/Home/Index">Home</a>
                     </li>
-                    @*@if (user != null && user.role_id != EnumRole.CLIENT)*@
-                    @if (true)
+                    @if (employee != null && employee.role_id == EnumRole.SA)
                     {
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="/Admin/Customer">Administration</a>
@@ -77,9 +91,12 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/Home/Team">Team</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="/Home/Report">Report</a>
-                    </li>
+                    @if (employee != null && employee.role_id != EnumRole.CUSTOMER)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="/Home/Statistic">Statistics</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/Home/Blog">Blog</a>
                     </li>
@@ -91,20 +108,37 @@
 
         </div>
         <div id="login-control">
-            @if (user != null)
+            @if (employee != null)
             {
-                var avatarSrc = String.IsNullOrEmpty(user.avatar_path) ? "/Content/images/no_avatar.png" : "/Content/uploads/avatars/" + user.avatar_path;
+                var avatarSrc = String.IsNullOrEmpty(employee.avatar_path) ? "/Content/images/no_avatar.png" : "/Content/uploads/avatars/" + employee.avatar_path;
                 <div style="width:26px;height:26px; float:left; margin-right:5px;">
                     <img src="@avatarSrc" width="26" height="26" />
                 </div>
                 <div style="float: left;">
-                    <span><a href="/Admin/Detail?userId=@user.id">@user.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
+                    <span><a href="/Admin/Detail?userId=@employee.id">@employee.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
+                </div>
+            }
+            else
+            if (customer != null)
+            {
+                var avatarSrc = String.IsNullOrEmpty(customer.avatar_path) ? "/Content/images/no_avatar.png" : "/Content/uploads/avatars/" + customer.avatar_path;
+                <div style="width:26px;height:26px; float:left; margin-right:5px;">
+                    <img src="@avatarSrc" width="26" height="26" />
+                </div>
+                <div style="float: left;">
+                    <span><a href="/Admin/Detail?userId=@customer.id">@customer.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
                 </div>
             }
             else
             {
                 <span><a href="/Admin/Login">Login</a> | <a href="/Admin/Register">Register</a></span>
             }
+        </div>
+        <div id="shopping_cart" class="text-center" style="display:none">
+            <a href="/Product/Cart">
+                <span id="cart_icon" class=" fa fa-cart-plus">&nbsp;</span>
+                <span id="cart_number" class="number-cart">@(Session["ShoppingCart"] == null ? 0 : ((List<OrderDetail>)Session["ShoppingCart"]).Count())</span>
+            </a>
         </div>
     </nav>
 
@@ -157,6 +191,7 @@
     <script src="~/Scripts/pages/jqBootstrapValidation.js"></script>
     <script src="~/Scripts/pages/contact_me.js"></script>
     <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
+    <script src="~/Scripts/pages/autoNumberic.min.js"></script>
     <!-- ALL PLUGINS -->
     <script src="~/Scripts/pages/page.js"></script>
     <script src="~/Scripts/pages/custom.js"></script>

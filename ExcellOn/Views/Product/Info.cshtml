@@ -1,0 +1,382 @@
+
+@section AdditionStyles{
+    <style>
+        .product-name {
+            font-size: 3rem !important;
+        }
+
+        .vertical {
+            vertical-align: middle;
+        }
+
+        .feature_no_image {
+            padding: 5rem;
+            width: 100%;
+        }
+
+        .product-color-list {
+            list-style: none;
+        }
+
+            .product-color-list li {
+                float: left;
+                margin-right: 5px;
+            }
+
+                .product-color-list li .item-color:after {
+                    transition: 0.5s;
+                    opacity: 0;
+                }
+
+                .product-color-list li.active .item-color:after {
+                    content: "";
+                    width: 30px;
+                    height: 16px;
+                    position: absolute;
+                    top: -5px;
+                    right: -11px;
+                    background-color: #2fb512;
+                    transform: rotate(45deg);
+                    border-bottom: 1px solid #ffffff;
+                    opacity: 1;
+                }
+
+        .item-color {
+            width: 35px;
+            height: 35px;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+    </style>
+}
+
+
+<div id="product_details" class="section wb">
+    <div class="container-fluid">
+        <div class="section-title text-center" style="margin-top:50px">
+            <h3>Product Details</h3>
+        </div><!-- end title -->
+        <div class="main-content">
+            <section class="section-product">
+                <div class="container">
+                    <div class="section-breadcrumb">
+                        <ol class="breadcrumb">
+                            @*<li class="breadcrumb-item">
+                                <a href="#">Trang chủ</a>
+                            </li>*@
+                            <li class="breadcrumb-item breadcrumb-careType">
+                                <a href="#"></a>
+                            </li>
+                            <li class="breadcrumb-item breadcrumd-product active">
+                                <span></span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="product-total">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 product-album-col">
+                                <div class="product-album">
+                                    <div class="product-photos">
+                                        <div class="slider-for">
+                                        </div>
+                                        <!--end slider-for-->
+                                        <div class="slider-nav">
+                                        </div>
+                                        <!--end slider-for-->
+                                    </div>
+                                </div>
+                                <!--end product-album-->
+                            </div>
+                            <div class="col-md-6 col-xs-12 product-detail-col">
+                                <div class="product-detail">
+                                    <div class="product-descript">
+                                        <p class="paragraph-code product-model"></p>
+                                        <h3 class="heading-detail product-name"></h3>
+                                        <p class="paragraph-detail product-desc"></p>
+                                    </div>
+                                    <div class="specificity-list">
+                                        <div class="product-specificity">
+                                            <div class="specificity-name">
+                                                <p class="product_price">Unit Price:</p>
+                                            </div>
+                                            <div class="specificity-status">
+                                                <p class="paragraph-price product-price"></p>
+                                            </div>
+                                        </div>
+                                        <div class="product-specificity">
+                                            <div class="specificity-name">
+                                                <p>Quantity:</p>
+                                            </div>
+                                            <div class="specificity-status">
+                                                <div class="order-up-down">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-number btn-down bdr0" style="border:1px solid white !important">
+                                                                <i class="fa fa-minus">&nbsp;</i>
+                                                            </button>
+                                                        </div>
+                                                        <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-number btn-up bdl0" style="border:1px solid white !important">
+                                                                <i class="fa fa-plus">&nbsp;</i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="button-cart">
+                                        <ul class="button-cart-list">
+                                            <li>
+                                                <a href="#" class="btn btn-add-to-cart add_cart"><i class="fa fa-cart-plus"></i> &nbsp;Add to cart</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="btn btn-success buy_now"><i class="fa fa-money"></i> &nbsp;Buy now</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end product-row-->
+                </div>
+            </section>
+            <!--end section-product-->
+            <section class="">
+                <div class="container">
+                    <div class="table-responsive table-life">
+                        <table class="table table-bordered table-detail">
+                            <tbody>
+                                <tr>
+                                    <th class="bg-blue" colspan="3" width="135">PRODUCT SPECIFICATIONS</th>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Category</th>
+                                    <td width="876" data-category></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Units in stock</th>
+                                    <td width="876" data-unitInStock></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Quantity per unit</th>
+                                    <td width="876" data-quantity></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Price</th>
+                                    <td width="876" data-price></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Description</th>
+                                    <td width="876" data-description></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <!--end technical-data-->
+            <section class="product-other">
+                <div class="container">
+                    <div class="main-product-heading">
+                        <h2 class="other_products">Related products</h2>
+                    </div>
+                    <div class="product-entries">
+                        <div class="product-entries-list">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--end product-other-->
+        </div>
+        <!--end main-content-->
+    </div>
+</div>
+
+
+@section AdditionScripts{
+    <script src="~/Scripts/pages/slick.min.js"></script>
+    <script>
+
+        class Info {
+            constructor() {
+                let paths = window.location.pathname.split('/');
+                this.productId = parseInt(paths[3]) ? parseInt(paths[3]) : 0;
+                this.loadProduct();
+            }
+
+            _init() {
+                let input_quantity = $('.input-number');
+                this.inputNumberic = new AutoNumeric(".input-number", {
+                    digitalGroupSpacing: 4,
+                    decimalPlaces: 0,
+                    minimumValue: 1,
+                    maximumValue: 9999
+                });
+
+                $('.btn-up').on('click', (e) => {
+                    let quantityCurrent = parseInt(input_quantity.val());
+                    this.inputNumberic.set(quantityCurrent + 1);
+                });
+
+                $('.btn-down').on('click', (e) => {
+                    let quantityCurrent = parseInt(input_quantity.val());
+                    if (quantityCurrent - 1 === 0) {
+                        this.inputNumberic.set(1);
+                    } else {
+                        this.inputNumberic.set(quantityCurrent - 1);
+                    }
+                });
+
+                input_quantity.on('change', (e) => {
+                    if (!$(e.target).val() || $(e.target).val() == 0) {
+                        this.inputNumberic.set(1);
+                    }
+                });
+
+                $('.btn-add-to-cart').on('click', (e) => {
+                    e.preventDefault();
+                    $.post("/product/UpdateShoppingCart", {detail: {
+                        quantity:Number( this.inputNumberic.get()),
+                        product_id: this.productData.id,
+                    } }).done((res) => {
+                        if (res.success) {
+                            $(".cart-list").remove(".number-cart");
+                            $(".cart-list").append('<span class="number-cart">' + res.data.length + '</span>');
+                            $("#cart_number").text(res.data.length);
+                        }
+                    });
+                });
+            }
+
+            loadBreadcrumb(data) {
+                let product_name = data.name ? data.name :
+                    data.kind ? data.kind : '';
+                $(".breadcrumb-careType").find('a').attr('href', '/Product/danh-sach/' + data.care_id).text(data.care);
+                $(".breadcrumd-product").find('span').text(product_name);
+            }
+
+            loadProduct() {
+                $.get('/product/Get', { id: this.productId }).done((res) => {
+                    if (res.success) {
+                        if (res.data != null) {
+                            this.productData = res.data;
+                            this._init();
+                            this.loadBreadcrumb(res.data);
+                            this.loadSlick(res.data);
+                            this.loadProductInfo(res.data);
+                            this.loadOtherProducts(res.data.category_id);
+                        }
+                    }
+                });
+            }
+
+            loadSlick(data) {
+                let ctn_sli_vertical = $(".slider-for");
+                let ctn_sli_nav = $(".slider-nav");
+
+                data.images.forEach((item) => {
+                    ctn_sli_vertical.append(`<div class="vertical-slide">
+                                                        <div class="slide-photos-small">
+                                                            <img src="${item.path}" alt="" width="109" height="112">
+                                                        </div>
+                                                    </div>`);
+                    ctn_sli_nav.append(`<div class="photos-slide">
+                                                        <div class="slide-photos-large">
+                                                            <img src="${item.path}" alt="" width="300" height="382">
+                                                        </div>
+                                                    </div>`);
+                });
+
+                ctn_sli_vertical.slick({
+                    slidesToShow: data.images.length > 4 ? 4 : data.images.length,
+                    slidesToScroll: 1,
+                    asNavFor: '.slider-nav',
+                    focusOnSelect: true,
+                    arrows: true,
+                    nextArrow: "<a href='javascript:void(0);' class='slick-next slick-arrow'><img src='/app/images/front/btn_next_up.png' alt='next' width='17' height='10' /></a>",
+                    prevArrow: "<a href='javascript:void(0);' class='slick-prev slick-arrow'><img src='/app/images/front/btn_prev_down.png' alt='prev' width='17' height='10' /></a>",
+                    vertical: true
+                });
+
+                ctn_sli_nav.slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    fade: true,
+                    asNavFor: '.slider-for',
+                    customPaging: function (slider, i) {
+                        return ('<a href="javascript:void(0)"><span>' + (i + 1) + 'Show the second slide</span></a>');
+                    },
+                    dots: true
+                });
+
+                setTimeout(() => {
+                    ctn_sli_vertical.slick('refresh');
+                    ctn_sli_nav.slick('refresh');
+                }, 200);
+            }
+
+            loadProductInfo(data) {
+                let ctn_detail = $(".product-detail");
+                ctn_detail.find('.product-model').text(data.model ? data.model : '');
+                let product_name = data.name ? data.name :
+                    data.kind ? data.kind : '';
+                ctn_detail.find('.product-name').text(product_name);
+                ctn_detail.find('.product-desc').text(data.description);
+                let price = data.discount ? EnumMethod.formatMoney(data.unit_price * data.discount / 100)
+                    : EnumMethod.formatMoney(data.unit_price);
+                ctn_detail.find('.product-price').text(price + "$");
+                this.loadProductDetail(data);
+            }
+            loadProductDetail(data) {
+                $("[data-category]").text(data.category.name);
+                $("[data-quantity]").text(data.quantity_per_unit);
+                $("[data-price]").text(data.unit_price);
+                $("[data-unitInstock]").text(data.units_in_stock);
+                $("[data-description]").text(data.description);
+            }
+
+            loadOtherProducts(categoryId) {
+                $.get('/product/GetRelatedProducts', { productId: this.productId, catId: categoryId }).done((res) => {
+                    let list_container = $('.product-entries-list').empty();
+                    if (res.success) {
+                        res.data.forEach((itemData, idx) => {
+                            let itemDom = $(`<div class="product-entries-item">
+                                                        <figure class="product-category">
+                                                            <div class="product-image effect_image">
+                                                                <a href="" class="link-item">
+                                                                    <img class="img-product" src="" alt="" width="270" height="263">
+                                                                </a>
+                                                            </div>
+                                                            <figcaption class="product-caption">
+                                                                <h4 class="product-title">
+                                                                    <a href="" class="link-item"></a>
+                                                                </h4>
+                                                                <p class="product-paragraph"></p>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </div>`).appendTo(list_container);
+                            itemDom.find('.link-item').attr('href', '/Product/info/' + itemData.id);
+                            itemDom.find('.product-name').text(itemData.name ? itemData.name : itemData.kind);
+                            itemDom.find('.product-paragraph').text(itemData.model ? itemData.model : '');
+                            if (itemData.images.length > 0) {
+                                itemDom.find('.img-product').attr('src', itemData.images[0].path);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        $(document).ready(() => {
+            showCart();
+            new Info();
+        });
+    </script>
+}

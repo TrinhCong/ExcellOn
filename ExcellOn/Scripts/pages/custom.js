@@ -32,6 +32,9 @@
 		offset: 56
 	  });
 
+	//shopping cart
+	$("#shopping_cart").css("top", $(window).height() - 63 + "px");
+
 	// Collapse Navbar
 	  var navbarCollapse = function() {
 		if ($("#mainNav").offset().top > 100) {

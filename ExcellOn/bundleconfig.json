@@ -16,5 +16,29 @@
     "inputFiles": [
       "Scripts/pages/bootbox.js"
     ]
+  },
+  {
+    "outputFileName": "Content/pages/common.min.css",
+    "inputFiles": [
+      "Content/pages/common.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/pages/slick.min.min.js",
+    "inputFiles": [
+      "Scripts/pages/slick.min.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/pages/autoNumberic.min.min.js",
+    "inputFiles": [
+      "Scripts/pages/autoNumberic.min.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/pages/custom.min.js",
+    "inputFiles": [
+      "Scripts/pages/custom.js"
+    ]
   }
 ]

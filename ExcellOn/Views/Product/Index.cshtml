@@ -1,4 +1,37 @@
-﻿<section id="home" class="main-banner">
+﻿@section AdditionStyles{
+    <style>
+        .feature-product {
+            position: absolute;
+            left: 0;
+            bottom: 3px;
+        }
+
+            .feature-product img {
+                padding-right: 5px;
+                transform: none !important;
+            }
+
+        .m-highlights-title {
+            text-align: center;
+            font-size: 23px;
+            font-weight: 600;
+            font-family: inherit;
+            margin-bottom: 25px;
+            margin-top: 25px;
+        }
+
+        .price-calc {
+            color: #009688;
+        }
+
+        .price-ori {
+            color: red;
+            text-decoration: line-through;
+        }
+    </style>
+}
+
+<section id="home" class="main-banner">
     <div class="slider-new-2 owl-carousel owl-theme">
         <div class="item slider-screen">
             <div class="slider-img-full">
@@ -55,36 +88,203 @@
             <p>Quisque eget nisl id nulla sagittis auctor quis id. Aliquam quis vehicula enim, non aliquam risus.</p>
         </div><!-- end title -->
 
-        <div class="gallery-menu row">
+        <div class="gallery-menu row" style="margin-bottom:30px">
             <div class="col-md-12">
                 <div class="button-group filter-button-group text-center">
                     <button class="hvr-rectangle-out active" data-filter="*">All</button>
                     @foreach (var item in ViewBag.ProductCategories)
                     {
-                        <button class="hvr-rectangle-out active" data-filter=".@item.id">@item.name</button>
+                        <button class="hvr-rectangle-out active" data-filter=".@item.id" data-cat="@item.id">@item.name</button>
                     }
 
                 </div>
             </div>
         </div>
-
-        <div class="gallery-list row">
-            @foreach (var item in ViewBag.Product)
-            {            
-                <div class="col-md-4 col-sm-6 gallery-grid @item.cat_id ">
-                    <div class="gallery-single fix">
-                        <img src="~/Content/uploads/gallery_img-03.jpg" class="img-fluid" alt="Image">
-                        <div class="img-overlay">
-                            <p>@item.quantity_per_unit</p>
-                            <p>@item.unit_price</p>
-                            <p>@item.units_in_stock</p>
-                            <h3>@item.description</h3>
-                            <a href="~/Content/uploads/gallery_img-03.jpg" data-rel="prettyPhoto[gal]" class="hoverbutton global-radius"><i class="fa fa-picture-o"></i></a>
+        <div class="main-content">
+            <div class="container">
+                <div class="product-entries">
+                    <div class="product-entries-list">
+                        <div class="product-entries-item wow fadeInUp">
+                            <figure class="product-category">
+                                <div class="product-image effect_image">
+                                    <a href="/Product/1">
+                                        <img src="/app/images/photos/img-product-1.jpg" alt="" width="170" height="263">
+                                    </a>
+                                </div>
+                                <figcaption class="product-caption">
+                                    <h4 class="product-title">
+                                        <a href="/Product/1">VILLAEM 2</a>x`
+                                    </h4>
+                                    <p class="product-paragraph">CHP-18AR</p>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="product-entries-item wow fadeInUp">
+                            <figure class="product-category">
+                                <div class="product-image effect_image">
+                                    <a href="/Product/1">
+                                        <img src="/app/images/photos/img-product-9.jpg" alt="" width="170" height="263">
+                                    </a>
+                                </div>
+                                <figcaption class="product-caption">
+                                    <h4 class="product-title">
+                                        <a href="/Product/1">VILLAEM 2</a>
+                                    </h4>
+                                    <p class="product-paragraph">CHP-18AR</p>
+                                </figcaption>
+                            </figure>
                         </div>
                     </div>
                 </div>
-            }
+                <!--end product-entries-->
+            </div>
+            <div class="product-highlights">
+                <div class="m-highlights-title">
+                    <p>Related products</p>
+                </div>
+                <div class="product-highlights-list">
 
+                    <div class="product-highlights-item">
+                        <figure class="highlights-category">
+                            <div class="highlights-image effect_image">
+                                <a href="/Product/1">
+                                    <img src="/app/images/photos/img-product-bl1.jpg" alt="" width="480" height="390">
+                                </a>
+                            </div>
+                            <figcaption class="highlights-caption">
+                                <h4 class="highlights-title">
+                                    <a href="/Product/1">VILLAEM 2</a>
+                                </h4>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="product-highlights-item">
+                        <figure class="highlights-category">
+                            <div class="highlights-image effect_image">
+                                <a href="/Product/1">
+                                    <img src="/app/images/photos/img-product-bl2.jpg" alt="" width="480" height="390">
+                                </a>
+                            </div>
+                            <figcaption class="highlights-caption">
+                                <h4 class="highlights-title">
+                                    <a href="/Product/1">VILLAEM 2</a>
+                                </h4>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="product-highlights-item">
+                        <figure class="highlights-category">
+                            <div class="highlights-image effect_image">
+                                <a href="/Product/1">
+                                    <img src="/app/images/photos/img-product-bl3.jpg" alt="" width="480" height="390">
+                                </a>
+                            </div>
+                            <figcaption class="highlights-caption">
+                                <h4 class="highlights-title">
+                                    <a href="/Product/1">VILLAEM 2</a>
+                                </h4>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <!--end product-highlights-->
         </div>
     </div>
 </div>
+@section AdditionScripts{
+    <script>
+
+        class Product_Index {
+            constructor() {
+                var that = this;
+                this.loadProducts();
+                this.loadProductRandom();
+                this.catId = 0;
+                $("[data-cat]").on('click', (e) => {
+                    that.changeCategory(Number($(e.target).data("cat")));
+                });
+            }
+            changeCategory(catId) {
+                this.catId = catId;
+                this.loadProducts();
+            }
+            loadProducts() {
+                let container_products = $(".product-entries-list").empty();
+                $.get("/product/GetProductsByCategoryId", { catId: this.catId }).done((res) => {
+                    if (res.success) {
+                        if (res.data && res.data.length > 0) {
+                            res.data.forEach(itemData => {
+                                let itemDom = $(`
+                                    <div class="product-entries-item wow fadeInUp">
+                                        <figure class="product-category">
+                                            <div class="product-image effect_image">
+                                                <a href="/Product/Info/${itemData.id}">
+                                                    <img class="product-image" src="${itemData.images[0].path}" alt="" height="263">
+                                                </a>
+                                                <div class="feature-product"></div>
+                                            </div>
+                                            <figcaption class="product-caption">
+                                                <h4 class="product-title">
+                                                    <a href=""></a>
+                                                </h4>
+                                                <h4 class="product-price"><span class='price-ori'></span><span class="symbol"></span><span class='price-calc'></span></h4>
+                                            </figcaption>
+                                        </figure>
+                                    </div>`).appendTo(container_products);
+                                let title_product = itemData.name ? itemData.name : '';
+                                itemDom.find('.product-title').find('a').text(title_product);
+                                if (itemData.discount) {
+                                    itemDom.find('.price-ori').text(EnumMethod.formatMoney(itemData.unit_price) + itemData.unit);
+                                    itemDom.find('.symbol').text(' - ');
+                                }
+                                let price_calc = itemData.discount ? itemData.discount * itemData.unit_price / 100 : itemData.unit_price;
+                                itemDom.find('.price-calc').text(EnumMethod.formatMoney(price_calc) + "$");
+
+                            });
+
+                        } else {
+                            container_products.append(`<div class="product-empty" style="width:100%;text-align:center;font-size:25px;font-weight:600;padding:71px 0 115px 0;">Hiện chưa có sản phẩm</div>`)
+                        }
+
+                    }
+                });
+            }
+            loadProductRandom() {
+
+                let list_container = $('.product-highlights-list').empty();
+                $.get("/Product/GetRelatedProducts", { productId:1,catId:this.catId}).done((res) => {
+                    if (res.success) {
+                        res.data.forEach((itemData, idx) => {
+                            let itemDom = $(`<div class="product-highlights-item">
+                                                <figure class="highlights-category">
+                                                    <div class="highlights-image effect_image">
+                                                        <a href="" class="link-item">
+                                                            <img class="img-product" src="/app/images/photos/img-product-bl1.jpg" alt="" height="390">
+                                                        </a>
+                                                    </div>
+                                                    <figcaption class="highlights-caption">
+                                                        <h4 class="highlights-title">
+                                                            <a href="" class="link-item product-name"></a>
+                                                        </h4>
+                                                    </figcaption>
+                                                </figure>
+                                            </div>`).appendTo(list_container);
+                            itemDom.find('.link-item').attr('href', '/Product/Info/' + itemData.id);
+                            itemDom.find('.product-name').text(itemData.name ? itemData.name : '');
+                            if (itemData.images&&itemData.images.length > 0) {
+                                itemDom.find('.img-product').attr('src', itemData.images[0].path);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        jQuery(document).ready(() => {
+            showCart();
+            new Product_Index();
+        });
+    </script>
+
+}

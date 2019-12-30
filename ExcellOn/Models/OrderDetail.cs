@@ -15,11 +15,16 @@ namespace ExcellOn.Models
         public int id { get; set; }
         [ForeignKey(nameof(order))]
         public int order_id { get; set; }
+        [ForeignKey(nameof(product))]
         public int product_id { get; set; }
         public int quantity { get; set; }
         public double discount { get; set; }
         [NotMapped]
         public virtual Order order { get; set; }
+        [NotMapped]
+        public bool selected { get; set; }
+        [NotMapped]
+        public virtual Product product { get; set; }
 
     }
 

@@ -96,3 +96,43 @@ body {
 .modal-header {
     text-align: center
 }
+
+#shopping_cart {
+    position: absolute;
+    box-shadow: 0px 3px 10px #ccc;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    right: 55px;
+    border-radius: 50%;
+    background: #5a4091;
+}
+#cart_icon {
+    line-height: 52px;
+    font-size: 33px;
+    margin-left: 5px;
+    color:white
+}
+#cart_number {
+    position: absolute;
+    display: block;
+    height: auto;
+    width: auto;
+    border-radius: 50%;
+    top: 0px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    right: -5px;
+    padding-right:2px;
+    padding-left:2px;
+    background: red;
+    min-width:18px;
+}
+.remove-cart {
+    background: #f80000 !important;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 21px;
+    padding-left: 2px;
+}

@@ -15,7 +15,8 @@ namespace ExcellOn.Repositories
 {
     public interface IProductRepository : IRepository<Product, int>
     {
-        List<Product> GetAllProducts();
+        IEnumerable<Product> GetItems(string condition = "(1=1)");
+        Product GetItem(int key);
     }
 
 
@@ -26,15 +27,20 @@ namespace ExcellOn.Repositories
         {
 
         }
-        
 
-        public List<Product> GetAllProducts()
+        public Product GetItem(int key)
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Product> items = session.Find<Product>(stm => stm
-                                                                    .Include<CategoryProduct>(j=>j.LeftOuterJoin())
-                                                                    .OrderBy($"{Sql.Table<Product>()}.{nameof(Product.name)}")).ToList();
+                return GetItems($"{Sql.Table<Product>()}.{nameof(Product.id)}={key}").FirstOrDefault();
+            }
+        }
+
+        public IEnumerable<Product> GetItems(string condition = "(1=1)")
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                var items = session.Find<Product>(stm => stm.Where($"{condition}").Include<CategoryProduct>().OrderBy($"{Sql.Table<Product>()}.{nameof(Product.name)}"));
                 foreach (var item in items)
                 {
                     item.images = session.Find<ProductImage>(stm => stm.Where($"{nameof(ProductImage.product_id)}={item.id}"));

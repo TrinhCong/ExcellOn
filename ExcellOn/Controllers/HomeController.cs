@@ -59,7 +59,7 @@ namespace ExcellOn.Controllers
         {
             return View();
         }
-        public ActionResult Report()
+        public ActionResult Statistic()
         {
             return View();
         }

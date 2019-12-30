@@ -57,3 +57,31 @@ var EXO = function () {
         },
     };
 }();
+
+let EnumMethod = {
+    formatMoney: (money, discount) => {
+        if (discount == undefined || discount == null)
+            return (money).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split('.')[0];
+        let money_final = discount ? money * discount / 100 : money;
+        return {
+            money: money_final,
+            money_string: (money_final).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').split('.')[0],
+        }
+    },
+    isValidEmails: (email) => {
+        var re = /^((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}));)*((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))+$/;
+        return re.test(String(email).toLowerCase());
+    },
+    isPhoneNumber: (phone) => {
+        var re = /(09|01[2|6|8|9])+([0-9]{8})\b/;
+        return re.test(String(phone));
+    },
+    isPassword: (pass) => {
+        var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        return re.test(pass);
+    },
+}
+
+var showCart=()=>{
+    $("#shopping_cart").show();
+}
