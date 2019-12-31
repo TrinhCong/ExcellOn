@@ -154,5 +154,15 @@ namespace ExcellOn.Controllers
             return View();
         }
 
+        public ActionResult ServiceOrderNoCare()
+        {
+            return View();
+        }
+
+        public ActionResult ServiceOrderCare()
+        {
+            return View();
+        }
+
     }
 }

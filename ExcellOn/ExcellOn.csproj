@@ -214,6 +214,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ServiceOrderController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\DepartmentRepository.cs" />
+    <Compile Include="Repositories\ServiceOrderRepository.cs" />
     <Compile Include="Repositories\ServiceRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
@@ -591,6 +593,8 @@
     <Content Include="Views\Admin\Service.cshtml" />
     <Content Include="Views\Admin\UnAuthorized.cshtml" />
     <Content Include="Views\Admin\Employee.cshtml" />
+    <Content Include="Views\Admin\ServiceOrder.cshtml" />
+    <Content Include="Views\Admin\ServiceOrderNoCare.cshtml" />
     <Content Include="Views\Product\Cart.cshtml" />
     <Content Include="Views\Product\Info.cshtml" />
   </ItemGroup>
@@ -598,6 +602,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\avatars\" />
     <Folder Include="Content\uploads\products\" />
+    <Folder Include="Views\ServiceOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
