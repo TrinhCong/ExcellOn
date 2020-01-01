@@ -65,9 +65,15 @@ namespace ExcellOn.Controllers
             return Json(new ResponseInfo(false, "Wrong user name or password!"), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult Detail(int customerId)
+        public ActionResult CustomerDetail(int customerId)
         {
             var customer = _customerRepository.GetCustomerById(customerId);
+            return View(customer);
+        }
+        [HttpGet]
+        public ActionResult EmployeeDetail(int employeeId)
+        {
+            var customer = _employeeRepository.GetEmployeeById(employeeId);
             return View(customer);
         }
         public ActionResult Register()
@@ -136,7 +142,7 @@ namespace ExcellOn.Controllers
         public ActionResult Service()
         {
             ViewBag.Categories = _categoryServiceRepository.GetAllServiceCategories();
-            ViewBag.Services = _serviceRepository.GetAllServices();
+            ViewBag.Services = _serviceRepository.GetItems();
             return View();
         }
         public ActionResult ProductCategory()

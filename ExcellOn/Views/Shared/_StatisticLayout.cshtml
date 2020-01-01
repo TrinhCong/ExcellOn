@@ -32,58 +32,39 @@
             <div class="sidebar-header">
                 <a href="/">
                     <img class="img-fluid" src="~/Content/images/simple_logo.png" width="42" height="42" alt="" />
-                    &nbsp;Administration
+                    &nbsp;Statistics & Reports
                 </a>
             </div>
             <ul class="list-unstyled components">
                 @*<p>Dummy Heading</p>*@
                 <li>
-                    <a href="#accountSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Accounts Management</a>
-                    <ul class="collapse list-unstyled" id="accountSubmenu">
+                    <a href="#productOrderSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Product Orders</a>
+                    <ul class="collapse list-unstyled" id="productOrderSubmenu">
                         <li>
-                            <a href="/Admin/Customer"><i class="fa fa-file"></i> Customers</a>
+                            <a href="/Statistic/UnresolvedProductOrders"><i class="fa fa-file"></i> Unresolved Product Orders</a>
                         </li>
                         <li>
-                            <a href="/Admin/Employee"><i class="fa fa-book"></i> Employees</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="/Admin/Department"><i class="fa fa-file"></i> Departments Management</a>
-                </li>
-                <li>
-                    <a href="#serviceSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Services Management</a>
-                    <ul class="collapse list-unstyled" id="serviceSubmenu">
-                        <li>
-                            <a href="/Admin/ServiceCategory"><i class="fa fa-book"></i> Service Categories</a>
-                        </li>
-                        <li>
-                            <a href="/Admin/Service"><i class="fa fa-file"></i> Services</a>
+                            <a href="/Statistic/ResolvedProductOrders"><i class="fa fa-book"></i> Resolved Product Orders</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#productSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Products Management</a>
-                    <ul class="collapse list-unstyled" id="productSubmenu">
+                    <a href="#serviceOrderSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> Serivce  Orders</a>
+                    <ul class="collapse list-unstyled" id="serviceOrderSubmenu">
                         <li>
-                            <a href="/Admin/ProductCategory"><i class="fa fa-book"></i> Product Categories</a>
+                            <a href="/Statistic/UnresolvedServiceOrders"><i class="fa fa-file"></i> Unresolved Service Orders</a>
                         </li>
                         <li>
-                            <a href="/Admin/Product"><i class="fa fa-file"></i> Products</a>
+                            <a href="/Statistic/ResolvedServiceOrders"><i class="fa fa-book"></i> Resolved Service Orders</a>
                         </li>
                     </ul>
                 </li>
-                @*<li>
-                    <a href="#userServiceSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-briefcase"></i> ServiceOrder</a>
-                    <ul class="collapse list-unstyled" id="userServiceSubmenu">
-                        <li>
-                            <a href="/Admin/ServiceOrderNoCare"><i class="fa fa-book"></i>ServicesOrder</a>
-                        </li>
-                        <li>
-                            <a href="/Admin/Product"><i class="fa fa-file"></i> MyServicesOrder</a>
-                        </li>
-                    </ul>
-                </li>*@
+                <li>
+                    <a href="/Statistic/OrdersStatistics"><i class="fa fa-file"></i>Orders Statistics</a>
+                </li>
+                <li>
+                    <a href="/Statistic/OrdersReports"><i class="fa fa-file"></i>Orders Reports</a>
+                </li>
             </ul>
         </nav>
 
@@ -104,7 +85,7 @@
                                 <img src="@avatarSrc" width="26" height="26" />
                             </div>
                             <div style="float: left;">
-                                <span><a href="/Admin/EmployeeDetail?employeeId=@employee.id">@employee.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
+                                <span><a href="/Statistic/EmployeeDetail?employeeId=@employee.id">@employee.display_name</a>   | <a href="/Statistic/Logout">Logout</a></span>
                             </div>
                         }
                         else
@@ -115,12 +96,12 @@
                                 <img src="@avatarSrc" width="26" height="26" />
                             </div>
                             <div style="float: left;">
-                                <span><a href="/Admin/CustomerDetail?customerId=@customer.id">@customer.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
+                                <span><a href="/Statistic/CustomerDetail?customerId=@customer.id">@customer.display_name</a>   | <a href="/Statistic/Logout">Logout</a></span>
                             </div>
                         }
                         else
                         {
-                            <span><a href="/Admin/Login">Login</a> | <a href="/Admin/Register">Register</a></span>
+                            <span><a href="/Statistic/Login">Login</a> | <a href="/Statistic/Register">Register</a></span>
                         }
                     </div>
                 </div>

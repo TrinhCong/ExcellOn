@@ -41,11 +41,29 @@ namespace ExcellOn.Controllers
 
         public ActionResult GetAllServices()
         {
-            var service = _serviceRepository.GetAllServices();
+            var service = _serviceRepository.GetItems();
             return Json(new ResponseInfo(success: true, data: service), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetServicesByCategoryId(int catId = 0)
+        {
+            var condtion = "(1=1)";
+            if (catId > 0)
+                condtion = $"{Sql.Table<Service>()}.{nameof(Service.cat_id)}={catId}";
+            return Json(new ResponseInfo(success: true, data: _serviceRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
+        }
 
+
+
+        public ActionResult Info()
+        {
+            return View();
+        }
+        
+        public ActionResult Get(int id)
+        {
+            return Json(new ResponseInfo(success: true, data: _serviceRepository.GetItem(id)), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult DeleteCategory(int id)
         {
             using (var session = GetSession())
@@ -94,10 +112,7 @@ namespace ExcellOn.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Categories = _categoryServiceRepository.GetAllServiceCategories();
-
-            ViewBag.Services = _serviceRepository.GetAllServices();
-
+            ViewBag.ServiceCategories = _categoryServiceRepository.GetAllServiceCategories();
             return View("Index");
         }
         public ActionResult Create()
