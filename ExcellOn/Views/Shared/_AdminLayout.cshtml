@@ -1,4 +1,9 @@
-﻿
+﻿@using ExcellOn.Models;
+@using ExcellOn.Enums;
+@{
+    var customer = (Customer)Session["Customer"];
+    var employee = (Employee)Session["Employee"];
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,14 +120,12 @@
     <script src="~/Scripts/pages/fontawesome.js"></script>
     <script src="~/Scripts/pages/solid.js"></script>
 
-
     <!-- Global Plugin -->
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/plugins/datatables/DataTables-1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
     <script src="~/Content/plugins/fancy-box/jquery.fancybox.min.js"></script>
-
     <!--Custom js-->
     <script src="~/Scripts/pages/page.js"></script>
 

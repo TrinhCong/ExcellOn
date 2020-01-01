@@ -16865,7 +16865,7 @@ the shopping cart
 }
 .shopping-list .shopping-item .remove-cart {
   position: absolute;
-  right: 0;
+  right: 20px;
   top: 56px;
   width: 20px;
   height: 20px;
@@ -21958,7 +21958,7 @@ the search result page
   }
 }
 .modal-general .modal-header .modal-title {
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
   color: #35373D;

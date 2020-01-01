@@ -49,8 +49,8 @@
                                     </div>
                                     <!--end shopping-footer-->
                                     <div class="cart-control">
-                                        <a href="#" class="btn btn-continue-buy  btn-primary" style="background:#5a4091  !important">Tiếp tục mua hàng</a>
-                                        <a href="#" class="btn btn-buy">Mua hàng</a>
+                                        <a href="/product/index" class="btn btn-continue-buy  btn-primary" style="background:#5a4091  !important">Tiếp tục mua hàng</a>
+                                        
                                     </div>
                                     <!--end cart-control-->
                                 </div>
@@ -65,6 +65,61 @@
         </div>
     </section>
     <!--end section-season-detail-->
+</div>
+<div class="modal fade modal-general modal-form modal-order" data-backdrop="static" id="order-modal" tabindex="-1"
+     role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-close">&nbsp;</i>
+                </button>
+                <h4 class="modal-title">
+                    ORDER INFORMATION
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-form-inner">
+                    <p class="paragraph-note">
+                        Please fill in the following information correctly to confirm your order. We will contact you soon
+                    </p>
+                    <form class="contact-form-popup" action="" method="post">
+                        <div class="form-group">
+                            <div class="form-input">
+                                <label class="label-form" for="username-registry">Payments :</label>
+                                <select name="pay-type">
+                                    <option value="1">credit card</option>
+                                    <option value="2">cash payment</option>
+                                </select>
+                            </div>
+                            <div class="form-input pay-card">
+                                The function is under construction
+                            </div>
+                            <div class=" pay-cash">
+                                <div class="form-input">
+                                    <label class="label-form">Ship Date:</label>
+                                </div>
+                                <div class="form-input">
+                                    <label class="label-form" for="phone-registry">Address :</label>
+                                    <input type="text" class="form-control" id="info-address" placeholder="Address...">
+                                </div>
+                                <div class="form-input">
+                                    <label class="label-form" for="info-message">Message</label>
+                                    <textarea class="form-control" name="info-message"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mb0 text-center">
+                            <div class="form-submit">
+                                <button type="submit" class="btn btn-finish" id="submit-order">Hoàn thành</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/html" id="item-shopping">
     <li class="shopping-item">
@@ -92,7 +147,7 @@
             <div class="order-up-down">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-number bdr0 quantity-minus  btn-success" style="background:#0094ff !important">
+                        <button type="button" class="btn btn-number bdr0 quantity-minus btn-success" style="background:#0094ff !important">
                             <i class="fa fa-minus">&nbsp;</i>
                         </button>
                     </div>
@@ -120,6 +175,13 @@
         class CartAnonymous {
             constructor() {
                 that = this;
+                // if (document.is_auth) {
+                //    this.urlUpdateCart = "updateShopingCartFromSession";
+                //    this._userId = localStorage.getItem("customerID") ? localStorage.getItem("customerID") : localStorage.getItem("employeeID");
+                //} else {
+                //    this.urlUpdateCart = "updateCartAnonymous";
+               // }
+
                 this.define();
                 this.getShoppingList();
             }
@@ -128,6 +190,16 @@
                 this.usePoint = $('[name=use-point]');
                 this.listCartProduct = $('.shopping-list');
                 this.tmpItem = $('#item-shopping');
+                this.modal = $(".modal-order");
+                this.modal.pay_type = this.modal.find("[name=pay-type]").on('change', (e) => {
+                    if ($(e.target).val() == 1) {
+                        $(".pay-card").show();
+                        $(".pay-cash").hide();
+                    } else {
+                         $(".pay-card").hide();
+                        $(".pay-cash").show();
+                    }
+                });
 
                 this.listCartProduct.on('click', '.quantity-minus', (e) => {
                     that.minusQuantity(e);
@@ -137,11 +209,16 @@
                 });
                 this.listCartProduct.on('click', '.remove-cart', (e) => {
                     e.preventDefault();
-                let $li = $(e.target).closest('li');
-                let itemData = $li[0].itemData;
-                $li.remove();
+                    let $li = $(e.target).closest('li');
+                    let itemData = $li[0].itemData;
+                    $li.remove();
                     this.removeProduct(itemData.id);
                 });
+                if (document.is_auth) {
+                    $(".cart-control").append(`<a href="/admin/login" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
+                } else {
+                    $(".cart-control").append(`<a href="#" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
+                }
             }
             updateListProduct() {
                 let priceTotal = 0;
@@ -158,7 +235,7 @@
             }
 
             getShoppingList() {
-                $.post('/product/updateShoppingCart').done((res) => {
+                $.post('/product/UpdateShoppingCart').done((res) => {
                     if (res.success) {
                         if (res.data && res.data.length > 0) {
                             let priceTotal = 0;
@@ -228,7 +305,7 @@
                 if (quantityCurrent - 1 === 0) {
                     EXO.confirm("Are you sure to delete this product from cart?", (response) => {
                         if (response.value) {
-                                $li.find('.remove-cart').trigger('click');
+                            $li.find('.remove-cart').trigger('click');
                         }
                     });
                 } else {
@@ -245,7 +322,7 @@
                 }
             }
             removeProduct(id) {
-                $.get('/product/removeProductFromCart', { id: id});
+                $.get('/product/removeProductFromCart', { id: id });
                 this.updateListProduct();
             }
 
@@ -271,15 +348,15 @@
                     }
 
                 } else {
-                     EXO.confirm("Are you sure to delete this product from cart?", (response) => {
-                         if (response.value) {
-                             $li.find('.remove-cart').trigger('click');
-                         }
-                         else {
-                                $li[0].itemData.quantity = quantityOld;
-                                inputNumberic.set(quantityOld);
-                                this.updateListProduct();
-                         }
+                    EXO.confirm("Are you sure to delete this product from cart?", (response) => {
+                        if (response.value) {
+                            $li.find('.remove-cart').trigger('click');
+                        }
+                        else {
+                            $li[0].itemData.quantity = quantityOld;
+                            inputNumberic.set(quantityOld);
+                            this.updateListProduct();
+                        }
                     });
                 }
             }
