@@ -79,6 +79,13 @@
                             <a class="nav-link js-scroll-trigger" href="/Admin/Customer">Administration</a>
                         </li>
                     }
+
+                    @if (employee != null && employee.role_id != EnumRole.CUSTOMER)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="/Statistic/ProcessingOrders">Statistics</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/Home/About">About</a>
                     </li>
@@ -91,12 +98,6 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/Home/Team">Team</a>
                     </li>
-                    @if (employee != null && employee.role_id != EnumRole.CUSTOMER)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="/Home/Statistic">Statistics</a>
-                        </li>
-                    }
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/Home/Blog">Blog</a>
                     </li>
@@ -115,7 +116,7 @@
                     <img src="@avatarSrc" width="26" height="26" />
                 </div>
                 <div style="float: left;">
-                    <span><a href="/Admin/Detail?userId=@employee.id">@employee.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
+                    <span><a href="/Admin/EmployeeDetail?employeeId=@employee.id">@employee.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
                 </div>
             }
             else
@@ -126,7 +127,7 @@
                     <img src="@avatarSrc" width="26" height="26" />
                 </div>
                 <div style="float: left;">
-                    <span><a href="/Admin/Detail?userId=@customer.id">@customer.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
+                    <span><a href="/Admin/CustomerDetail?customerId=@customer.id">@customer.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
                 </div>
             }
             else
@@ -213,6 +214,19 @@
     <!-- ALL PLUGINS -->
     <script src="~/Scripts/pages/page.js"></script>
     <script src="~/Scripts/pages/custom.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var link = $(location).attr('href');
+            $.each($('a'), (index, ele) => {
+                if (link.indexOf($(ele).attr('href')) > -1) {
+                    $(ele).addClass( 'active');
+                }
+                else
+                    $(ele).removeClass('active');
+            });
+        });
+    </script>
     @RenderSection("AdditionScripts", false)
 </body>
 </html>

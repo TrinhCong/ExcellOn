@@ -211,6 +211,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -359,6 +360,13 @@
     <Content Include="Content\uploads\img-1.jpg" />
     <Content Include="Content\uploads\img-2.jpg" />
     <Content Include="Content\uploads\img-3.jpg" />
+    <Content Include="Content\uploads\services\6fbeb38b.jpg" />
+    <Content Include="Content\uploads\services\76572257.jpg" />
+    <Content Include="Content\uploads\services\f384fa2f.jpg" />
+    <Content Include="Content\uploads\services\f3894309.jpg" />
+    <Content Include="Content\uploads\services\f38c1761.jpg" />
+    <Content Include="Content\uploads\services\f38fb06e.jpg" />
+    <Content Include="Content\uploads\services\f39947d3.jpg" />
     <Content Include="Content\uploads\slider-01.jpg" />
     <Content Include="Content\uploads\slider-02.jpg" />
     <Content Include="Content\uploads\slider-03.jpg" />
@@ -577,7 +585,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Admin\Register.cshtml" />
-    <Content Include="Views\Admin\Detail.cshtml" />
+    <Content Include="Views\Admin\EmployeeDetail.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Service\Index.cshtml" />
     <Content Include="Views\Home\Team.cshtml" />
@@ -597,12 +605,15 @@
     <Content Include="Views\Admin\ServiceOrderNoCare.cshtml" />
     <Content Include="Views\Product\Cart.cshtml" />
     <Content Include="Views\Product\Info.cshtml" />
+    <Content Include="Views\Service\Info.cshtml" />
+    <Content Include="Views\Shared\_StatisticLayout.cshtml" />
+    <Content Include="Views\Admin\CustomerDetail.cshtml" />
+    <Content Include="Views\Statistic\UnresolvedProductOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\uploads\avatars\" />
     <Folder Include="Content\uploads\products\" />
-    <Folder Include="Views\ServiceOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

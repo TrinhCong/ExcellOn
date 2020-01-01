@@ -1,0 +1,261 @@
+
+@section AdditionStyles{
+    <style>
+        .service-name {
+            font-size: 3rem !important;
+        }
+
+        .vertical {
+            vertical-align: middle;
+        }
+
+        .feature_no_image {
+            padding: 5rem;
+            width: 100%;
+        }
+
+        .service-color-list {
+            list-style: none;
+        }
+
+            .service-color-list li {
+                float: left;
+                margin-right: 5px;
+            }
+
+                .service-color-list li .item-color:after {
+                    transition: 0.5s;
+                    opacity: 0;
+                }
+
+                .service-color-list li.active .item-color:after {
+                    content: "";
+                    width: 30px;
+                    height: 16px;
+                    position: absolute;
+                    top: -5px;
+                    right: -11px;
+                    background-color: #2fb512;
+                    transform: rotate(45deg);
+                    border-bottom: 1px solid #ffffff;
+                    opacity: 1;
+                }
+
+        .item-color {
+            width: 35px;
+            height: 35px;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+    </style>
+}
+
+
+<div id="service_details" class="section wb">
+    <div class="container-fluid">
+        <div class="section-title text-center" style="margin-top:50px">
+            <h3>Service Details</h3>
+        </div><!-- end title -->
+        <div class="main-content">
+            <section class="section-service">
+                <div class="container">
+                    <div class="section-breadcrumb">
+                        <ol class="breadcrumb">
+                            @*<li class="breadcrumb-item">
+                                <a href="#">Trang chủ</a>
+                            </li>*@
+                            <li class="breadcrumb-item breadcrumb-careType">
+                                <a href="#"></a>
+                            </li>
+                            <li class="breadcrumb-item breadcrumd-service active">
+                                <span></span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="service-total">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 service-album-col">
+                                <div class="service-album">
+                                    <div class="service-photos">
+                                        <div class="slider-for">
+                                        </div> 
+                                        <!--end slider-for-->
+                                        <div class="slider-nav">
+                                        </div>
+                                        <!--end slider-for-->
+                                    </div>
+                                </div>
+                                <!--end service-album-->
+                            </div>
+                            <div class="col-md-6 col-xs-12 service-detail-col">
+                                <div class="service-detail">
+                                    <div class="service-descript">
+                                        <p class="paragraph-code service-model"></p>
+                                        <h3 class="heading-detail service-name"></h3>
+                                        <p class="paragraph-detail service-desc"></p>
+                                    </div>
+                                    <div class="specificity-list">
+                                        <div class="service-specificity">
+                                            <div class="specificity-name">
+                                                <p class="service_price">Unit Price:</p>
+                                            </div>
+                                            <div class="specificity-status">
+                                                <p class="paragraph-price service-price"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="button-cart">
+                                        <ul class="button-cart-list">
+                                            <li>
+                                                <a href="#" class="btn btn-success buy_now"><i class="fa fa-money"></i> &nbsp;Register Now</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end service-row-->
+                </div>
+            </section>
+            <!--end section-service-->
+            <section class="">
+                <div class="container">
+                    <div class="table-responsive table-life">
+                        <table class="table table-bordered table-detail">
+                            <tbody>
+                                <tr>
+                                    <th class="bg-blue" colspan="3" width="135">SERVICE SPECIFICATION</th>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Category</th>
+                                    <td width="876" data-category></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">using hours</th>
+                                    <td width="876" data-hours></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Price</th>
+                                    <td width="876" data-price></td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-blue" colspan="2" width="135">Description</th>
+                                    <td width="876" data-description></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <!--end technical-data-->
+        </div>
+        <!--end main-content-->
+    </div>
+</div>
+
+
+@section AdditionScripts{
+    <script src="~/Scripts/pages/slick.min.js"></script>
+    <script>
+
+        class Info {
+            constructor() {
+                let paths = window.location.pathname.split('/');
+                this.serviceId = parseInt(paths[3]) ? parseInt(paths[3]) : 0;
+                this.loadService();
+            }
+
+            loadBreadcrumb(data) {
+                let service_name = data.name ? data.name :
+                    data.kind ? data.kind : '';
+                $(".breadcrumb-careType").find('a').attr('href', '/Service/danh-sach/' + data.care_id).text(data.care);
+                $(".breadcrumd-service").find('span').text(service_name);
+            }
+
+            loadService() {
+                $.get('/service/Get', { id: this.serviceId }).done((res) => {
+                    if (res.success) {
+                        if (res.data != null) {
+                            this.serviceData = res.data;
+                            this.loadBreadcrumb(res.data);
+                            this.loadSlick(res.data);
+                            this.loadServiceInfo(res.data);
+                        }
+                    }
+                });
+            }
+
+            loadSlick(data) {
+                let ctn_sli_vertical = $(".slider-for");
+                let ctn_sli_nav = $(".slider-nav");
+
+                data.images.forEach((item) => {
+                    ctn_sli_vertical.append(`<div class="vertical-slide">
+                                                        <div class="slide-photos-small">
+                                                            <img src="${item.path}" alt="" width="109" height="112">
+                                                        </div>
+                                                    </div>`);
+                    ctn_sli_nav.append(`<div class="photos-slide">
+                                                        <div class="slide-photos-large">
+                                                            <img src="${item.path}" alt="" width="300" height="382">
+                                                        </div>
+                                                    </div>`);
+                });
+
+                ctn_sli_vertical.slick({
+                    slidesToShow: data.images.length > 4 ? 4 : data.images.length,
+                    slidesToScroll: 1,
+                    asNavFor: '.slider-nav',
+                    focusOnSelect: true,
+                    arrows: true,
+                    nextArrow: "<a href='javascript:void(0);' class='slick-next slick-arrow'><img src='/app/images/front/btn_next_up.png' alt='next' width='17' height='10' /></a>",
+                    prevArrow: "<a href='javascript:void(0);' class='slick-prev slick-arrow'><img src='/app/images/front/btn_prev_down.png' alt='prev' width='17' height='10' /></a>",
+                    vertical: true
+                });
+
+                ctn_sli_nav.slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    fade: true,
+                    asNavFor: '.slider-for',
+                    customPaging: function (slider, i) {
+                        return ('<a href="javascript:void(0)"><span>' + (i + 1) + 'Show the second slide</span></a>');
+                    },
+                    dots: true
+                });
+
+                setTimeout(() => {
+                    ctn_sli_vertical.slick('refresh');
+                    ctn_sli_nav.slick('refresh');
+                }, 200);
+            }
+
+            loadServiceInfo(data) {
+                let ctn_detail = $(".service-detail");
+                let service_name = data.name ? data.name : '';
+                ctn_detail.find('.service-name').text(service_name);
+                ctn_detail.find('.service-desc').text(data.description);
+                let price = data.discount ? EnumMethod.formatMoney(data.price * data.discount / 100)
+                    : EnumMethod.formatMoney(data.price);
+                ctn_detail.find('.service-price').text(price + "$");
+                this.loadServiceDetail(data);
+            }
+            loadServiceDetail(data) {
+                $("[data-category]").text(data.category.name);
+                $("[data-price]").text(data.price);
+                $("[data-hours]").text(data.hours);
+                $("[data-description]").text(data.description);
+            }
+
+        }
+
+        $(document).ready(() => {
+            new Info();
+        });
+    </script>
+}

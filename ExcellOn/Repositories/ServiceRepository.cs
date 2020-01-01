@@ -15,8 +15,8 @@ namespace ExcellOn.Repositories
 {
     public interface IServiceRepository : IRepository<Service, int>
     {
-        List<Service> GetAllServices();
-
+        Service GetItem(int key);
+        IEnumerable<Service> GetItems(string condition = "(1=1)");
     }
 
     public class ServiceRepository : Repository<Service, int>, IServiceRepository
@@ -27,13 +27,20 @@ namespace ExcellOn.Repositories
         }
 
 
-        public List<Service> GetAllServices()
+
+        public Service GetItem(int key)
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                List<Service> items = session.Find<Service>(stm => stm
-                                                                    .Include<CategoryService>(j => j.LeftOuterJoin())
-                                                                    .OrderBy($"{Sql.Table<Service>()}.{nameof(Service.name)}")).ToList();
+                return GetItems($"{Sql.Table<Service>()}.{nameof(Service.id)}={key}").FirstOrDefault();
+            }
+        }
+
+        public IEnumerable<Service> GetItems(string condition = "(1=1)")
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                var items = session.Find<Service>(stm => stm.Where($"{condition}").Include<CategoryService>().OrderBy($"{Sql.Table<Service>()}.{nameof(Service.name)}"));
                 foreach (var item in items)
                 {
                     item.images = session.Find<ServiceImage>(stm => stm.Where($"{nameof(ServiceImage.service_id)}={item.id}"));
