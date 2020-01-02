@@ -12,6 +12,7 @@ using ExcellOn.ViewModels;
 using Dapper;
 using System.IO;
 using Dapper.FastCrud;
+using System.Threading.Tasks;
 
 namespace ExcellOn.Controllers
 {
@@ -153,99 +154,32 @@ namespace ExcellOn.Controllers
             return Json(new ResponseInfo(true, data: Session["ShoppingCart"]), JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
-        //public ActionResult updateShopingCartFromSession(int _userId)
-        //{
-        //    using (var session = GetSession())
-        //    {
-        //        var infos = (List<OrderDetail>)Session["ShoppingCart"];
-        //        //Kiểm tra nếu user Chưa có giỏ hàng thì tạo mới 1 giỏ hàng
-        //        var userId = _userId;
-        //        var existItem = session
-        //            .Find<Order>(stm => stm.Where($"{nameof(Order.user_id)}='{userId}'"))
-        //            .FirstOrDefault();
-        //        var cartId = 0;
-        //        if (existItem == null)
-        //        {
-        //            var cart = new Order { user_id = userId };
-        //            session.Insert(cart);
-        //            cartId = cart.id;
-        //        }
-        //        else
-        //            cartId = existItem.id;
-
-
-        //        if (infos != null)
-        //        {
-        //            foreach (var info in infos)
-        //            {
-        //                //Trường hợp người dùng thêm sản phẩm vào giỏ hàng sau đó mới đăng nhập
-        //                //Ta cần merge sản phẩm ở giỏ hàng vào sản phẩm trong database
-        //                var existInfo = session.Find<OrderDetail>(stm =>
-        //                        stm.Where(
-        //                            $"{nameof(OrderDetail.order_id)}={info.order_id} AND {nameof(OrderDetail.product_id)}={info.product_id}"))
-        //                    .FirstOrDefault();
-        //                if (existInfo != null && info.id == 0)
-        //                {
-        //                    info.quantity += existInfo.quantity;
-        //                    info.id = existInfo.id;
-        //                }
-
-        //                var item = info;
-        //                if (item.id > 0)
-        //                    session.Update(item);
-        //                else
-        //                {
-        //                    session.Insert(item);
-        //                    info.id = item.id;
-        //                }
-        //            }
-        //            Session["ShoppingCart"] = null;
-        //        }
-
-        //        var orderDetails = session.Find<OrderDetail>(stm => stm
-        //            .Where($"{Sql.Table<Order>()}.{nameof(Order.user_id)}='{userId}'")
-        //            .Include<Order>()).ToList();
-
-        //        BindProductToOrderDetails(ref orderDetails);
-        //        return Json(new ResponseInfo(true, data: orderDetails), JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //public ActionResult updateCartAnonymous(List<OrderDetail> infos)
-        //{
-        //    var cartInfos = new List<OrderDetail>();
-        //    var cartBefores = (List<OrderDetail>)Session["ShoppingCart"];
-
-        //    if (infos != null && infos.Count() > 0)
-        //    {
-        //        foreach (var info in infos)
-        //        {
-        //            if (cartBefores != null)
-        //            {
-        //                var exsist_items = cartBefores.Where(x => x.product.id == info.product.id);
-
-        //                if (exsist_items.FirstOrDefault() != null)
-        //                {
-        //                    var item = exsist_items.FirstOrDefault();
-        //                    item.quantity += info.quantity;
-        //                }
-        //                else
-        //                    cartInfos.Add(info);
-        //            }
-        //            else
-        //                cartInfos.Add(info);
-        //        }
-        //    }
-        //    if (cartBefores != null)
-        //    {
-        //        BindProductToOrderDetails(ref cartBefores);
-        //        cartInfos.AddRange(cartBefores);
-        //    }
-
-        //    Session["ShoppingCart"] = cartInfos;
-        //    return Json(new ResponseInfo(true, data: cartInfos), JsonRequestBehavior.AllowGet);
-        //}
+        [HttpPost]
+        public async Task<ActionResult> saveOrderDetails(List<OrderDetail> orderDetails, int userId, string message)
+        {
+            using (var session = GetSession())
+            {
+                var order = new Order
+                {
+                    user_id = userId,
+                    message = message,
+                    order_date = DateTime.Now,
+                    shipped_date = DateTime.Now.AddDays(7)
+                };
+                await session.InsertAsync(order);
+                foreach (var orderDetail in orderDetails)
+                {
+                    var item = new OrderDetail
+                    {
+                        order_id = order.id,
+                        product_id = orderDetail.product.id,
+                        quantity = orderDetail.quantity,
+                        discount = orderDetail.discount
+                    };
+                }
+                return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public ActionResult RemoveProductFromCart(int id)
         {

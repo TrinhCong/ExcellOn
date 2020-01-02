@@ -193,21 +193,10 @@
     <script src="~/Scripts/pages/contact_me.js"></script>
     <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
     <script src="~/Scripts/pages/autoNumberic.min.js"></script>
-    @if (customer != null || employee != null)
+    @if (customer != null)
     {
-        if (customer != null)
-        {
-            <script>
-                localStorage.setItem("customerID",@customer.id);
-            </script>
-        }
-        else if (employee != null)
-        {
-            <script>
-                localStorage.setItem("employeeID",@employee.id);
-            </script>
-        }
         <script>
+            localStorage.setItem("customerID",@customer.id);
             document.is_auth = true;
         </script>
     }
@@ -220,7 +209,7 @@
             var link = $(location).attr('href');
             $.each($('a'), (index, ele) => {
                 if (link.indexOf($(ele).attr('href')) > -1) {
-                    $(ele).addClass( 'active');
+                    $(ele).addClass('active');
                 }
                 else
                     $(ele).removeClass('active');

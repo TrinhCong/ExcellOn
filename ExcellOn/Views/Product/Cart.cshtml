@@ -50,7 +50,7 @@
                                     <!--end shopping-footer-->
                                     <div class="cart-control">
                                         <a href="/product/index" class="btn btn-continue-buy  btn-primary" style="background:#5a4091  !important">Tiếp tục mua hàng</a>
-                                        
+
                                     </div>
                                     <!--end cart-control-->
                                 </div>
@@ -97,7 +97,9 @@
                             </div>
                             <div class=" pay-cash">
                                 <div class="form-input">
-                                    <label class="label-form">Ship Date:</label>
+                                    <label class="label-form ship-date">
+                                        Estimated delivery date:
+                                    </label>
                                 </div>
                                 <div class="form-input">
                                     <label class="label-form" for="phone-registry">Address :</label>
@@ -109,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group mb0 text-center">
                             <div class="form-submit">
                                 <button type="submit" class="btn btn-finish" id="submit-order">Hoàn thành</button>
@@ -175,13 +177,7 @@
         class CartAnonymous {
             constructor() {
                 that = this;
-                // if (document.is_auth) {
-                //    this.urlUpdateCart = "updateShopingCartFromSession";
-                //    this._userId = localStorage.getItem("customerID") ? localStorage.getItem("customerID") : localStorage.getItem("employeeID");
-                //} else {
-                //    this.urlUpdateCart = "updateCartAnonymous";
-               // }
-
+                this.userID = localStorage.getItem("customerID");
                 this.define();
                 this.getShoppingList();
             }
@@ -196,9 +192,17 @@
                         $(".pay-card").show();
                         $(".pay-cash").hide();
                     } else {
-                         $(".pay-card").hide();
+                        $(".pay-card").hide();
                         $(".pay-cash").show();
                     }
+                });
+                let dateShip = new Date();
+                dateShip.setDate(dateShip.getDate() + 7);
+                this.modal.shipdate = this.modal.find('.ship-date')
+                    .text("Estimated delivery date: " + dateShip.getDate() + "/" + dateShip.getMonth() + "/" + dateShip.getFullYear());
+
+                this.modal.btn_Summit = this.modal.find("#submit-order").on('click', (e) => {
+                    this._onSummit();
                 });
 
                 this.listCartProduct.on('click', '.quantity-minus', (e) => {
@@ -233,7 +237,6 @@
                 let priceTotalToString = EnumMethod.formatMoney(priceTotal);
                 $('.sum-price').find('.total-for-price').text(priceTotalToString + "$");
             }
-
             getShoppingList() {
                 $.post('/product/UpdateShoppingCart').done((res) => {
                     if (res.success) {
@@ -346,7 +349,6 @@
                             }
                         });
                     }
-
                 } else {
                     EXO.confirm("Are you sure to delete this product from cart?", (response) => {
                         if (response.value) {
@@ -359,6 +361,17 @@
                         }
                     });
                 }
+            }
+
+            _onSummit() {
+                let OrderDetails = [];
+                this.listCartProduct.find('li').each((idx, ele) => {
+                    let $li = $(ele);
+                    OrderDetails.push($li[0].itemData);
+                });
+                $.ajax("/product/saveOrderDetails", { OrderDetails: OrderDetails }).done(xhr => {
+                    
+                });
             }
         }
 
