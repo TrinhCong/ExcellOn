@@ -9,15 +9,17 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 
 namespace ExcellOn.Controllers
 {
-    public class StatisticController : BaseController
+    public class HomeController : BaseController
     {
 
-        public StatisticController(
+        public HomeController(
                                 IDbFactory dbFactory
                                 ) : base(dbFactory)
         {
 
         }
+
+
 
         public ActionResult Index()
         {
@@ -47,7 +49,7 @@ namespace ExcellOn.Controllers
         {
             using (var session = _dbFactory.Create<IAppSession>())
             {
-                return Json(new { xhr = ""}, JsonRequestBehavior.AllowGet);
+                return Json(new { xhr = "" }, JsonRequestBehavior.AllowGet);
             }
         }
 

@@ -211,8 +211,8 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ServiceOrderController.cs" />

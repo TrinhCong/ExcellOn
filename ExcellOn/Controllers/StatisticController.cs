@@ -9,10 +9,10 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 
 namespace ExcellOn.Controllers
 {
-    public class HomeController : BaseController
+    public class StatisticController : BaseController
     {
 
-        public HomeController(
+        public StatisticController(
                                 IDbFactory dbFactory
                                 ) : base(dbFactory)
         {
