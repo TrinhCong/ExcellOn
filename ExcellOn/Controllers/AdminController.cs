@@ -105,23 +105,6 @@ namespace ExcellOn.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private void setCustomerSession(Customer entity)
-        {
-            Session["Customer"] = entity;
-        }
-        private void clearCustomerSession()
-        {
-            Session["Customer"] = null;
-        }
-        private void setEmployeeSession(Employee entity)
-        {
-            Session["Employee"] = entity;
-        }
-        private void clearEmployeeSession()
-        {
-            Session["Employee"] = null;
-        }
-
 
         public ActionResult Employee()
         {

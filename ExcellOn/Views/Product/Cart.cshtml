@@ -67,7 +67,7 @@
     <!--end section-season-detail-->
 </div>
 <div class="modal fade modal-general modal-form modal-order" data-backdrop="static" id="order-modal" tabindex="-1"
-     role="dialog" aria-hidden="true">
+     role="dialog" aria-hidden="true" style="z-index:1043!important;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -87,15 +87,15 @@
                         <div class="form-group">
                             <div class="form-input">
                                 <label class="label-form" for="username-registry">Payments :</label>
-                                <select name="pay-type">
-                                    <option value="1">credit card</option>
+                                <select name="pay-type" class="form-control">
                                     <option value="2">cash payment</option>
+                                    <option value="1">credit card</option>
                                 </select>
                             </div>
-                            <div class="form-input pay-card">
+                            <div class="form-input pay-card display-none">
                                 The function is under construction
                             </div>
-                            <div class=" pay-cash">
+                            <div class="pay-cash">
                                 <div class="form-input">
                                     <label class="label-form ship-date">
                                         Estimated delivery date:
@@ -107,14 +107,14 @@
                                 </div>
                                 <div class="form-input">
                                     <label class="label-form" for="info-message">Message</label>
-                                    <textarea class="form-control" name="info-message"></textarea>
+                                    <textarea class="form-control" id="info-message" placeholder="Message..."></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group mb0 text-center">
                             <div class="form-submit">
-                                <button type="submit" class="btn btn-finish" id="submit-order">Hoàn thành</button>
+                                <button type="button" class="btn btn-finish" id="submit-order">Finish</button>
                             </div>
                         </div>
                     </form>
@@ -187,6 +187,8 @@
                 this.listCartProduct = $('.shopping-list');
                 this.tmpItem = $('#item-shopping');
                 this.modal = $(".modal-order");
+                this.modal.shipAddress = this.modal.find("#info-address");
+                this.modal.message = this.modal.find("#info-message");
                 this.modal.pay_type = this.modal.find("[name=pay-type]").on('change', (e) => {
                     if ($(e.target).val() == 1) {
                         $(".pay-card").show();
@@ -199,7 +201,7 @@
                 let dateShip = new Date();
                 dateShip.setDate(dateShip.getDate() + 7);
                 this.modal.shipdate = this.modal.find('.ship-date')
-                    .text("Estimated delivery date: " + dateShip.getDate() + "/" + dateShip.getMonth() + "/" + dateShip.getFullYear());
+                    .text("Estimated delivery date: " + dateShip.getDate() + "/" + dateShip.getMonth() + 1 + "/" + dateShip.getFullYear());
 
                 this.modal.btn_Summit = this.modal.find("#submit-order").on('click', (e) => {
                     this._onSummit();
@@ -218,8 +220,8 @@
                     $li.remove();
                     this.removeProduct(itemData.id);
                 });
-                if (document.is_auth) {
-                    $(".cart-control").append(`<a href="/admin/login" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
+                if (this.userID) {
+                    $(".cart-control").append(`<a href="/account/login" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
                 } else {
                     $(".cart-control").append(`<a href="#" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
                 }
@@ -364,13 +366,26 @@
             }
 
             _onSummit() {
+                if (!this.modal.shipAddress.val()) {
+                    EXO.alert("Address empty !!");
+                    return;
+                }
                 let OrderDetails = [];
                 this.listCartProduct.find('li').each((idx, ele) => {
                     let $li = $(ele);
                     OrderDetails.push($li[0].itemData);
                 });
-                $.ajax("/product/saveOrderDetails", { OrderDetails: OrderDetails }).done(xhr => {
-                    
+                $.ajax({
+                    url: "/product/saveOrderDetails",
+                    type: 'post',
+                    data: {
+                        OrderDetails: OrderDetails,
+                        userId: this.userID,
+                        ship_address: this.modal.shipAddress.val(),
+                        message: this.modal.message.val()
+                    }
+                }).done(xhr => {
+
                 });
             }
         }

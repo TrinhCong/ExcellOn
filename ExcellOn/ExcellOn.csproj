@@ -206,6 +206,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Attributes\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -609,6 +610,7 @@
     <Content Include="Views\Shared\_StatisticLayout.cshtml" />
     <Content Include="Views\Admin\CustomerDetail.cshtml" />
     <Content Include="Views\Statistic\UnresolvedProductOrders.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

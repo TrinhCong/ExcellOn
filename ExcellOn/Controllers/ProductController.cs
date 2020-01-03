@@ -155,29 +155,40 @@ namespace ExcellOn.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> saveOrderDetails(List<OrderDetail> orderDetails, int userId, string message)
+        public async Task<ActionResult> saveOrderDetails(List<OrderDetail> orderDetails, int userId, string message, string ship_address)
         {
             using (var session = GetSession())
             {
-                var order = new Order
+                try
                 {
-                    user_id = userId,
-                    message = message,
-                    order_date = DateTime.Now,
-                    shipped_date = DateTime.Now.AddDays(7)
-                };
-                await session.InsertAsync(order);
-                foreach (var orderDetail in orderDetails)
-                {
-                    var item = new OrderDetail
+                    var order = new Order
                     {
-                        order_id = order.id,
-                        product_id = orderDetail.product.id,
-                        quantity = orderDetail.quantity,
-                        discount = orderDetail.discount
+                        user_id = userId,
+                        message = message,
+                        order_date = DateTime.Now,
+                        ship_address = ship_address,
+                        required_date = DateTime.Now,
+                        shipped_date = DateTime.Now.AddDays(7)
                     };
+                    await session.InsertAsync(order);
+                    foreach (var orderDetail in orderDetails)
+                    {
+                        var item = new OrderDetail
+                        {
+                            order_id = order.id,
+                            product_id = orderDetail.product.id,
+                            quantity = orderDetail.quantity,
+                            discount = orderDetail.discount
+                        };
+                        await session.InsertAsync(item);
+                    }
+                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
-                return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+                catch(Exception err)
+                {
+                    return Json(new ResponseInfo(false), JsonRequestBehavior.AllowGet);
+                }
+
             }
         }
 

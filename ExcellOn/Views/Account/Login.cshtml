@@ -1,0 +1,140 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="~/Content/images/apple-touch-icon.png">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #5a4091;
+            padding-top: 100px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 16px;
+            width: 400px;
+            margin: auto;
+            background-color: white;
+        }
+
+        /* Full-width input fields */
+        .exo-textbox {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+            .exo-textbox:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit button */
+        .loginbtn {
+            background-color: #684caf;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+            .loginbtn:hover {
+                opacity: 1;
+            }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="login_form">
+        <div class="container">
+            <div style="width:76px; float:left"><img src="~/Content/images/favicon.ico" /></div>
+            <div style="width:300px"><h1>Login</h1></div>
+            <hr>
+            <label for="user_name"><b>User Name</b></label>
+            <input type="text" class="exo-textbox" placeholder="Enter Your User Name" name="user_name">
+            <label for="password"><b>Password</b></label>
+            <input type="password" class="exo-textbox" placeholder="Enter Password" name="password">
+            <hr>
+            <button type="submit" class="loginbtn">Login</button>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/pages/sweet-alert-2.all.min.js"></script>
+    <script src="~/Scripts/pages/page.js"></script>
+    <script>
+        class LoginForm {
+            constructor() {
+                this.$form = $("#login_form");
+                this.$form.find(".loginbtn").on('click', (e) => {
+                    e.preventDefault();
+                    this.submit();
+                });
+            }
+            validate() {
+                var frm = this;
+                frm.data = {};
+                $.each(this.$form.find("input"), (index, item) => {
+                    if ($(item).val() == "") {
+                        EXO.alert("Please enter all infomation on this form!");
+                        return false;
+                    }
+                    else {
+                        frm.data[$(item).attr("name")] = $(item).val();
+                    }
+                });
+                return true;
+            }
+            submit() {
+                var frm = this;
+                if (frm.validate()) {
+                    $.post("/Account/Login", frm.data).done(xhr => {
+                        if (xhr.success)
+                            $(location).attr("href", "/Home/Index");
+                        else
+                            EXO.alert(xhr.message);
+                    });
+                }
+            }
+        };
+        $(document).ready(() => {
+            var f = new LoginForm();
+        });
+    </script>
+</body>
+</html>

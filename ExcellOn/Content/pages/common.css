@@ -24708,3 +24708,7 @@ the My service page
     font-weight: 700;
     font-size: 1.5rem;
 }
+
+.display-none{
+    display:none;
+}

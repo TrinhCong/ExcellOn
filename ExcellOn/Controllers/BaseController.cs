@@ -1,4 +1,5 @@
-﻿using ExcellOn.Repositories.Sessions;
+﻿using ExcellOn.Models;
+using ExcellOn.Repositories.Sessions;
 using Smooth.IoC.UnitOfWork.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,24 @@ namespace ExcellOn.Controllers
         public IAppSession GetSession()
         {
             return _dbFactory.Create<IAppSession>();
+        }
+
+        public void setCustomerSession(Customer entity)
+        {
+            Session["Customer"] = entity;
+        }
+
+        public void clearCustomerSession()
+        {
+            Session["Customer"] = null;
+        }
+        public void setEmployeeSession(Employee entity)
+        {
+            Session["Employee"] = entity;
+        }
+        public void clearEmployeeSession()
+        {
+            Session["Employee"] = null;
         }
     }
 }
