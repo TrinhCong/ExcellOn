@@ -17,4 +17,12 @@ namespace ExcellOn.Enums
         public const string EMPLOYEE = "employee";
         public const string CUSTOMER = "customer";
     }
+
+    public static class EnumOrderStatus
+    {
+        public const int UNRESOLVED = 1;
+        public const int CONFIRMED = 2;
+        public const int SUCCESS = 3;
+        public const int CANCELLED = 4;
+    }
 }

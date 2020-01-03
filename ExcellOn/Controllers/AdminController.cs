@@ -41,7 +41,12 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            if(_employee==null)
+            return View("Login");
+            else if(_employee.role_id==EnumRole.EMPLOYEE)
+            return RedirectToAction("UnresolvedProductOrders", "Statistic");
+            else
+                return RedirectToAction("Customer", "Admin");
         }
         public ActionResult Login()
         {
@@ -51,15 +56,9 @@ namespace ExcellOn.Controllers
         public ActionResult Login(User entity)
         {
             var employee = _employeeRepository.Login(new Employee { user_name = entity.user_name, password = entity.password });
-            var customer = _customerRepository.Login(new Customer { user_name = entity.user_name, password = entity.password });
             if (employee != null)
             {
                 setEmployeeSession(employee);
-                return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
-            }
-            else if (customer != null)                     
-            {
-                setCustomerSession(customer);
                 return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
             }
             return Json(new ResponseInfo(false, "Wrong user name or password!"), JsonRequestBehavior.AllowGet);

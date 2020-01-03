@@ -22,7 +22,7 @@ namespace ExcellOn.Models
         public DateTime? finished_pay_date { get; set; }
         public int is_paid { get; set; }
         public string message { get; set; }
-        public int is_cancelled { get; set; }
+        public int status { get; set; }
         public DateTime? cancel_date { get; set; }
         [ForeignKey(nameof(pay_type))]
         public int pay_type_id { get; set; }

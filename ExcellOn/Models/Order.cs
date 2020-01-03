@@ -21,7 +21,7 @@ namespace ExcellOn.Models
         public double freight { get; set; }
         public string ship_address { get; set; }
         public string message { get; set; }
-        public int is_cancelled { get; set; }
+        public int status { get; set; }
         public DateTime? cancel_date { get; set; }
         [ForeignKey(nameof(pay_type))]
         public int pay_type_id { get; set; }

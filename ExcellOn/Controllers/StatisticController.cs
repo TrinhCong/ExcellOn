@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dapper.FastCrud;
+using ExcellOn.Enums;
 using ExcellOn.Models;
 using ExcellOn.Repositories;
 using ExcellOn.Repositories.Sessions;
@@ -31,7 +32,7 @@ namespace ExcellOn.Controllers
 
         public JsonResult GetUnresolvedProductOrders()
         {
-            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.is_cancelled)}<>1 AND {Sql.Table<Order>()}.{nameof(Order.employee_id)} is null";
+            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.status)}={EnumOrderStatus.UNRESOLVED}";
             return Json(new ResponseInfo(success: true, data: _orderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
@@ -42,7 +43,7 @@ namespace ExcellOn.Controllers
 
         public JsonResult GetSucccessProductOrders()
         {
-            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.shipped_date)} is not null AND {Sql.Table<Order>()}.{nameof(Order.employee_id)}={_employee.id}";
+            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.status)}={EnumOrderStatus.SUCCESS}";
             return Json(new ResponseInfo(success: true, data: _orderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
@@ -53,7 +54,7 @@ namespace ExcellOn.Controllers
 
         public JsonResult GetConfirmedProductOrders()
         {
-            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.is_cancelled)}<>1 AND {Sql.Table<Order>()}.{nameof(Order.employee_id)} ={_employee.id} AND {Sql.Table<Order>()}.{nameof(Order.shipped_date)} is null ";
+            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.status)}={EnumOrderStatus.CONFIRMED}";
             return Json(new ResponseInfo(success: true, data: _orderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
@@ -64,7 +65,7 @@ namespace ExcellOn.Controllers
 
         public JsonResult GetCancelledProductOrders()
         {
-            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.is_cancelled)}=1 AND {Sql.Table<Order>()}.{nameof(Order.employee_id)}={_employee.id}";
+            var condtion = $"{Sql.Table<Order>()}.{nameof(Order.status)}={EnumOrderStatus.CANCELLED}";
             return Json(new ResponseInfo(success: true, data: _orderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
