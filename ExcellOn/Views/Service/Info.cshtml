@@ -110,7 +110,7 @@
                                     <div class="button-cart">
                                         <ul class="button-cart-list">
                                             <li class="cart-control">
-                                                
+
                                             </li>
                                         </ul>
                                     </div>
@@ -274,15 +274,15 @@
 
                 data.images.forEach((item) => {
                     ctn_sli_vertical.append(`<div class="vertical-slide">
-                                                                    <div class="slide-photos-small">
-                                                                        <img src="${item.path}" alt="" width="109" height="112">
-                                                                    </div>
-                                                                </div>`);
+                                                                            <div class="slide-photos-small">
+                                                                                <img src="${item.path}" alt="" width="109" height="112">
+                                                                            </div>
+                                                                        </div>`);
                     ctn_sli_nav.append(`<div class="photos-slide">
-                                                                    <div class="slide-photos-large">
-                                                                        <img src="${item.path}" alt="" width="300" height="382">
-                                                                    </div>
-                                                                </div>`);
+                                                                            <div class="slide-photos-large">
+                                                                                <img src="${item.path}" alt="" width="300" height="382">
+                                                                            </div>
+                                                                        </div>`);
                 });
 
                 ctn_sli_vertical.slick({
@@ -330,24 +330,14 @@
                 $("[data-hours]").text(data.hours);
                 $("[data-description]").text(data.description);
             }
-              _onSummit() {
-                if (!this.modal.shipAddress.val()) {
-                    EXO.alert("Address empty !!");
-                    return;
-                }
+            _onSummit() {
                 let OrderDetails = [];
-                this.listCartProduct.find('li').each((idx, ele) => {
-                    let $li = $(ele);
-                    OrderDetails.push($li[0].itemData);
-                });
                 $.ajax({
-                    url: "/product/saveOrderDetails",
+                    url: "/ServiceOrder/saveServiceOrder",
                     type: 'post',
                     data: {
-                        OrderDetails: OrderDetails,
-                        userId: this.userID,
-                        ship_address: this.modal.shipAddress.val(),
-                        message: this.modal.message.val()
+                        serviceId: this.serviceId,
+                        message: $("#info-message").val()
                     }
                 }).done(xhr => {
                     if (xhr.success) {

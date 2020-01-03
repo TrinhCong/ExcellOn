@@ -27,7 +27,7 @@ namespace ExcellOn.Models
         [ForeignKey(nameof(pay_type))]
         public int pay_type_id { get; set; }
         [ForeignKey(nameof(employee))]
-        public int employee_id { get; set; }
+        public int? employee_id { get; set; }
         [NotMapped]
         public virtual Customer customer { get; set; }
         [NotMapped]

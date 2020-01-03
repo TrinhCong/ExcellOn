@@ -131,7 +131,7 @@ namespace ExcellOn.Controllers
         [HttpPost]
         public ActionResult UpdateShoppingCart(OrderDetail detail)
         {
-             if (detail != null && detail.product_id > 0)
+            if (detail != null && detail.product_id > 0)
             {
 
                 if (Session["ShoppingCart"] == null)
@@ -156,25 +156,27 @@ namespace ExcellOn.Controllers
                     BindProductToOrderDetails(ref existItems);
                     Session["ShoppingCart"] = existItems;
                 }
-                
+
             }
             return Json(new ResponseInfo(true, data: Session["ShoppingCart"]), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> saveOrderDetails(List<OrderDetail> orderDetails, int userId, string message, string ship_address)
+        public async Task<ActionResult> saveOrderDetails(List<OrderDetail> orderDetails, int userId, string message, string ship_address, int typeId = 1)
         {
             using (var session = GetSession())
             {
                 try
                 {
+
                     var order = new Order
                     {
                         user_id = userId,
                         message = message,
                         order_date = DateTime.Now,
                         ship_address = ship_address,
-                        required_date = DateTime.Now.AddDays(7)
+                        required_date = DateTime.Now.AddDays(7),
+                        pay_type_id = typeId
                     };
                     await session.InsertAsync(order);
                     foreach (var orderDetail in orderDetails)
@@ -190,7 +192,7 @@ namespace ExcellOn.Controllers
                     }
                     return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
                 }
-                catch(Exception err)
+                catch (Exception err)
                 {
                     return Json(new ResponseInfo(false), JsonRequestBehavior.AllowGet);
                 }
