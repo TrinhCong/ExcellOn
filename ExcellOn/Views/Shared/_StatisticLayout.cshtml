@@ -44,7 +44,13 @@
                             <a href="/Statistic/UnresolvedProductOrders"><i class="fa fa-file"></i> Unresolved Product Orders</a>
                         </li>
                         <li>
+                            <a href="/Statistic/ConfirmedProductOrders"><i class="fa fa-file"></i> Confirmed Product Orders</a>
+                        </li>
+                        <li>
                             <a href="/Statistic/ResolvedProductOrders"><i class="fa fa-book"></i> Resolved Product Orders</a>
+                        </li>
+                        <li>
+                            <a href="/Statistic/CancelledProductOrders"><i class="fa fa-file"></i> Cancelled Product Orders</a>
                         </li>
                     </ul>
                 </li>
@@ -60,10 +66,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="/Statistic/OrdersStatistics"><i class="fa fa-file"></i>Orders Statistics</a>
+                    <a href="/Statistic/OrdersStatistics"><i class="fa fa-file"></i> Orders Statistics</a>
                 </li>
                 <li>
-                    <a href="/Statistic/OrdersReports"><i class="fa fa-file"></i>Orders Reports</a>
+                    <a href="/Statistic/OrdersReports"><i class="fa fa-file"></i> Orders Reports</a>
                 </li>
             </ul>
         </nav>
@@ -85,7 +91,7 @@
                                 <img src="@avatarSrc" width="26" height="26" />
                             </div>
                             <div style="float: left;">
-                                <span><a href="/Statistic/EmployeeDetail?employeeId=@employee.id">@employee.display_name</a>   | <a href="/Statistic/Logout">Logout</a></span>
+                                <span><a href="#">@employee.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
                             </div>
                         }
                         else
@@ -96,12 +102,12 @@
                                 <img src="@avatarSrc" width="26" height="26" />
                             </div>
                             <div style="float: left;">
-                                <span><a href="/Statistic/CustomerDetail?customerId=@customer.id">@customer.display_name</a>   | <a href="/Statistic/Logout">Logout</a></span>
+                                <span><a href="#">@customer.display_name</a>   | <a href="/Admin/Logout">Logout</a></span>
                             </div>
                         }
                         else
                         {
-                            <span><a href="/Statistic/Login">Login</a> | <a href="/Statistic/Register">Register</a></span>
+                            <span><a href="/Admin/Login">Login</a> | <a href="/Admin/Register">Register</a></span>
                         }
                     </div>
                 </div>

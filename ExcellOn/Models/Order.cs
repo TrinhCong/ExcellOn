@@ -21,9 +21,18 @@ namespace ExcellOn.Models
         public double freight { get; set; }
         public string ship_address { get; set; }
         public string message { get; set; }
-
+        public int is_cancelled { get; set; }
+        public DateTime? cancel_date { get; set; }
+        [ForeignKey(nameof(pay_type))]
+        public int pay_type_id { get; set; }
+        [ForeignKey(nameof(employee))]
+        public int employee_id { get; set; }
         [NotMapped]
-        public virtual User user { get; set; }
+        public virtual Customer user { get; set; }
+        [NotMapped]
+        public virtual Employee employee { get; set; }
+        [NotMapped]
+        public virtual CategoryPayType pay_type { get; set; }
 
     }
 
