@@ -110,7 +110,7 @@
                                     <div class="button-cart">
                                         <ul class="button-cart-list">
                                             <li class="cart-control">
-                                                <a href="#" class="btn btn-success buy_now"><i class="fa fa-money"></i> &nbsp;Register Now</a>
+                                                
                                             </li>
                                         </ul>
                                     </div>
@@ -189,10 +189,6 @@
                                     </label>
                                 </div>
                                 <div class="form-input">
-                                    <label class="label-form" for="phone-registry">Address :</label>
-                                    <input type="text" class="form-control" id="info-address" placeholder="Address...">
-                                </div>
-                                <div class="form-input">
                                     <label class="label-form" for="info-message">Message</label>
                                     <textarea class="form-control" id="info-message" placeholder="Message..."></textarea>
                                 </div>
@@ -201,7 +197,7 @@
 
                         <div class="form-group mb0 text-center">
                             <div class="form-submit">
-                                <button type="button" class="btn btn-finish" id="submit-order">Finish</button>
+                                <button type="button" class="btn btn-finish" id="submit-order">Register</button>
                             </div>
                         </div>
                     </form>
@@ -220,6 +216,9 @@
                 this.serviceId = parseInt(paths[3]) ? parseInt(paths[3]) : 0;
                 this.loadService();
                 this.userID = localStorage.getItem("customerID");
+                $("#submit-order").on('click', (e) => {
+                    this._onSummit();
+                });
             }
 
             loadBreadcrumb(data) {
@@ -250,7 +249,7 @@
                 let timeRange = data.hours * 60 * 60 * 1000;
                 expriedDate.setTime(expriedDate.getTime() + timeRange);
 
-                finishPayDate.setDate(finishPayDate.getDate() + 7);
+                finishPayDate.setDate(finishPayDate.getDate() + 3);
                 $(".Register-date")
                     .text("Register date: " + dateRegister.getDate() + "/" + dateRegister.getMonth() + 1 + "/" + dateRegister.getFullYear());
                 $(".finish-pay-date").text("Payment term: " + finishPayDate.getDate() + "/" + finishPayDate.getMonth() + 1 + "/" + finishPayDate.getFullYear());
@@ -331,7 +330,35 @@
                 $("[data-hours]").text(data.hours);
                 $("[data-description]").text(data.description);
             }
-
+              _onSummit() {
+                if (!this.modal.shipAddress.val()) {
+                    EXO.alert("Address empty !!");
+                    return;
+                }
+                let OrderDetails = [];
+                this.listCartProduct.find('li').each((idx, ele) => {
+                    let $li = $(ele);
+                    OrderDetails.push($li[0].itemData);
+                });
+                $.ajax({
+                    url: "/product/saveOrderDetails",
+                    type: 'post',
+                    data: {
+                        OrderDetails: OrderDetails,
+                        userId: this.userID,
+                        ship_address: this.modal.shipAddress.val(),
+                        message: this.modal.message.val()
+                    }
+                }).done(xhr => {
+                    if (xhr.success) {
+                        EXO.alert("Order successfully", (e) => {
+                            location.href = "/Service/index";
+                        });
+                    } else {
+                        EXO.alert("Order fail");
+                    }
+                });
+            }
         }
 
         $(document).ready(() => {

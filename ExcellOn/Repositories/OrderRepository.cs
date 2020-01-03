@@ -15,8 +15,8 @@ namespace ExcellOn.Repositories
 {
     public interface IOrderRepository : IRepository<Order, int>
     {
-        IEnumerable<Order> GetItems(string condition = "(1=1)");
-        Order GetItem(int key);
+        //IEnumerable<Order> GetItems(string condition = "(1=1)");
+        //Order GetItem(int key);
     }
 
 
@@ -28,26 +28,26 @@ namespace ExcellOn.Repositories
 
         }
 
-        public Order GetItem(int key)
-        {
-            using (var session = Factory.Create<IAppSession>())
-            {
-                return GetItems($"{Sql.Table<Order>()}.{nameof(Order.id)}={key}").FirstOrDefault();
-            }
-        }
+        //public Order GetItem(int key)
+        //{
+        //    using (var session = Factory.Create<IAppSession>())
+        //    {
+        //        return GetItems($"{Sql.Table<Order>()}.{nameof(Order.id)}={key}").FirstOrDefault();
+        //    }
+        //}
 
-        public IEnumerable<Order> GetItems(string condition = "(1=1)")
-        {
-            using (var session = Factory.Create<IAppSession>())
-            {
-                var items = session.Find<Order>(stm => stm.Where($"{condition}").Include<CategoryOrder>().OrderBy($"{Sql.Table<Order>()}.{nameof(Order.name)}"));
-                foreach (var item in items)
-                {
-                    item.images = session.Find<OrderImage>(stm => stm.Where($"{nameof(OrderImage.order_id)}={item.id}"));
-                }
-                return items;
-            }
-        }
+        //public IEnumerable<Order> GetItems(string condition = "(1=1)")
+        //{
+        //    using (var session = Factory.Create<IAppSession>())
+        //    {
+        //        var items = session.Find<Order>(stm => stm.Where($"{condition}").Include<CategoryOrder>().OrderBy($"{Sql.Table<Order>()}.{nameof(Order.name)}"));
+        //        foreach (var item in items)
+        //        {
+        //            item.images = session.Find<OrderImage>(stm => stm.Where($"{nameof(OrderImage.order_id)}={item.id}"));
+        //        }
+        //        return items;
+        //    }
+        //}
 
     }
 

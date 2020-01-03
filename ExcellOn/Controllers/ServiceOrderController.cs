@@ -30,5 +30,15 @@ namespace ExcellOn.Controllers
             var items = _serviceOrderRepository.getAllServiceNoCare();
             return Json(new ResponseInfo(success: true, data: items), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult saveServiceOrder(int userId, int serviceId)
+        {
+            using (var session = GetSession())
+            {
+
+                return Json(new ResponseInfo(success: true), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

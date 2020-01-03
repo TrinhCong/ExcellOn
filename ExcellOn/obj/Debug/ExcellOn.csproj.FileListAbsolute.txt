@@ -766,4 +766,3 @@ D:\Hoc tap\ExcellOn\ExcellOn\bin\System.Web.Optimization.xml
 D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csproj.CopyComplete
 D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.dll
 D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.pdb
-D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csprojAssemblyReference.cache
