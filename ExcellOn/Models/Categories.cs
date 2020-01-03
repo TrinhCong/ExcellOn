@@ -27,5 +27,10 @@ namespace ExcellOn.Models
     {
 
     }
+    [Table("cat_pay_types", Schema = "dbo")]
+    public class CategoryPayType : Category
+    {
+
+    }
 
 }
