@@ -43,6 +43,6 @@ namespace ExcellOn.Controllers
             Session["Employee"] = null;
         }
         public Employee _employee => Session["Employee"] == null ? null : (Employee)Session["Employee"];
-        public Customer customer => Session["Customer"] == null ? null : (Customer)Session["Customer"];
+        public Customer _customer => Session["Customer"] == null ? null : (Customer)Session["Customer"];
     }
 }
