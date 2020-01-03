@@ -40,11 +40,7 @@ namespace ExcellOn.Repositories
         {
             using (var session = Factory.Create<IAppSession>())
             {
-                var items = session.Find<Order>(stm => stm.Where($"{condition}").Include<CategoryOrder>().OrderBy($"{Sql.Table<Order>()}.{nameof(Order.name)}"));
-                foreach (var item in items)
-                {
-                    item.images = session.Find<OrderImage>(stm => stm.Where($"{nameof(OrderImage.order_id)}={item.id}"));
-                }
+                var items = session.Find<Order>(stm => stm.Where($"{condition}").Include<CategoryPayType>().Include<Customer>().Include<Employee>().OrderBy($"{Sql.Table<Order>()}.{nameof(Order.order_date)}"));
                 return items;
             }
         }
