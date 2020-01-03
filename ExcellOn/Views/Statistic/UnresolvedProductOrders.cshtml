@@ -179,7 +179,6 @@
                         <div style="margin:auto; width:120px;">
                             <img src="~/Content/images/no_avatar.png" width="120" />
                         </div>
-
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label">Full Name</label>
@@ -258,7 +257,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Customer/GetAll",
+                        url: "/Statistic/GetUnresolvedProductOrders",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -272,43 +271,30 @@
                     ],
                     // set the initial value
                     "pageLength": 5,
-
                     columns: [
                         {
-                            title: 'Avatar',
-                            data: 'avatar_path',
-                            render: function (data, type, row, meta) {
-                                var avatarSrc = data && data != "null" ? "/Content/uploads/avatars/" + data : "/Content/images/no_avatar.png";
-                                return '<img src="' + avatarSrc + '" width="30" height="30" />';
-                            },
-
+                            title: 'Order date',
+                            data: 'order_date'
                         },
                         {
-                            title: 'Full name',
-                            data: 'display_name'
+                            title: 'User Name',
+                            data: 'user.display_name'
                         },
                         {
-                            title: 'User name',
-                            data: 'user_name'
-                        },
-                        {
-                            title: 'Email',
-                            data: 'email'
-                        },
-                        {
-                            title: 'Date of birth',
-                            data: 'dob',
+                            title: 'Phone Number',
+                            data: 'user.phone_number'
                         },
                         {
                             title: 'Address',
-                            data: 'address',
+                            data: 'ship_address',
                         },
                         {
-                            title: 'Gender',
-                            data: 'gender',
-                            render: function (data, type, row, meta) {
-                                return data == 1 ? "Male" : "Female";
-                            },
+                            title: 'Message',
+                            data: 'message',
+                        },
+                        {
+                            title: 'Pay Type',
+                            data: 'pay_type.name',
                         },
                         {
                             title: 'Actions',
@@ -317,13 +303,9 @@
                                                     View
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a class="btn btn-sm btn-warning edit-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
-                                                    Edit
+                                                <a class="btn btn-sm btn-success confirm-item" role="button" data-toggle="modal" href="#edit_modal" aria-expanded="false">
+                                                    Confirmed
                                                     <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a class="btn btn-sm btn-danger delete-item" role="button" aria-expanded="false">
-                                                    Delete
-                                                    <i class="fa fa-trash"></i>
                                                 </a>`;
                             },
                             width: '220px',
@@ -333,7 +315,7 @@
                     columnDefs: [
                         {
                             orderable: false,
-                            targets: [7]
+                            targets: [6]
                         }
                     ],
                     "initComplete": function (settings, json) {

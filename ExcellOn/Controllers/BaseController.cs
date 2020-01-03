@@ -40,5 +40,6 @@ namespace ExcellOn.Controllers
         {
             Session["Employee"] = null;
         }
+        public Employee _employee => Session["Employee"] == null ? null : (Employee)Session["Employee"];
     }
 }
