@@ -131,25 +131,32 @@ namespace ExcellOn.Controllers
         [HttpPost]
         public ActionResult UpdateShoppingCart(OrderDetail detail)
         {
-            if (Session["ShoppingCart"] == null)
-                Session["ShoppingCart"] = new List<OrderDetail> { detail };
-            else if (detail != null && detail.product_id > 0)
+             if (detail != null && detail.product_id > 0)
             {
-                var existItems = (List<OrderDetail>)Session["ShoppingCart"];
-                var isExist = false;
-                foreach (var item in existItems)
+
+                if (Session["ShoppingCart"] == null)
                 {
-                    if (item.product_id == detail.product_id)
-                    {
-                        item.quantity += detail.quantity;
-                        isExist = true;
-                        break;
-                    }
+                    Session["ShoppingCart"] = new List<OrderDetail> { BindProductToOrderDetail(detail) };
                 }
-                if (!isExist)
-                    existItems.Add(detail);
-                BindProductToOrderDetails(ref existItems);
-                Session["ShoppingCart"] = existItems;
+                else
+                {
+                    var existItems = (List<OrderDetail>)Session["ShoppingCart"];
+                    var isExist = false;
+                    foreach (var item in existItems)
+                    {
+                        if (item.product_id == detail.product_id)
+                        {
+                            item.quantity += detail.quantity;
+                            isExist = true;
+                            break;
+                        }
+                    }
+                    if (!isExist)
+                        existItems.Add(detail);
+                    BindProductToOrderDetails(ref existItems);
+                    Session["ShoppingCart"] = existItems;
+                }
+                
             }
             return Json(new ResponseInfo(true, data: Session["ShoppingCart"]), JsonRequestBehavior.AllowGet);
         }
@@ -167,8 +174,7 @@ namespace ExcellOn.Controllers
                         message = message,
                         order_date = DateTime.Now,
                         ship_address = ship_address,
-                        required_date = DateTime.Now,
-                        shipped_date = DateTime.Now.AddDays(7)
+                        required_date = DateTime.Now.AddDays(7)
                     };
                     await session.InsertAsync(order);
                     foreach (var orderDetail in orderDetails)
@@ -207,7 +213,6 @@ namespace ExcellOn.Controllers
         {
             using (var session = GetSession())
             {
-
                 try
                 {
                     if (!_productRepository.IsProductExist(entity))
@@ -324,10 +329,11 @@ namespace ExcellOn.Controllers
             foreach (var item in details)
                 BindProductToOrderDetail(item);
         }
-        private void BindProductToOrderDetail(OrderDetail detail)
+        private OrderDetail BindProductToOrderDetail(OrderDetail detail)
         {
             if (detail.product == null)
                 detail.product = _productRepository.GetItem(detail.product_id);
+            return detail;
         }
     }
 }

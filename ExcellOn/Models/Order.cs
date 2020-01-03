@@ -17,7 +17,7 @@ namespace ExcellOn.Models
         public int user_id { get; set; }
         public DateTime order_date { get; set; }
         public DateTime required_date { get; set; }
-        public DateTime shipped_date { get; set; }
+        public DateTime? shipped_date { get; set; }
         public double freight { get; set; }
         public string ship_address { get; set; }
         public string message { get; set; }

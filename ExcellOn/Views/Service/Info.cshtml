@@ -65,8 +65,8 @@
                     <div class="section-breadcrumb">
                         <ol class="breadcrumb">
                             @*<li class="breadcrumb-item">
-                                <a href="#">Trang chủ</a>
-                            </li>*@
+                                    <a href="#">Trang chủ</a>
+                                </li>*@
                             <li class="breadcrumb-item breadcrumb-careType">
                                 <a href="#"></a>
                             </li>
@@ -81,7 +81,7 @@
                                 <div class="service-album">
                                     <div class="service-photos">
                                         <div class="slider-for">
-                                        </div> 
+                                        </div>
                                         <!--end slider-for-->
                                         <div class="slider-nav">
                                         </div>
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="button-cart">
                                         <ul class="button-cart-list">
-                                            <li>
+                                            <li class="cart-control">
                                                 <a href="#" class="btn btn-success buy_now"><i class="fa fa-money"></i> &nbsp;Register Now</a>
                                             </li>
                                         </ul>
@@ -156,17 +156,70 @@
         <!--end main-content-->
     </div>
 </div>
+<div class="modal fade modal-general modal-form modal-order" data-backdrop="static" id="order-modal" tabindex="-1"
+     role="dialog" aria-hidden="true" style="z-index:1043!important;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-close">&nbsp;</i>
+                </button>
+                <h4 class="modal-title">
+                    REGISTER INFORMATION
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-form-inner">
+                    <form class="contact-form-popup" action="" method="post">
+                        <div class="form-group">
+                            <div class="pay-cash">
+                                <div class="form-input">
+                                    <label class="label-form Register-date">
 
+                                    </label>
+                                </div>
+                                <div class="form-input">
+                                    <label class="label-form finish-pay-date">
+
+                                    </label>
+                                </div>
+                                <div class="form-input">
+                                    <label class="label-form expried-date">
+
+                                    </label>
+                                </div>
+                                <div class="form-input">
+                                    <label class="label-form" for="phone-registry">Address :</label>
+                                    <input type="text" class="form-control" id="info-address" placeholder="Address...">
+                                </div>
+                                <div class="form-input">
+                                    <label class="label-form" for="info-message">Message</label>
+                                    <textarea class="form-control" id="info-message" placeholder="Message..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb0 text-center">
+                            <div class="form-submit">
+                                <button type="button" class="btn btn-finish" id="submit-order">Finish</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section AdditionScripts{
     <script src="~/Scripts/pages/slick.min.js"></script>
     <script>
-
         class Info {
             constructor() {
                 let paths = window.location.pathname.split('/');
                 this.serviceId = parseInt(paths[3]) ? parseInt(paths[3]) : 0;
                 this.loadService();
+                this.userID = localStorage.getItem("customerID");
             }
 
             loadBreadcrumb(data) {
@@ -184,9 +237,36 @@
                             this.loadBreadcrumb(res.data);
                             this.loadSlick(res.data);
                             this.loadServiceInfo(res.data);
+                            this.loadPopupInfo(res.data);
                         }
                     }
                 });
+            }
+
+            loadPopupInfo(data) {
+                let dateRegister = new Date();
+                let finishPayDate = new Date();
+                let expriedDate = new Date();
+                let timeRange = data.hours * 60 * 60 * 1000;
+                expriedDate.setTime(expriedDate.getTime() + timeRange);
+
+                finishPayDate.setDate(finishPayDate.getDate() + 7);
+                $(".Register-date")
+                    .text("Register date: " + dateRegister.getDate() + "/" + dateRegister.getMonth() + 1 + "/" + dateRegister.getFullYear());
+                $(".finish-pay-date").text("Payment term: " + finishPayDate.getDate() + "/" + finishPayDate.getMonth() + 1 + "/" + finishPayDate.getFullYear());
+
+                $(".expried-date").text("Expried Date: " + expriedDate.getDate() + '/' + expriedDate.getMonth() + 1 + '/' + expriedDate.getFullYear());
+                if (Number(this.userID) > 0) {
+                    $(".cart-control").append(`<a href="" class="btn btn-success buy_now" data-toggle="modal" data-target=".modal-order"><i class="fa fa-money"></i> &nbsp; Register Now</a>`);
+                } else {
+                    $(`<a href="#" class="btn btn-success buy_now"><i class="fa fa-money"></i> &nbsp;Register Now</a>`).appendTo($(".cart-control")).on('click', (a) => {
+                        EXO.confirm("You need to login with customer account to register service ?", (e) => {
+                            if (e.value) {
+                                $(location).attr("href", "/account/login");
+                            }
+                        });
+                    })
+                }
             }
 
             loadSlick(data) {
@@ -195,15 +275,15 @@
 
                 data.images.forEach((item) => {
                     ctn_sli_vertical.append(`<div class="vertical-slide">
-                                                        <div class="slide-photos-small">
-                                                            <img src="${item.path}" alt="" width="109" height="112">
-                                                        </div>
-                                                    </div>`);
+                                                                    <div class="slide-photos-small">
+                                                                        <img src="${item.path}" alt="" width="109" height="112">
+                                                                    </div>
+                                                                </div>`);
                     ctn_sli_nav.append(`<div class="photos-slide">
-                                                        <div class="slide-photos-large">
-                                                            <img src="${item.path}" alt="" width="300" height="382">
-                                                        </div>
-                                                    </div>`);
+                                                                    <div class="slide-photos-large">
+                                                                        <img src="${item.path}" alt="" width="300" height="382">
+                                                                    </div>
+                                                                </div>`);
                 });
 
                 ctn_sli_vertical.slick({

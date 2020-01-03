@@ -220,10 +220,16 @@
                     $li.remove();
                     this.removeProduct(itemData.id);
                 });
-                if (this.userID) {
-                    $(".cart-control").append(`<a href="/account/login" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
+                if (Number(this.userID) > 0) {
+                    $(".cart-control").append(`<a href="" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
                 } else {
-                    $(".cart-control").append(`<a href="#" class="btn btn-buy" data-toggle="modal" data-target=".modal-order">Buy</a>`);
+                    $(`<a href="#" class="btn btn-buy">Buy</a>`).appendTo($(".cart-control")).on('click', (a) => {
+                        EXO.confirm("You need to login with customer account to buy ?", (e) => {
+                            if (e.value) {
+                                $(location).attr("href", "/account/login");
+                            }
+                        });
+                    })
                 }
             }
             updateListProduct() {
@@ -385,7 +391,13 @@
                         message: this.modal.message.val()
                     }
                 }).done(xhr => {
-
+                    if (xhr.success) {
+                        EXO.alert("Order successfully", (e) => {
+                            location.href = "/Product/index";
+                        });
+                    } else {
+                        EXO.alert("Order fail");
+                    }
                 });
             }
         }
