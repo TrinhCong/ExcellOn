@@ -615,6 +615,10 @@
     <Content Include="Views\Statistic\SucccessProductOrders.cshtml" />
     <Content Include="Views\Statistic\ConfirmedProductOrders.cshtml" />
     <Content Include="Views\Statistic\CancelledProductOrders.cshtml" />
+    <Content Include="Views\Statistic\UnresolvedServiceOrders.cshtml" />
+    <Content Include="Views\Statistic\CancelledServiceOrders.cshtml" />
+    <Content Include="Views\Statistic\ConfirmedServiceOrders.cshtml" />
+    <Content Include="Views\Statistic\SucccessServiceOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

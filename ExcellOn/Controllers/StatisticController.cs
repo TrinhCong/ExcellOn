@@ -74,46 +74,46 @@ namespace ExcellOn.Controllers
 
 
 
-        public ActionResult UnresolvedServiceServiceOrders()
+        public ActionResult UnresolvedServiceOrders()
         {
 
             return View();
         }
 
-        public JsonResult GetUnresolvedServiceServiceOrders()
+        public JsonResult GetUnresolvedServiceOrders()
         {
             var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.UNRESOLVED}";
             return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult SucccessServiceServiceOrders()
+        public ActionResult SucccessServiceOrders()
         {
             return View();
         }
 
-        public JsonResult GetSucccessServiceServiceOrders()
+        public JsonResult GetSucccessServiceOrders()
         {
             var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.SUCCESS}";
             return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ConfirmedServiceServiceOrders()
+        public ActionResult ConfirmedServiceOrders()
         {
             return View();
         }
 
-        public JsonResult GetConfirmedServiceServiceOrders()
+        public JsonResult GetConfirmedServiceOrders()
         {
             var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.CONFIRMED}";
             return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CancelledServiceServiceOrders()
+        public ActionResult CancelledServiceOrders()
         {
             return View();
         }
 
-        public JsonResult GetCancelledServiceServiceOrders()
+        public JsonResult GetCancelledServiceOrders()
         {
             var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.CANCELLED}";
             return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
