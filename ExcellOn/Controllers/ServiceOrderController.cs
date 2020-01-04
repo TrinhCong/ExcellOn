@@ -51,7 +51,7 @@ namespace ExcellOn.Controllers
                         expired_date = DateTime.Now.AddHours(service.hours),
                         finished_pay_date = DateTime.Now.AddDays(3),
                         message = message,
-                        pay_type_id = 1
+                        service_id = service.id
                     };
                     session.Insert(item);
                     return Json(new ResponseInfo(success: true), JsonRequestBehavior.AllowGet);

@@ -65,8 +65,8 @@
                     <div class="section-breadcrumb">
                         <ol class="breadcrumb">
                             @*<li class="breadcrumb-item">
-                                <a href="#">Trang chủ</a>
-                            </li>*@
+                                    <a href="#">Trang chủ</a>
+                                </li>*@
                             <li class="breadcrumb-item breadcrumb-careType">
                                 <a href="#"></a>
                             </li>
@@ -240,16 +240,21 @@
 
                 $('.btn-add-to-cart').on('click', (e) => {
                     e.preventDefault();
-                    $.post("/product/UpdateShoppingCart", {detail: {
-                        quantity:Number( this.inputNumberic.get()),
-                        product_id: this.productData.id,
-                    } }).done((res) => {
+                    $.post("/product/UpdateShoppingCart", {
+                        detail: {
+                            quantity: Number(this.inputNumberic.get()),
+                            product_id: this.productData.id,
+                        }
+                    }).done((res) => {
                         if (res.success) {
                             $(".cart-list").remove(".number-cart");
                             $(".cart-list").append('<span class="number-cart">' + res.data.length + '</span>');
                             $("#cart_number").text(res.data.length);
                         }
                     });
+                });
+                $(".buy_now").on('click', (e) => {
+                    this._buyNow();
                 });
             }
 
@@ -281,15 +286,15 @@
 
                 data.images.forEach((item) => {
                     ctn_sli_vertical.append(`<div class="vertical-slide">
-                                                        <div class="slide-photos-small">
-                                                            <img src="${item.path}" alt="" width="109" height="112">
-                                                        </div>
-                                                    </div>`);
+                                                                <div class="slide-photos-small">
+                                                                    <img src="${item.path}" alt="" width="109" height="112">
+                                                                </div>
+                                                            </div>`);
                     ctn_sli_nav.append(`<div class="photos-slide">
-                                                        <div class="slide-photos-large">
-                                                            <img src="${item.path}" alt="" width="300" height="382">
-                                                        </div>
-                                                    </div>`);
+                                                                <div class="slide-photos-large">
+                                                                    <img src="${item.path}" alt="" width="300" height="382">
+                                                                </div>
+                                                            </div>`);
                 });
 
                 ctn_sli_vertical.slick({
@@ -347,20 +352,20 @@
                     if (res.success) {
                         res.data.forEach((itemData, idx) => {
                             let itemDom = $(`<div class="product-entries-item">
-                                                        <figure class="product-category">
-                                                            <div class="product-image effect_image">
-                                                                <a href="" class="link-item">
-                                                                    <img class="img-product" src="" alt="" width="270" height="263">
-                                                                </a>
-                                                            </div>
-                                                            <figcaption class="product-caption">
-                                                                <h4 class="product-title">
-                                                                    <a href="" class="link-item"></a>
-                                                                </h4>
-                                                                <p class="product-paragraph"></p>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </div>`).appendTo(list_container);
+                                                                <figure class="product-category">
+                                                                    <div class="product-image effect_image">
+                                                                        <a href="" class="link-item">
+                                                                            <img class="img-product" src="" alt="" width="270" height="263">
+                                                                        </a>
+                                                                    </div>
+                                                                    <figcaption class="product-caption">
+                                                                        <h4 class="product-title">
+                                                                            <a href="" class="link-item"></a>
+                                                                        </h4>
+                                                                        <p class="product-paragraph"></p>
+                                                                    </figcaption>
+                                                                </figure>
+                                                            </div>`).appendTo(list_container);
                             itemDom.find('.link-item').attr('href', '/Product/info/' + itemData.id);
                             itemDom.find('.product-name').text(itemData.name ? itemData.name : itemData.kind);
                             itemDom.find('.product-paragraph').text(itemData.model ? itemData.model : '');
@@ -368,6 +373,19 @@
                                 itemDom.find('.img-product').attr('src', itemData.images[0].path);
                             }
                         });
+                    }
+                });
+            }
+
+            _buyNow() {
+                $.post("/product/UpdateShoppingCart", {
+                    detail: {
+                        quantity: Number(this.inputNumberic.get()),
+                        product_id: this.productData.id,
+                    }
+                }).done((res) => {
+                    if (res.success) {
+                        location.href = "/Product/Cart";
                     }
                 });
             }
