@@ -82,10 +82,14 @@ namespace ExcellOn.Controllers
             var customer = _employeeRepository.GetEmployeeById(employeeId);
             return View(customer);
         }
+
+
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Register(Customer entity)
         {
