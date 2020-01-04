@@ -402,7 +402,7 @@
             }
             reloadTable() {
                 var instance = this;
-                instance.dtTable.ajax.reload(()=>{ instance.bindEvents(); },true);
+                instance.dtTable.ajax.reload(()=>{ instance.bindEvents(); },false);
             }
             createValidation() {
                 var instance = this;

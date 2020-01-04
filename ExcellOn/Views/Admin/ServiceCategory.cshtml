@@ -225,10 +225,7 @@
             }
             reloadTable() {
                 var instance = this;
-                instance.dtTable.ajax.reload();
-                setTimeout(() => {
-                    instance.bindEvents();
-                }, 1000);
+                instance.dtTable.ajax.reload(()=>{ instance.bindEvents(); },false);
             }
             bindEvents() {
                 var instance = this;

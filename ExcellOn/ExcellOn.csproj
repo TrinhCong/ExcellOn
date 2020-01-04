@@ -612,6 +612,9 @@
     <Content Include="Views\Admin\CustomerDetail.cshtml" />
     <Content Include="Views\Statistic\UnresolvedProductOrders.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Statistic\SucccessProductOrders.cshtml" />
+    <Content Include="Views\Statistic\ConfirmedProductOrders.cshtml" />
+    <Content Include="Views\Statistic\CancelledProductOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

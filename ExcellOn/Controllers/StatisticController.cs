@@ -16,12 +16,15 @@ namespace ExcellOn.Controllers
     public class StatisticController : BaseController
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IServiceOrderRepository _serviceOrderRepository;
         public StatisticController(
                                 IDbFactory dbFactory,
-                                OrderRepository orderRepository
+                                OrderRepository orderRepository,
+                                ServiceOrderRepository serviceOrderRepository
                                 ) : base(dbFactory)
         {
             _orderRepository = orderRepository;
+            _serviceOrderRepository = serviceOrderRepository;
         }
 
         public ActionResult UnresolvedProductOrders()
@@ -69,5 +72,51 @@ namespace ExcellOn.Controllers
             return Json(new ResponseInfo(success: true, data: _orderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
         }
 
+
+
+        public ActionResult UnresolvedServiceServiceOrders()
+        {
+
+            return View();
+        }
+
+        public JsonResult GetUnresolvedServiceServiceOrders()
+        {
+            var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.UNRESOLVED}";
+            return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SucccessServiceServiceOrders()
+        {
+            return View();
+        }
+
+        public JsonResult GetSucccessServiceServiceOrders()
+        {
+            var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.SUCCESS}";
+            return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ConfirmedServiceServiceOrders()
+        {
+            return View();
+        }
+
+        public JsonResult GetConfirmedServiceServiceOrders()
+        {
+            var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.CONFIRMED}";
+            return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CancelledServiceServiceOrders()
+        {
+            return View();
+        }
+
+        public JsonResult GetCancelledServiceServiceOrders()
+        {
+            var condtion = $"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.status)}={EnumOrderStatus.CANCELLED}";
+            return Json(new ResponseInfo(success: true, data: _serviceOrderRepository.GetItems(condtion)), JsonRequestBehavior.AllowGet);
+        }
     }
 }

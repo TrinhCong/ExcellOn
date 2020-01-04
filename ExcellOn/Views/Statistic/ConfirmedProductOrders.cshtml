@@ -14,7 +14,7 @@
 <div class=" no-margin">
     <div class="content-title">
         <div class="caption">
-            <span class="caption-subject font-green-sharp bold uppercase">Unresolved product orders Management</span>
+            <span class="caption-subject font-green-sharp bold uppercase">confirmed product orders Management</span>
         </div>
     </div>
     <div class="content-body">
@@ -42,7 +42,7 @@
                     <div class="form-group">
                         Progressing.....
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <div style="margin:auto">
@@ -55,26 +55,13 @@
     </div>
 </div>
 
+
 @section AdditionScripts{
     <script>
         class PageHandler {
             constructor() {
                 var instance = this;
                 instance.$table = $("#order_tbl");
-                instance.$createMd = $("#create_modal");
-                instance.$createMd.find(".create").on('click', (e) => {
-                    e.preventDefault();
-                    instance.create();
-                });
-                instance.$createMd.find("[data-dismiss]").on('click', (e) => {
-                    instance.$createMd.find("form")[0].reset();
-                });
-
-                instance.$editMd = $("#edit_modal");
-                instance.$editMd.find(".update").on('click', (e) => {
-                    e.preventDefault();
-                    instance.edit();
-                });
                 instance.$viewMd = $("#view_modal");
                 instance.initTable();
             }
@@ -89,7 +76,7 @@
                         type: "get",
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        url: "/Statistic/GetUnresolvedProductOrders",
+                        url: "/Statistic/GetConfirmedProductOrders",
                         //data: function (d) {
                         //    d.search.value = $(".dataTables_filter input").val();
                         //    return JSON.stringify(d);
@@ -132,24 +119,24 @@
                             title: 'Actions',
                             render: function (data, type, row, meta) {
                                 return `<a class="btn btn-sm btn-primary view-item" role="button" data-toggle="modal" href="#view_modal" aria-expanded="false">
-                                                            View
-                                                            <i class="fa fa-eye"></i>
-                                                        </a>
-                                                        <a class="btn btn-sm btn-success confirm-item" role="button" aria-expanded="false">
-                                                            Confirmed
-                                                            <i class=" fa fa-check-circle"></i>
-                                                        </a>`;
+                                                                View
+                                                                <i class="fa fa-eye"></i>
+                                                            </a>
+                                                            <a class="btn btn-sm btn-success cancel-item" role="button" aria-expanded="false">
+                                                                Cancel
+                                                                <i class=" fa fa-close"></i>
+                                                            </a>`;
                             },
                             width: '220px',
                             className: 'text-center'
                         }
                     ],
-                    columnDefs: [
-                        {
-                            orderable: false,
-                            targets: [6]
-                        }
-                    ],
+                    //columnDefs: [
+                    //    {
+                    //        orderable: false,
+                    //        targets: [6]
+                    //    }
+                    //],
                     "initComplete": function (settings, json) {
                         instance.bindEvents();
                     }
@@ -158,7 +145,7 @@
             }
             bindEvents() {
                 var instance = this;
-                instance.$table.find('a.confirm-item').on('click', (e) => {
+                instance.$table.find('a.cancel-item').on('click', (e) => {
                     EXO.alert("Confirmed Order! Now you're in charge to take this customer!");
                 });
                 instance.$table.find('a.view-item').on('click', (e) => {

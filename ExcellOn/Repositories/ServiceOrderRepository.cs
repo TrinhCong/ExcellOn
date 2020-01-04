@@ -20,6 +20,8 @@ namespace ExcellOn.Repositories
         List<ServiceOrder> getAllService();
         List<ServiceOrder> getAllServiceNoCare();
         List<ServiceOrder> getAllServiceCare();
+        ServiceOrder GetItem(int key);
+        IEnumerable<ServiceOrder> GetItems(string condition = "(1=1)");
 
     }
     public class ServiceOrderRepository : Repository<ServiceOrder, int>, IServiceOrderRepository
@@ -28,6 +30,23 @@ namespace ExcellOn.Repositories
         {
 
         }
+        public ServiceOrder GetItem(int key)
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                return GetItems($"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.id)}={key}").FirstOrDefault();
+            }
+        }
+
+        public IEnumerable<ServiceOrder> GetItems(string condition = "(1=1)")
+        {
+            using (var session = Factory.Create<IAppSession>())
+            {
+                var items = session.Find<ServiceOrder>(stm => stm.Where($"{condition}").Include<CategoryPayType>().Include<Customer>().Include<Employee>().OrderBy($"{Sql.Table<ServiceOrder>()}.{nameof(ServiceOrder.registered_date)} DESC"));
+                return items;
+            }
+        }
+
         public List<ServiceOrder> getAllService()
         {
             using (var session = Factory.Create<IAppSession>())
