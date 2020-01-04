@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dapper.FastCrud;
+using ExcellOn.Attributes;
 using ExcellOn.Enums;
 using ExcellOn.Models;
 using ExcellOn.Repositories;
@@ -13,6 +14,8 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 
 namespace ExcellOn.Controllers
 {
+
+    [CustomAuthorize(Roles = EnumRoleName.SA+","+ EnumRoleName.EMPLOYEE)]
     public class StatisticController : BaseController
     {
         private readonly IOrderRepository _orderRepository;

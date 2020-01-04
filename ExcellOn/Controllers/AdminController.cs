@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using Dapper.FastCrud;
+using ExcellOn.Attributes;
 using ExcellOn.Enums;
 using ExcellOn.Models;
 using ExcellOn.Repositories;
@@ -14,6 +15,7 @@ using Smooth.IoC.UnitOfWork.Interfaces;
 
 namespace ExcellOn.Controllers
 {
+    [CustomAuthorize(Roles =EnumRoleName.SA)]
     public class AdminController : BaseController
     {
         private readonly ICustomerRepository _customerRepository;
@@ -39,6 +41,7 @@ namespace ExcellOn.Controllers
             _serviceRepository = serviceRepository;
             _employeeRepository = employeeRepository;
         }
+        [AllowAnonymous]
         public ActionResult Index()
         {
             if(_employee==null)
@@ -48,10 +51,14 @@ namespace ExcellOn.Controllers
             else
                 return RedirectToAction("Customer", "Admin");
         }
+
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
+
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Login(User entity)
         {
