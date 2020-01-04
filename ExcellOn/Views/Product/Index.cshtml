@@ -91,7 +91,7 @@
         <div class="gallery-menu row" style="margin-bottom:30px">
             <div class="col-md-12">
                 <div class="button-group filter-button-group text-center">
-                    <button class="hvr-rectangle-out active" data-filter="*">All</button>
+                    <button class="hvr-rectangle-out active" data-filter="*" data-cat="0">All</button>
                     @foreach (var item in ViewBag.ProductCategories)
                     {
                         <button class="hvr-rectangle-out active" data-filter=".@item.id" data-cat="@item.id">@item.name</button>
