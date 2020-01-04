@@ -57,6 +57,7 @@ namespace ExcellOn.Controllers
 
         public ActionResult Info()
         {
+            setReturnUrlSession("/Service/Info");
             return View();
         }
         

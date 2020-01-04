@@ -763,7 +763,7 @@ D:\Hoc tap\ExcellOn\ExcellOn\bin\System.Web.WebPages.xml
 D:\Hoc tap\ExcellOn\ExcellOn\bin\System.Web.WebPages.Deployment.xml
 D:\Hoc tap\ExcellOn\ExcellOn\bin\System.Web.WebPages.Razor.xml
 D:\Hoc tap\ExcellOn\ExcellOn\bin\System.Web.Optimization.xml
+D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csprojAssemblyReference.cache
 D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csproj.CopyComplete
 D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.dll
 D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.pdb
-D:\Hoc tap\ExcellOn\ExcellOn\obj\Debug\ExcellOn.csprojAssemblyReference.cache

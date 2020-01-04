@@ -29,6 +29,11 @@ namespace ExcellOn.Controllers
             Session["Customer"] = entity;
         }
 
+        public void setReturnUrlSession(string returnUrl)
+        {
+            Session["ReturnUrl"] = returnUrl;
+
+        }
         public void clearCustomerSession()
         {
             Session["Customer"] = null;

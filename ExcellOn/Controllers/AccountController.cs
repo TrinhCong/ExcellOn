@@ -47,7 +47,15 @@ namespace ExcellOn.Controllers
             if (customer != null)
             {
                 setCustomerSession(customer);
-                return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+                if (Session["ReturnUrl"] != null)
+                {
+                    var path = Session["ReturnUrl"].ToString();
+                    return Json(new ResponseInfo(true, data: path), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new ResponseInfo(true), JsonRequestBehavior.AllowGet);
+                }
             }
             return Json(new ResponseInfo(false, "Wrong user name or password!"), JsonRequestBehavior.AllowGet);
         }

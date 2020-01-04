@@ -24,7 +24,7 @@ namespace ExcellOn.Models
         public int status { get; set; }
         public DateTime? cancel_date { get; set; }
         [ForeignKey(nameof(pay_type))]
-        public int pay_type_id { get; set; }
+        public int? pay_type_id { get; set; }
         [ForeignKey(nameof(employee))]
         public int? employee_id { get; set; }
         [NotMapped]

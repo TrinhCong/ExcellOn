@@ -39,6 +39,7 @@ namespace ExcellOn.Controllers
         }
         public ActionResult Cart()
         {
+            setReturnUrlSession("/Product/Cart");
             return View();
         }
 
@@ -176,7 +177,6 @@ namespace ExcellOn.Controllers
                         order_date = DateTime.Now,
                         ship_address = ship_address,
                         required_date = DateTime.Now.AddDays(7),
-                        pay_type_id = typeId
                     };
                     await session.InsertAsync(order);
                     foreach (var orderDetail in orderDetails)
